@@ -1,0 +1,15 @@
+{% extends 'menu/base.html' %}
+
+{% block title %}
+<title>チャットルームの作成</title>
+{% endblock %}
+
+{% block body %}
+<h1>{{ instructor_name }}さんとのチャットルーム作成</h1>
+<form action="/add-chatroom" method="POST">
+    <input type="text" placeholder="チャットルーム名" name="room_name">
+    <input type="hidden" name="instructor_name" value="{{ instructor_name }}">
+    <button type="submit">作成</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+.title,.main{
+    width: 960px;
+    margin: auto;
+
+}
+
+header{background: #7fff7f;}
+.contents1{background: #ffff7f;}
+.contents2{background: #7f7fff;}
+footer{background: #ffbf7f;}
+
+.contents1,.contents2{
+width: 50%;
+height: 100px;
+font-family: arial;
+font-size: 24px;
+margin: 25px;
+width: 500px;
+height: 300px;
+}
+
+.main{
+display: flex;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: url(画像URL・パス)
+      center / cover;
+  }

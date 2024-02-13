@@ -1,0 +1,47 @@
+{% extends 'menu/base.html' %}
+
+{% block head %}
+    <title>インストラクター一覧</title>
+    <link rel="stylesheet" href="../../static/css/suporter.css">
+{% endblock %}
+
+{% block body %}
+    <h1>インストラクター一覧</h1>
+        <!-- 戻るボタン -->
+        <form action="/index">
+            <button class="back-button">戻る</button>
+        </form>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <div class="instructors">
+        <!-- インストラクター -->
+        {% if instructors %}
+            {% for instructor in instructors %}
+                <div class="instructor">
+                    <img src="{{ instructor['icon_path'] }}" alt="{{ instructor['user_name'] }}の画像">
+                    <h2>{{ instructor['user_name'] }}</h2>
+                    <p>出身地：{{ instructor['address'] }}</p>
+                    <p>自己PR：{{ instructor['introduction'] }}</p>
+                    <form action="/add-chatroom">
+                        <input type="hidden" name="instructor_name" value="{{ instructor['user_name'] }}">
+                        <button class="select-button">選択</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>またインストラクターが登録されていません</p>
+        {% endif %}
+    </div>
+
+    {% block script %}
+    {% endblock %}
+{% endblock %}

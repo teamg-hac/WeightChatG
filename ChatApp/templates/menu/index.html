@@ -1,0 +1,67 @@
+{% extends 'menu/base.html' %}
+
+{% block head %}
+    <title>メニュー画面</title>
+    <!-- CSSファイルのリンク -->
+    <link rel="stylesheet" href="../static/css/menu.css">
+{% endblock %}
+
+{% block body %}
+    <div class="container"> <!-- 全体のコンテナ -->
+        <!-- タイトル表示部 -->
+        <div id="title">
+            <h1>タイトル</h1>
+        </div>
+
+        <!-- メニュー表示部 -->
+        <div>
+            <h3>Menu</h3>
+            <ul>
+                <li>
+                    <form action="/mypage" name="mypage" class="menu-button">
+                        <a href="#" onclick="document.mypage.submit();">マイページ</a>
+                    </form>
+                </li>
+                {% if is_instructor != 1 %}
+                <li>
+                    <form action="/instructors" name="instructors" class="menu-button">
+                        <a href="#" onclick="document.instructors.submit();">インストラクター一覧</a>
+                    </form>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- チャットルーム表示部 -->
+        <div>
+            <h3>チャット一覧</h3>
+            <ul>
+                {% if rooms %}
+                    {% for room in rooms %}
+                        <li>
+                            <a class="chatroom-button">{{ room['room_name'] }}</a>
+                            <form action="/room{{ room['room_id'] }}">
+                                <button class="open-button">開く</button>
+                            </form>
+                            <form action="/delete-room">
+                                <button class="delete-button">削除</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <p>またチャットルームはありません</p>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- ログアウトボタン -->
+    <form action="/logout">
+        <button id="logout-button">ログアウト</button>
+    </form>
+    
+    {% block script %}
+    <!-- JSファイルのリンク -->
+        <script src="../static/js/login.js"></script>
+    {% endblock %}
+{% endblock %}

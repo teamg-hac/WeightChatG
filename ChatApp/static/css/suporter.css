@@ -1,0 +1,62 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+/* インストラクター一覧のコンテナ */
+.container {
+    display: flex;
+    flex-wrap: wrap; /* 折り返し */
+    justify-content: center; /* 中央揃え */
+    max-width: 1200px; /* 最大幅 */
+    margin: 0 auto; /* 水平方向に中央揃え */
+}
+
+/* インストラクター個別のブロック */
+.instructor {
+    width: 30%; /* 幅を30%に設定 */
+    margin: 20px; /* マージン */
+    padding: 20px; /* パディング */
+    background-color: #f8d7da; /* 背景色 */
+    border-radius: 10px; /* 角丸 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影の設定 */
+    text-align: center; /* 中央揃え */
+}
+
+/* インストラクター画像 */
+.instructor img {
+    width: 100px; /* 画像の幅 */
+    height: 100px; /* 画像の高さ */
+    border-radius: 50%; /* 丸型 */
+    margin-bottom: 20px; /* 下部のマージン */
+}
+
+/* インストラクター詳細 */
+.details {
+    margin-bottom: 20px; /* 下部のマージン */
+}
+
+/* 選択ボタン */
+.select-button {
+    background-color: #ffc107; /* 背景色 */
+    color: #fff; /* 文字色 */
+    padding: 10px 20px; /* パディング */
+    border: none; /* ボーダーなし */
+    border-radius: 10px; /* 角丸 */
+    cursor: pointer; /* マウスカーソル */
+    font-size: 16px; /* 文字サイズ */
+    margin-top: 20px; /* 上部のマージン */
+}
+
+/* 戻るボタン */
+.back-button {
+    background-color: #007bff; /* 背景色 */
+    color: #fff; /* 文字色 */
+    padding: 10px 20px; /* パディング */
+    border: none; /* ボーダーなし */
+    border-radius: 10px; /* 角丸 */
+    cursor: pointer; /* マウスカーソル */
+    font-size: 16px; /* 文字サイズ */
+    margin-bottom: 20px; /* 下部のマージン */
+}

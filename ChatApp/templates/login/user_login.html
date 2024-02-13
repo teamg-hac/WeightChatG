@@ -1,0 +1,39 @@
+{% extends 'login/base.html' %}
+
+{% block head %}
+    <title>Document</title>
+    <link rel="stylesheet" href="../../static/css/login.css">
+{% endblock %}
+
+{% block body %}
+    <div class="container"> <!--ユーザーログイン画面-->
+        <!--トップページからポップアップ表示する-->
+        <form action="/login" method="POST">
+            {% if is_instructor == '0' %}
+                <p class="fsize">ユーザーログイン画面</p>
+            {% elif is_instructor == '1' %}
+                <p class="fsize">インストラクターログイン画面</p>
+            {% elif is_instructor == '2' %}
+                <p class="fsize">管理者ログイン画面</p>
+            {% else %}
+                <p class="fsize">ログイン画面</p>
+            {% endif %}
+            <input type="text" placeholder="Username" name="mail" /><br>
+            <input type="password" placeholder="Password" name="password" /><br>
+            <button type="submit">ログイン</button><br>
+        </form>
+        
+        <!-- エラーメッセージの表示 -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <a>{{ message }}</a>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    </div>
+    
+    {% block script %}
+    <!-- <script src="../../static/js/login.js"></script> -->
+    {% endblock %}
+{% endblock %}

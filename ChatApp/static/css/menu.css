@@ -1,0 +1,76 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+/* ページ全体を中央に配置するためのスタイル */
+.container {
+    border: 2px solid #ccc; /* 枠線のスタイル */
+    border-radius: 10px; /* 枠の角の丸み */
+    padding: 20px; /* 内側の余白 */
+    max-width: 400px; /* 最大幅 */
+    margin: auto; /* ページの中央に配置 */
+    position: relative; /* 相対的な位置指定 */
+}
+
+/* メニュー項目のボタン */
+.menu-button,
+.chatroom-button {
+    display: block; /* ボタンをブロック要素として表示 */
+    margin-bottom: 10px; /* 下側のマージン */
+    background-color: #007bff; /* 背景色 */
+    color: #fff; /* 文字色 */
+    text-decoration: none; /* リンクの下線を削除 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 10px; /* 角の丸み */
+    padding: 10px 20px; /* 上下左右の余白 */
+    font-size: 16px; /* フォントサイズ */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    text-align: center; /* 文字を中央に配置 */
+}
+
+.menu-button:hover,
+.chatroom-button:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+/* チャットルーム操作ボタン */
+.open-button,
+.delete-button {
+    background-color: #f2f2f2; /* 背景色 */
+    border: none; /* ボーダーをなしに */
+    color: #000; /* 文字色 */
+    padding: 5px 10px; /* 上下左右の余白 */
+    margin-left: 10px; /* 左側のマージン */
+    cursor: pointer; /* マウスカーソルをポインターに */
+}
+
+/* ログアウトボタン */
+#logout-button {
+    background-color: #dc3545; /* 背景色 */
+    color: #fff; /* 文字色 */
+    padding: 10px 20px; /* 上下左右の余白 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 10px; /* 角の丸み */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    position: absolute; /* 絶対的な位置指定 */
+    top: 0; /* 上端からの距離 */
+    right: 0; /* 右端からの距離 */
+    margin: 20px; /* 外側の余白 */
+}
+
+#logout-button:hover {
+    background-color: #c82333; /* ホバー時の背景色 */
+}
+
+/* リストのスタイル */
+ul {
+    list-style-type: none; /* マーカー（・）を削除 */
+    padding: 0; /* パディングをなしに */
+    margin: 0; /* マージンをなしに */
+}
+
+li {
+    margin-bottom: 10px; /* 下側のマージン */
+}

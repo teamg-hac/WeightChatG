@@ -1,0 +1,19 @@
+{% extends 'menu/base.html' %}
+
+{% block head %}
+<title>体重履歴</title>
+{% endblock %}
+
+{% block body %}
+    {% for i in range(indicate) %}
+    <a>{{ indicate_dates[i] }}</a>
+    <a>{{ indicate_values[i] }}</a>
+    <a>{{ unit }}</a>
+    <br>
+    {% endfor %}
+    <img src="data:img/png;base64,{{ graph }}" alt="グラフ">
+
+{% block script %}
+{% endblock %}
+
+{% endblock %}

@@ -6,10 +6,86 @@ from models import dbConnect
 import matplotlib.pyplot as plt
 import io
 import base64
+import re
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
 app.permanent_session_lifetime = timedelta(days=7)
+
+#登録画面の表示
+@app.route('/signup')
+def show_signup():
+    is_instructor = request.args.get("is_instructor")
+    return render_template('signup/signup.html', is_instructor=is_instructor)
+
+#登録処理
+@app.route('/signup',methods=['POST'])
+def signup():
+    user_name = request.form.get('user_name')
+    mail = request.form.get('mail')
+    password1 = request.form.get('password1')
+    password2 = request.form.get('password2')
+    is_instructor = request.form.get("is_instructor")
+    latest_weight = request.form.get('latest_weight')
+    height = request.form.get('height')
+    goal = request.form.get('goal')
+    introduction = request.form.get('introduction')
+    address = request.form.get('address')
+    icon_path  = request.form.get('image/*')
+
+    pattern = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+
+    if user_name == '' or mail =='' or password1 == '' or password2 == '':
+        flash('空のフォームがあるようです')
+    elif password1 != password2:
+        flash('二つのパスワードの値が違っています')
+    elif re.match(pattern, mail) is None:
+        flash('正しいメールアドレスの形式ではありません')
+    else:
+        u_id = uuid.uuid4()
+        password = hashlib.sha256(password1.encode('utf-8')).hexdigest()
+        DBuser_mail = dbConnect.getUserByMail(mail)
+        DBuser_name = dbConnect.getUserByName(user_name)
+
+        if DBuser_mail != None:
+            flash('メールアドレスは既に登録されているようです')
+        elif DBuser_name != None:
+            flash('ユーザー名は既に登録されているようです')
+        else:
+            dbConnect.createUser(u_id, user_name, mail, password, is_instructor, latest_weight, height, goal, introduction, address, icon_path)
+            UserId = str(u_id)
+            session['uid'] = UserId
+            record_name= '体重'
+            unit= 'kg'
+            is_public = 0
+            remind = 0 
+            remind_time = "00:00:00"
+            dbConnect.addRecordRoom(record_name, u_id, unit, is_public, remind, remind_time)
+            return redirect('/login')
+    return redirect('/signup')
+
+#マイページ画面の表示
+@app.route('/mypage')
+def show_mypage():
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/login')
+    else:
+        users = dbConnect.getUserAll(u_id) 
+        return render_template('menu/mypage.html',users=users)
+    
+#体重記録の追加 
+@app.route('/add_record',methods=['POST'])
+def add_record():
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/login')
+    else:
+        record_room_id = dbConnect.getRecordRoomAll(u_id)
+        value = request.form.get('latest_weight') 
+        created_at_str = request.form['created_at']  # HTMLフォームから受け取る
+        created_at = datetime.strptime(created_at_str, '%Y-%m-%dT%H:%M')  # 文字列をdatetimeオブジェクトに変換
+        dbConnect.addRecord(record_room_id, value, created_at)
 
 # トップ画面の表示
 @app.route('/')

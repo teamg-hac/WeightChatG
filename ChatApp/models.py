@@ -67,6 +67,22 @@ class dbConnect:
             cur.close()
             conn.close()
     
+    # ユーザーIDを指定してすべてのユーザー情報の取得 追加
+    def getUserAll(u_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "SELECT * FROM users WHERE u_id=%s;"
+            cur.execute(sql, (u_id))
+            users = cur.fetchall()
+            return users
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
+    
     # すべてのインストラクター情報を取得
     def getInstructors():
         try:
@@ -286,8 +302,8 @@ class dbConnect:
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
-            sql = "DELETE * FROM massages WHERE massage_id =%s;"
-            cur.execute(sql,(massage_id))
+            sql = "DELETE * FROM messages WHERE message_id =%s;"
+            cur.execute(sql,(message_id))
             conn.commit()
         except Exception as e:
             print(str(e) + 'が発生しています')

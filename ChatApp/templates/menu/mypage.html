@@ -9,25 +9,32 @@
 <body>
     <div class="container">
         <!-- ユーザー情報 -->
-        <div class="profile">
-            <div class="profile-picture">
-                <img src="../../Static/img/hashimotokanna.jpeg" alt="プロフィール画像">
+        {% for users in users %}
+            <div class="profile">
+                <div class="profile-picture">
+                    <form action="/mypage" method="GET">
+                        <img src="{{ users['icon_path'] }}" alt="プロフィール画像">
+                    </form>
+                </div>
+                <div class="profile-details">
+                    <form action="/mypage" method="GET">
+                        <h2>ユーザー名: <strong>{{ users['user_name'] }}</strong></h2>
+                        <p>メールアドレス: <strong>{{ users['mail'] }}</strong></p>
+                        <p>現在の身長: <strong>{{ users['latest_weight'] }}</strong>cm</p>
+                        <p>現在の体重: <strong>{{ users['height'] }}</strong>kg</p>
+                        <p>目標: <strong>{{ users['goal'] }}</strong></p>
+                        <p>自己紹介: <strong>{{ users['introduction']}}</strong></p>
+                        <p>所在地: <strong>{{ users['address'] }}</strong></p>
+                    </form>
+                </div>
             </div>
-            <div class="profile-details">
-                <h2>ユーザー名: <strong>橋本環奈</strong></h2>
-                <p>メールアドレス: <strong>yurusanai_kanna@example.com</strong></p>
-                <p>現在の身長: <strong>160</strong>cm</p>
-                <p>現在の体重: <strong>40</strong>kg</p>
-                <p>目標: <strong>目標がここに表示されます</strong></p>
-                <p>自己紹介: <strong>自己紹介がここに表示されます</strong></p>
-                <p>所在地: <strong>埼玉県</strong></p>
-            </div>
-        </div>
-
+        {% endfor %}
         <!-- 体重入力 -->
         <div class="weight-input">
-            <input type="text" placeholder="体重入力">
-            <button>送信</button>
+            <form  action="/add_record" method="POST">
+                <input type="text" placeholder="体重入力">
+                <button>送信</button>
+            </form>
         </div>
 
         <!-- ボタン -->

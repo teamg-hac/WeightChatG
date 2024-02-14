@@ -222,28 +222,29 @@ class dbConnect:
     #     finally:
     #         cur.close()
     
-    #created_u_idとinvited_u_idを指定してチャットルーム情報を取得
-    def getRoomByIDs(created_u_id, invited_u_id):
-        try:
-            conn = DB.getConnection()
-            cur = conn.cursor()
-            sql = "SELECT * FROM rooms WHERE created_u_id = %s AND invited_u_id = %s;"
-            cur.execute(sql,(created_u_id, invited_u_id))
-            room = cur.fetchone()
-            return room
-        except Exception as e:
-            print(str(e) + 'が発生しています')
-            abort(500)
-        finally:
-            cur.close()
-            conn.close()
+    # created_u_idとinvited_u_idを指定してチャットルーム情報を取得
+    # 不要になったためコメントアウト
+    # def getRoomByIDs(created_u_id, invited_u_id):
+    #     try:
+    #         conn = DB.getConnection()
+    #         cur = conn.cursor()
+    #         sql = "SELECT * FROM rooms WHERE created_u_id = %s AND invited_u_id = %s;"
+    #         cur.execute(sql,(created_u_id, invited_u_id))
+    #         room = cur.fetchone()
+    #         return room
+    #     except Exception as e:
+    #         print(str(e) + 'が発生しています')
+    #         abort(500)
+    #     finally:
+    #         cur.close()
+    #         conn.close()
 
     #チャットルームIDを指定してルーム情報を削除
     def deleteChatRoom(room_id):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
-            sql = "DELETE * FROM rooms WHERE room_id =%s;"
+            sql = "DELETE FROM rooms WHERE room_id =%s;"
             cur.execute(sql,(room_id))
             conn.commit()
         except Exception as e:

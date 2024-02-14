@@ -40,13 +40,8 @@
                     {% for room in rooms %}
                         <li>
                             <a class="chatroom-button">{{ room['room_name'] }}</a>
-                            <form action="/room{{ room['room_id'] }}">
-                                <button class="open-button">開く</button>
-                            </form>
-                            <form action="/delete-room">
-                                <button class="delete-button">削除</button>
-                            </form>
-                        </li>
+                                <button class="open-button" formaction="/room{{ room['room_id'] }}">開く</button>
+                                <button class="delete-button" formaction="/delete_room" formmethod="DELETE">削除</button>
                     {% endfor %}
                 {% else %}
                     <p>またチャットルームはありません</p>

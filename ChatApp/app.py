@@ -19,8 +19,7 @@ def top():
 # ログイン画面の表示
 @app.route('/login')
 def show_login():
-    is_instructor = request.args.get('is_instructor')
-    return render_template('login/user_login.html', is_instructor=is_instructor)
+    return render_template('login/user_login.html')
 
 # ログイン処理
 @app.route('/login', methods=['POST'])
@@ -58,7 +57,7 @@ def logout():
 def menu():
     u_id = session.get('uid')
     if u_id is None:
-        return redirect('/login')
+        return redirect('/')
     else:
         rooms = dbConnect.getRoomAll(u_id)
         user = dbConnect.getUserById(u_id)

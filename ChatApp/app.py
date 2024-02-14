@@ -71,7 +71,9 @@ def instructors():
         return redirect('/login')
     else:
         instructors = dbConnect.getInstructors()
-        return render_template('menu/supporter.html', instructors=instructors)
+        rooms = dbConnect.getRoomAll(u_id)
+        invited_u_ids = [x['invited_u_id'] for x in rooms]
+        return render_template('menu/supporter.html', instructors=instructors, invited_u_ids=invited_u_ids)
 
 # チャットルーム作成画面の表示
 @app.route('/add-chatroom')
@@ -94,13 +96,8 @@ def add_chatroom():
         room_name = request.form.get('room_name')
         instructor = dbConnect.getUserByName(instructor_name)
         instructor_id = instructor['u_id']
-        db_room = dbConnect.getRoomByIDs(u_id, instructor_id)
-        if db_room is None:
-            dbConnect.addChatRoom(room_name, u_id, instructor_id)
-            return redirect('/index')
-        else:
-            flash('すでにチャットルームが作成されています')
-            return redirect('/instructors')
+        dbConnect.addChatRoom(room_name, u_id, instructor_id)
+        return redirect('/index')
 
 # チャットルームの削除
 @app.route('/delete-room<int:room_id>')

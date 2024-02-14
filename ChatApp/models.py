@@ -243,7 +243,7 @@ class dbConnect:
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
-            sql = "DELETE * FROM rooms WHERE room_id =%s;"
+            sql = "DELETE FROM rooms WHERE room_id =%s;"
             cur.execute(sql,(room_id))
             conn.commit()
         except Exception as e:

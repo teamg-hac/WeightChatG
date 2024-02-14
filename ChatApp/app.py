@@ -102,6 +102,17 @@ def add_chatroom():
             flash('すでにチャットルームが作成されています')
             return redirect('/instructors')
 
+# チャットルームの削除
+@app.route('/delete-room<int:room_id>')
+def delete_room(room_id):
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/login')
+    else:
+        dbConnect.deleteChatRoom(room_id)
+        return redirect('/index')
+    
+
 # 体重画面の表示
 @app.route('/weight-page')
 def weight_page():
@@ -126,6 +137,16 @@ def weight_page():
         indicate_dates = [a.strftime('%Y-%m-%d') for a in dates[-indicate:]]
         graph_dates = [z[-5:] for z in indicate_dates]
         plt.plot(graph_dates, indicate_values)
+        
+        # Y軸の目盛りを設定
+        sample_value =round(round(indicate_values[-1], -1))
+        scale = []
+        for i in range(sample_value - 5, sample_value + 16, 5):
+            scale.append(i)
+        plt.yticks(scale)
+        
+        # Y軸のラベルを設定
+        plt.ylabel(room['unit'])
         
         # グラフを画像として保存
         buffer = io.BytesIO()

@@ -98,6 +98,21 @@ class dbConnect:
             cur.close()
             conn.close()
     
+    # ユーザーIDを指定してユーザー情報を削除
+    def deleteUser(u_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "DELETE FROM users WHERE u_id=%s;"
+            cur.execute(sql, (u_id))
+            conn.commit()
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
+    
     # 記録ルームの追加
     def addRecordRoom(record_name, u_id, unit, is_public, remind, remind_time):
         try:
@@ -253,6 +268,22 @@ class dbConnect:
     #     finally:
     #         cur.close()
     #         conn.close()
+
+    # invited_u_idを指定してチャットルーム情報を更新
+    def updateRoomByInvited(invited_u_id, instructor_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            # インストラクターが退会したら、退会済みインストラクターidをinvited_u_idに設定
+            sql = "UPDATE rooms SET invited_u_id=%s WHERE invited_u_id =%s;"
+            cur.execute(sql,(invited_u_id, instructor_id))
+            conn.commit()
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
 
     #チャットルームIDを指定してルーム情報を削除
     def deleteChatRoom(room_id):

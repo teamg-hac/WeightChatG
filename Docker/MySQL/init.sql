@@ -63,6 +63,21 @@ CREATE TABLE messages(
     FOREIGN KEY (u_id) REFERENCES users(u_id) ON DELETE CASCADE
 );
 
+-- 退会したインストラクター用アカウント
+-- パスワードはdeleted_instructor
+INSERT INTO users VALUES (
+'f004a27b-c108-488e-bbff-970b30e0d437',
+'deleted_instructor',
+'deleted@sample.com',
+'529c16bd76194a4b757597a652f4723266664795c3c287993c31adfa4955bd66',
+1,
+0,
+0,
+'',
+'',
+'',
+'');
+
 -- テスト用
 INSERT INTO users VALUES (
 'd7e35452-7550-4a3c-8a91-f256e6af1711',

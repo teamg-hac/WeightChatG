@@ -54,6 +54,22 @@ def logout():
     session.clear()
     return redirect('/login')
 
+# 退会処理
+@app.route('/delete-user', methods=['POST'])
+def delete_user():
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/login')
+    else:
+        user = dbConnect.getUserById(u_id)
+        if user['is_instructor'] == 1:
+            instructor = dbConnect.getUserByName('deleted_instructor')
+            dbConnect.updateRoomByInvited(instructor['u_id'], user['u_id'])
+        session.clear()
+        dbConnect.deleteUser(u_id)
+        flash('退会しました')
+        return redirect('/')
+
 # メニュー画面の表示
 @app.route('/index')
 def menu():
@@ -70,7 +86,7 @@ def menu():
 def show_edit_user():
     u_id = session.get('uid')
     if u_id is None:
-        return redirect('/')
+        return redirect('/login')
     else:
         user = dbConnect.getUserById(u_id)
         return render_template('menu/edit_user.html', user=user)
@@ -80,7 +96,7 @@ def show_edit_user():
 def edit_user():
     u_id = session.get('uid')
     if u_id is None:
-        return redirect('/')
+        return redirect('/login')
     else:
         file = request.files.get('icon')
         user_name = request.form.get('user_name')

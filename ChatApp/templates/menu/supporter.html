@@ -8,9 +8,7 @@
 {% block body %}
     <h1>インストラクター一覧</h1>
         <!-- 戻るボタン -->
-        <form action="/index">
-            <button class="back-button">戻る</button>
-        </form>
+        <button type="button" class="back-button" onclick="history.back()">戻る</button>
     
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -26,19 +24,22 @@
         <!-- インストラクター -->
         {% if instructors %}
             {% for instructor in instructors %}
-                <div class="instructor">
-                    <img src="{{ instructor['icon_path'] }}" alt="{{ instructor['user_name'] }}の画像">
-                    <h2>{{ instructor['user_name'] }}</h2>
-                    <p>出身地：{{ instructor['address'] }}</p>
-                    <p>自己PR：{{ instructor['introduction'] }}</p>
-                    {% if instructor['u_id'] not in invited_u_ids %}
-                        <form action="/add-chatroom">
-                            <button class="select-button" name="instructor_name" value="{{ instructor['user_name'] }}">選択</button>
-                        </form>
-                    {% else %}
-                        <button class="select-button">選択</button>
-                    {% endif %}
-                </div>
+                {% if instructor['user_name'] == 'deleted_instructor' %}
+                {% else %}
+                    <div class="instructor">
+                        <img src="{{ instructor['icon_path'] }}" alt="{{ instructor['user_name'] }}の画像">
+                        <h2>{{ instructor['user_name'] }}</h2>
+                        <p>出身地：{{ instructor['address'] }}</p>
+                        <p>自己PR：{{ instructor['introduction'] }}</p>
+                        {% if instructor['u_id'] not in invited_u_ids %}
+                            <form action="/add-chatroom">
+                                <button class="select-button" name="instructor_name" value="{{ instructor['user_name'] }}">選択</button>
+                            </form>
+                        {% else %}
+                            <button class="select-button">選択</button>
+                        {% endif %}
+                    </div>
+                {% endif %}
             {% endfor %}
         {% else %}
             <p>まだインストラクターが登録されていません</p>

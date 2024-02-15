@@ -3,6 +3,8 @@ import hashlib
 import uuid
 from datetime import datetime, timedelta, date
 from models import dbConnect
+import os
+from werkzeug.utils import secure_filename
 import matplotlib.pyplot as plt
 import io
 import base64
@@ -62,6 +64,57 @@ def menu():
         rooms = dbConnect.getRoomAll(u_id)
         user = dbConnect.getUserById(u_id)
         return render_template('menu/index.html', is_instructor=user['is_instructor'], rooms=rooms)
+
+# ユーザー情報の編集画面表示
+@app.route('/edit-user')
+def show_edit_user():
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/')
+    else:
+        user = dbConnect.getUserById(u_id)
+        return render_template('menu/edit_user.html', user=user)
+
+# ユーザー情報の編集処理
+@app.route('/edit-user', methods=['POST'])
+def edit_user():
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/')
+    else:
+        file = request.files.get('icon')
+        user_name = request.form.get('user_name')
+        mail = request.form.get('mail')
+        password = request.form.get('password')
+        height = request.form.get('height')
+        height = float(height)
+        goal = request.form.get('goal')
+        introduction = request.form.get('introduction')
+        address = request.form.get('address')
+        is_instructor = request.form.get('is_instructor')
+        user = dbConnect.getUserById(u_id)
+        icon_name = secure_filename(file.filename)
+        
+        # 新しい画像ファイルを受取ったか確認
+        if icon_name == '':
+            icon_path = user['icon_path']
+        else:
+            # 古い画像ファイルの削除
+            if user['icon_path'] is not None:
+                os.remove(user['icon_path'])
+            # 受取った写真（icon）をimg_addフォルダに保存
+            icon_path = os.path.join('static/img_add', icon_name)
+            file.save(icon_path)
+        
+        # 新しいpasswordを受取ったか確認
+        if password == '':
+            hash_password = user['password']
+        else:
+            hash_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        
+        dbConnect.updateUser(u_id, user_name, mail, hash_password, is_instructor, height, goal, introduction, address, icon_path)
+        # マイページができたら/mypageへリダイレクト
+        return redirect('/edit-user')
 
 # インストラクター一覧画面
 @app.route('/instructors')

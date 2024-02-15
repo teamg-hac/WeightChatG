@@ -83,6 +83,21 @@ class dbConnect:
             cur.close()
             conn.close()
     
+    # ユーザーIDを指定してユーザー情報を更新
+    def updateUser(u_id, user_name, mail, password, is_instructor, height, goal, introduction, address, icon_path):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "UPDATE users SET user_name=%s, mail=%s, password=%s, is_instructor=%s, height=%s, goal=%s, introduction=%s, address=%s, icon_path=%s WHERE u_id=%s;"
+            cur.execute(sql, (user_name, mail, password, is_instructor, height, goal, introduction, address, icon_path, u_id))
+            conn.commit()
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
+    
     # 記録ルームの追加
     def addRecordRoom(record_name, u_id, unit, is_public, remind, remind_time):
         try:

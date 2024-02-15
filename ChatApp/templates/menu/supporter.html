@@ -29,16 +29,19 @@
                 <div class="instructor">
                     <img src="{{ instructor['icon_path'] }}" alt="{{ instructor['user_name'] }}の画像">
                     <h2>{{ instructor['user_name'] }}</h2>
-                    <p>出身地：{{ instructor['address'] }}</p>
-                    <p>自己PR：{{ instructor['introduction'] }}</p>
-                    <form action="/add-chatroom">
-                        <input type="hidden" name="instructor_name" value="{{ instructor['user_name'] }}">
+                    <p>出身地:{{ instructor['address'] }}</p>
+                    <p>自己PR:{{ instructor['introduction'] }}</p>
+                    {% if instructor['u_id'] not in invited_u_ids %}
+                        <form action="/add-chatroom">
+                            <button class="select-button" name="instructor_name" value="{{ instructor['user_name'] }}">選択</button>
+                        </form>
+                    {% else %}
                         <button class="select-button">選択</button>
-                    </form>
+                    {% endif %}
                 </div>
             {% endfor %}
         {% else %}
-            <p>またインストラクターが登録されていません</p>
+            <p>まだインストラクターが登録されていません</p>
         {% endif %}
     </div>
 

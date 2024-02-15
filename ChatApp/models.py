@@ -67,22 +67,23 @@ class dbConnect:
             cur.close()
             conn.close()
     
-    # ユーザーIDを指定してすべてのユーザー情報の取得 追加
-    def getUserAll(u_id):
+    # 追加
+    # ユーザーIDを指定して体重情報を更新 u_idとrecord_room_idが別のテーブルにあるから紐づけができない
+    def updateweightById(record_room_id):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
-            sql = "SELECT * FROM users WHERE u_id=%s;"
-            cur.execute(sql, (u_id))
-            users = cur.fetchall()
-            return users
+            cur.execute("SELECT value FROM records WHERE record_room_id = %s ORDER BY created_at DESC LIMIT 1 ", (record_room_id,))
+            latest_value = cur.fetchone()[0]
+            cur.execute("UPDATE users SET latest_weight = %s", (latest_value,))
+            conn.commit
         except Exception as e:
             print(str(e) + 'が発生しています')
             abort(500)
         finally:
             cur.close()
             conn.close()
-    
+        
     # すべてのインストラクター情報を取得
     def getInstructors():
         try:
@@ -145,7 +146,23 @@ class dbConnect:
         finally:
             cur.close()
             conn.close()
-    
+    # 追加
+    # ユーザーIDを指定して記録ルーム情報を取得
+    def getRecordRoom(u_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "SELECT * FROM record_setting WHERE u_id=%s;"
+            cur.execute(sql, (u_id))
+            record_rooms = cur.fetchone()
+            return record_rooms
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
+
     # 記録の追加
     def addRecord(record_room_id, value, created_at):
         try:
@@ -238,28 +255,29 @@ class dbConnect:
     #     finally:
     #         cur.close()
     
-    #created_u_idとinvited_u_idを指定してチャットルーム情報を取得
-    def getRoomByIDs(created_u_id, invited_u_id):
-        try:
-            conn = DB.getConnection()
-            cur = conn.cursor()
-            sql = "SELECT * FROM rooms WHERE created_u_id = %s AND invited_u_id = %s;"
-            cur.execute(sql,(created_u_id, invited_u_id))
-            room = cur.fetchone()
-            return room
-        except Exception as e:
-            print(str(e) + 'が発生しています')
-            abort(500)
-        finally:
-            cur.close()
-            conn.close()
+    # created_u_idとinvited_u_idを指定してチャットルーム情報を取得
+    # 不要になったためコメントアウト
+    # def getRoomByIDs(created_u_id, invited_u_id):
+    #     try:
+    #         conn = DB.getConnection()
+    #         cur = conn.cursor()
+    #         sql = "SELECT * FROM rooms WHERE created_u_id = %s AND invited_u_id = %s;"
+    #         cur.execute(sql,(created_u_id, invited_u_id))
+    #         room = cur.fetchone()
+    #         return room
+    #     except Exception as e:
+    #         print(str(e) + 'が発生しています')
+    #         abort(500)
+    #     finally:
+    #         cur.close()
+    #         conn.close()
 
     #チャットルームIDを指定してルーム情報を削除
     def deleteChatRoom(room_id):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
-            sql = "DELETE * FROM rooms WHERE room_id =%s;"
+            sql = "DELETE FROM rooms WHERE room_id =%s;"
             cur.execute(sql,(room_id))
             conn.commit()
         except Exception as e:

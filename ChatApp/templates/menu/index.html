@@ -19,13 +19,13 @@
             <ul>
                 <li>
                     <form action="/mypage" name="mypage" class="menu-button">
-                        <a href="#" onclick="document.mypage.submit();">マイページ</a>
+                        <a onclick="document.mypage.submit();">マイページ</a>
                     </form>
                 </li>
                 {% if is_instructor != 1 %}
                 <li>
                     <form action="/instructors" name="instructors" class="menu-button">
-                        <a href="#" onclick="document.instructors.submit();">インストラクター一覧</a>
+                        <a onclick="document.instructors.submit();">インストラクター一覧</a>
                     </form>
                 </li>
                 {% endif %}
@@ -39,14 +39,14 @@
                 {% if rooms %}
                     {% for room in rooms %}
                         <li>
-                            <a class="chatroom-button">{{ room['room_name'] }}</a>
                             <form action="/room{{ room['room_id'] }}">
-                                <button class="open-button">開く</button>
+                                <button type="submit" class="chatroom-button" >{{ room['room_name'] }}</button>
+                                <!-- <a onclick="document.{{ room['room_id'] }}.submit();">{{ room['room_name'] }}</a> -->
                             </form>
-                            <form action="/delete-room">
+                            <form action="/delete-room{{ room['room_id'] }}">
                                 <button class="delete-button">削除</button>
                             </form>
-                        </li>
+                            
                     {% endfor %}
                 {% else %}
                     <p>またチャットルームはありません</p>

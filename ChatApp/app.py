@@ -25,7 +25,7 @@ def signup():
     mail = request.form.get('mail')
     password1 = request.form.get('password1')
     password2 = request.form.get('password2')
-    is_instructor = request.form.get("is_instructor")
+    is_instructor = request.form.get('is_instructor')
     latest_weight = request.form.get('latest_weight')
     height = request.form.get('height')
     goal = request.form.get('goal')
@@ -71,21 +71,25 @@ def show_mypage():
     if u_id is None:
         return redirect('/login')
     else:
-        users = dbConnect.getUserAll(u_id) 
+        users = dbConnect.getUserById(u_id) 
         return render_template('menu/mypage.html',users=users)
     
-#体重記録の追加 
+#体重記録の追加
 @app.route('/add_record',methods=['POST'])
 def add_record():
     u_id = session.get('uid')
     if u_id is None:
         return redirect('/login')
     else:
-        record_room_id = dbConnect.getRecordRoomAll(u_id)
-        value = request.form.get('latest_weight') 
-        created_at_str = request.form['created_at']  # HTMLフォームから受け取る
-        created_at = datetime.strptime(created_at_str, '%Y-%m-%dT%H:%M')  # 文字列をdatetimeオブジェクトに変換
+        record_room = dbConnect.getRecordRoom(u_id)
+        record_room_id = record_room['record_room_id']
+        value = request.form.get('weight') 
+        created_at = datetime.now() 
+        #created_at = datetime.strptime(created_at_str, '%Y-%m-%dT%H:%M')  # 文字列をdatetimeオブジェクトに変換
         dbConnect.addRecord(record_room_id, value, created_at)
+        #dbConnect.updateweightById(record_room_id) エラーが出る。
+        users = dbConnect.getUserById(u_id)
+        return render_template('menu/mypage.html',users=users)
 
 # トップ画面の表示
 @app.route('/')
@@ -95,8 +99,7 @@ def top():
 # ログイン画面の表示
 @app.route('/login')
 def show_login():
-    is_instructor = request.args.get('is_instructor')
-    return render_template('login/user_login.html', is_instructor=is_instructor)
+    return render_template('login/user_login.html')
 
 # ログイン処理
 @app.route('/login', methods=['POST'])
@@ -134,7 +137,7 @@ def logout():
 def menu():
     u_id = session.get('uid')
     if u_id is None:
-        return redirect('/login')
+        return redirect('/')
     else:
         rooms = dbConnect.getRoomAll(u_id)
         user = dbConnect.getUserById(u_id)
@@ -148,7 +151,9 @@ def instructors():
         return redirect('/login')
     else:
         instructors = dbConnect.getInstructors()
-        return render_template('menu/supporter.html', instructors=instructors)
+        rooms = dbConnect.getRoomAll(u_id)
+        invited_u_ids = [x['invited_u_id'] for x in rooms]
+        return render_template('menu/supporter.html', instructors=instructors, invited_u_ids=invited_u_ids)
 
 # チャットルーム作成画面の表示
 @app.route('/add-chatroom')
@@ -171,13 +176,19 @@ def add_chatroom():
         room_name = request.form.get('room_name')
         instructor = dbConnect.getUserByName(instructor_name)
         instructor_id = instructor['u_id']
-        db_room = dbConnect.getRoomByIDs(u_id, instructor_id)
-        if db_room is None:
-            dbConnect.addChatRoom(room_name, u_id, instructor_id)
-            return redirect('/index')
-        else:
-            flash('すでにチャットルームが作成されています')
-            return redirect('/instructors')
+        dbConnect.addChatRoom(room_name, u_id, instructor_id)
+        return redirect('/index')
+
+# チャットルームの削除
+@app.route('/delete-room<int:room_id>')
+def delete_room(room_id):
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/login')
+    else:
+        dbConnect.deleteChatRoom(room_id)
+        return redirect('/index')
+    
 
 # 体重画面の表示
 @app.route('/weight-page')
@@ -203,6 +214,16 @@ def weight_page():
         indicate_dates = [a.strftime('%Y-%m-%d') for a in dates[-indicate:]]
         graph_dates = [z[-5:] for z in indicate_dates]
         plt.plot(graph_dates, indicate_values)
+        
+        # Y軸の目盛りを設定
+        sample_value =round(round(indicate_values[-1], -1))
+        scale = []
+        for i in range(sample_value - 5, sample_value + 16, 5):
+            scale.append(i)
+        plt.yticks(scale)
+        
+        # Y軸のラベルを設定
+        plt.ylabel(room['unit'])
         
         # グラフを画像として保存
         buffer = io.BytesIO()

@@ -15,36 +15,16 @@
         </div>
 
         <div class="main">
-            <div id="menu_user" class="contents1 button-container">    <!-- メニュー表示部（ユーザー） -->
-                <h3>ユーザーの方はこちら</h3>
-                <div id="menu">
+            <div id="menu_user" class="contents1 button-container">    <!-- メニュー表示部 -->
+                <div class="dark" class="button-container">
+                    <h2></h2>
                     <form action="/login">
                         <button class="login-button" onclick="window.location.href = './login/user_login.html'">ログイン</button>
-                        <input type="hidden" name="is_instructor" value="0">
                     </form>
                 </div>
-                <div id="content">
-                    <div class="dark" >
-                        <form action="/signup" method="GET">
-                            <button class="button-container" onclick="window.location.href = './signup/signup.html'">新規登録はこちら</button>
-                            <input type="hidden" name="is_instructor" value="0">
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div id="menu_ir" class="contents2 button-container">  <!-- メニュー表示部（インストラクター） -->
-                <h3>インストラクターの方はこちら</h3>
-                <div class="dark" class="button-container">
-                    <form action="/login">
-                        <button class="login-button" onclick="window.location.href = './login/user_login.html'">ログイン</button>
-                        <input type="hidden" name="is_instructor" value="1">
-                    </form>
-                </div>
-                <div class="dark" class="button-container">
-                    <form action="/signup" method="GTE">
-                        <button class="button-container" onclick="window.location.href = './signup/signup.html'">新規登録はこちら</button>
-                        <input type="hidden" name="is_instructor" value="1">
+                <div class="dark">
+                    <form action="/signup" class="buttonOutlineGradient">
+                        <button class="buttonOutlineGradient_item" onclick="window.location.href = './signup/signup.html'">新規登録はこちら</button>
                     </form>
                 </div>
             </div>

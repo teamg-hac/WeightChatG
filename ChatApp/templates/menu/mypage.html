@@ -9,31 +9,29 @@
 <body>
     <div class="container">
         <!-- ユーザー情報 -->
-        {% for users in users %}
-            <div class="profile">
-                <div class="profile-picture">
-                    <form action="/mypage" method="GET">
-                        <img src="{{ users['icon_path'] }}" alt="プロフィール画像">
-                    </form>
-                </div>
-                <div class="profile-details">
-                    <form action="/mypage" method="GET">
-                        <h2>ユーザー名: <strong>{{ users['user_name'] }}</strong></h2>
-                        <p>メールアドレス: <strong>{{ users['mail'] }}</strong></p>
-                        <p>現在の身長: <strong>{{ users['latest_weight'] }}</strong>cm</p>
-                        <p>現在の体重: <strong>{{ users['height'] }}</strong>kg</p>
-                        <p>目標: <strong>{{ users['goal'] }}</strong></p>
-                        <p>自己紹介: <strong>{{ users['introduction']}}</strong></p>
-                        <p>所在地: <strong>{{ users['address'] }}</strong></p>
-                    </form>
-                </div>
+        <div class="profile">
+            <div class="profile-picture">
+                <form action="/mypage" method="GET">
+                    <img src="{{ users['icon_path'] }}" alt="プロフィール画像">
+                </form>
             </div>
-        {% endfor %}
-        <!-- 体重入力 -->
+            <div class="profile-details">
+                <form action="/mypage" method="GET">
+                    <h2>ユーザー名: <strong>{{ users['user_name'] }}</strong></h2>
+                    <p>メールアドレス: <strong>{{ users['mail'] }}</strong></p>
+                    <p>現在の身長: <strong>{{ users['latest_weight'] }}</strong>cm</p>
+                    <p>現在の体重: <strong>{{ users['height'] }}</strong>kg</p>
+                    <p>目標: <strong>{{ users['goal'] }}</strong></p>
+                    <p>自己紹介: <strong>{{ users['introduction']}}</strong></p>
+                    <p>所在地: <strong>{{ users['address'] }}</strong></p>
+                </form>
+            </div>
+        </div>
+        <!-- 体重入力 BEへの受け渡し追加 -->
         <div class="weight-input">
             <form  action="/add_record" method="POST">
-                <input type="text" placeholder="体重入力">
-                <button>送信</button>
+                <input type="text" placeholder="体重入力" name="weight">
+                <button type="submit">送信</button>
             </form>
         </div>
 

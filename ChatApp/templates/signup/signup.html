@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+  {% block title %}
+  <title>登録画面</title>
+  {% endblock %}
+
+  {% block body %}
+    <form action="/signup" method="POST" enctype="multipart/form-data">
+      <div>
+        <input type="radio" name="is_instructor" value="0"checked>
+        <label>一般ユーザー</label>
+      </div>
+      <div>
+        <input type="radio" name="is_instructor" value="1">
+        <label>インストラクター</label>
+      </div>
+      <div>
+        <label>ユーザー名</label>
+        <input type="text" placeholder="ユーザー名" name="user_name"/>
+        <label>メールアドレス</label>
+        <input type="mail" placeholder="メールアドレス" name="mail"/>
+        <label>パスワード1</label>
+        <input type="password" placeholder="パスワード1" name="password1"/>
+        <label>パスワード2</label>
+        <input type="password" placeholder="パスワード2" name="password2"/>
+        <label>体重</label>
+        <input type="text" placeholder="体重" name="latest_weight"/>
+        <label>身長</label>
+        <input type="text" placeholder="身長" name="height"/>
+        <label>目標</label>
+        <input type="text" placeholder="目標" name="goal"/>
+        <label>自己紹介</label>
+        <input type="text" placeholder="自己紹介" name="introduction"/>
+        <label>住所</label>
+        <input type="text" placeholder="住所" name="address"/>
+        <label>アイコン</label>
+        <input type="file" name="icon_path" accept="image/*"/>
+      </div>
+      {% with messages = get_flashed_messages() %} 
+      {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+       </ul>
+      {% endif %} 
+      {% endwith %}
+      <button type="submit">登録</button>
+    </form>
+  {% endblock %}
+  

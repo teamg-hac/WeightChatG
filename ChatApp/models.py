@@ -67,6 +67,23 @@ class dbConnect:
             cur.close()
             conn.close()
     
+    # 追加
+    # ユーザーIDを指定して体重情報を更新 u_idとrecord_room_idが別のテーブルにあるから紐づけができない
+    def updateweightById(record_room_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            cur.execute("SELECT value FROM records WHERE record_room_id = %s ORDER BY created_at DESC LIMIT 1 ", (record_room_id,))
+            latest_value = cur.fetchone()[0]
+            cur.execute("UPDATE users SET latest_weight = %s", (latest_value,))
+            conn.commit
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
+        
     # すべてのインストラクター情報を取得
     def getInstructors():
         try:
@@ -176,7 +193,23 @@ class dbConnect:
         finally:
             cur.close()
             conn.close()
-    
+    # 追加
+    # ユーザーIDを指定して記録ルーム情報を取得
+    def getRecordRoom(u_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "SELECT * FROM record_setting WHERE u_id=%s;"
+            cur.execute(sql, (u_id))
+            record_rooms = cur.fetchone()
+            return record_rooms
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
+
     # 記録の追加
     def addRecord(record_room_id, value, created_at):
         try:
@@ -350,8 +383,8 @@ class dbConnect:
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
-            sql = "DELETE * FROM massages WHERE massage_id =%s;"
-            cur.execute(sql,(massage_id))
+            sql = "DELETE * FROM messages WHERE message_id =%s;"
+            cur.execute(sql,(message_id))
             conn.commit()
         except Exception as e:
             print(str(e) + 'が発生しています')

@@ -18,7 +18,7 @@ CREATE TABLE users(
     goal varchar(255),
     introduction varchar(255),
     address varchar(255),
-    icon_path varchar(255),
+    icon_path varchar(255) UNIQUE,
     PRIMARY KEY (u_id)
 );
 
@@ -71,12 +71,12 @@ INSERT INTO users VALUES (
 'deleted@sample.com',
 '529c16bd76194a4b757597a652f4723266664795c3c287993c31adfa4955bd66',
 1,
-0,
-0,
-'',
-'',
-'',
-'');
+NULL,
+NULL,
+NULL,
+NULL,
+NULL,
+NULL);
 
 -- テスト用
 INSERT INTO users VALUES (
@@ -90,7 +90,7 @@ INSERT INTO users VALUES (
 '目指せ50㎏！',
 '食べるのが大好きです',
 '東京',
-'');
+NULL);
 
 INSERT INTO users VALUES ('6d0fc48d-2dc9-4ec6-b606-9a38987634af',
 'hoge',
@@ -102,7 +102,7 @@ INSERT INTO users VALUES ('6d0fc48d-2dc9-4ec6-b606-9a38987634af',
 '目指せ80㎏！',
 'からあげ大好き',
 '埼玉',
-'');
+NULL);
 
 INSERT INTO users VALUES ('854dd0b9-d172-4042-961d-cf7d9ccc0aee',
 '太郎',
@@ -114,7 +114,7 @@ INSERT INTO users VALUES ('854dd0b9-d172-4042-961d-cf7d9ccc0aee',
 'ダイエットのお手伝い',
 '走るの大好き',
 '神奈川',
-'');
+NULL);
 
 INSERT INTO users VALUES ('c21d4358-a010-46c2-853d-dc05cadae1d2',
 'ももこ',
@@ -126,7 +126,7 @@ INSERT INTO users VALUES ('c21d4358-a010-46c2-853d-dc05cadae1d2',
 '美しくなろう',
 'エクササイズ大好き',
 '大阪',
-'');
+NULL);
 
 INSERT INTO record_setting VALUES (1, '体重', 'c21d4358-a010-46c2-853d-dc05cadae1d2', 'kg', 0, 0, '00:00:00');
 

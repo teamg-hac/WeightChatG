@@ -83,6 +83,23 @@ class dbConnect:
             cur.close()
             conn.close()
     
+    # icon_pathの情報をすべて取得
+    def getIconPath():
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "SELECT icon_path FROM users;"
+            cur.execute(sql)
+            icon_paths = cur.fetchall()
+            icon_paths = [i['icon_path'] for i in icon_paths]
+            return icon_paths
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
+    
     # ユーザーIDを指定してユーザー情報を更新
     def updateUser(u_id, user_name, mail, password, is_instructor, height, goal, introduction, address, icon_path):
         try:

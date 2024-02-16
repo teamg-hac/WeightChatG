@@ -48,6 +48,14 @@
                     <button type="submit" class="back-button">送信</button>
                 </div>
             </form>
+            <!-- エラーメッセージの表示 -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                    <a>{{ message }}</a>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
         </div>
 
         <!-- ボタン -->

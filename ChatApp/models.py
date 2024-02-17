@@ -210,6 +210,21 @@ class dbConnect:
             cur.close()
             conn.close()
 
+    # 記録ルームIDを指定してルーム情報を更新
+    def updateRecordRoom(record_room_id, record_name, unit, is_public, remind, remind_time):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "UPDATE record_setting SET record_name = %s, unit = %s, is_public = %s, remind = %s, remind_time = %s WHERE record_room_id = %s;"
+            cur.execute(sql, (record_name, unit, is_public, remind, remind_time, record_room_id))
+            conn.commit()
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
+    
     # 記録の追加
     def addRecord(record_room_id, value, created_at):
         try:

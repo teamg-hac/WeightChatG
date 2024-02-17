@@ -339,7 +339,31 @@ def add_recordroom():
             dbConnect.addRecordRoom(record_name, u_id, unit, is_public, remind, remind_time)
             return redirect('/mypage')
         return redirect('/add-recordroom')
-    
+
+# 記録ルーム情報の更新画面表示
+@app.route('/edit-recordroom<record_room_id>')
+def show_edit_recordroom(record_room_id):
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/login')
+    else:
+        record_room = dbConnect.getRecordRoomById(record_room_id)
+        return render_template('option/edit_recordroom.html', record_room=record_room)
+
+# 記録ルーム情報の更新
+@app.route('/edit-recordroom<record_room_id>', methods=['POST'])
+def edit_recordroom(record_room_id):
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/login')
+    else:
+        record_name = request.form.get('record_name')
+        unit = request.form.get('unit')
+        is_public = request.form.get('is_public')
+        remind = request.form.get('remind')
+        remind_time = request.form.get('remind_time')
+        dbConnect.updateRecordRoom(record_room_id, record_name, unit, is_public, remind, remind_time)
+        return redirect('/mypage')
 
 # 404エラーの画面遷移
 @app.errorhandler(404)

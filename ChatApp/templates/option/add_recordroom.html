@@ -6,7 +6,7 @@
 
 {% block body %}
     <h2>記録ルームの追加</h2>
-    <form action="/add-recordroom" method="POST">
+    <form action="/add-recordroom{{record_room['record_room_id'] }}" method="POST">
         <div>
             <label>記録名</label>
             <input type="text" name="record_name">

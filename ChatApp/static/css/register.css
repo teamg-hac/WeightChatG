@@ -1,0 +1,75 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    text-align: center; /* タイトルを中央に配置 */
+}
+
+/* タイトルのスタイル */
+h1 {
+    margin-bottom: 20px; /* タイトルとフォームの間に余白を設定 */
+}
+
+/* コンテナのスタイル */
+.container {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+}
+
+/* フォームのスタイル */
+form {
+    margin-top: 20px; /* フォームと他の要素の間に余白を設定 */
+}
+
+/* フォーム内の要素のスタイル */
+.form-group {
+    margin-bottom: 20px; /* フォームの要素間に余白を設定 */
+    text-align: left; /* ラベルと入力フィールドを左寄せにする */
+}
+
+label {
+    display: block; /* ラベルをブロック要素として表示して、上下に整列 */
+    margin-bottom: 5px; /* ラベルと入力フィールドの間に余白を設定 */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    width: 100%; /* 入力フィールドを幅いっぱいに広げる */
+    padding: 10px; /* 上下左右の余白 */
+    font-size: 16px; /* フォントサイズ */
+    border-radius: 5px; /* 角の丸み */
+    border: 1px solid #ccc; /* 枠線 */
+}
+
+input[type="number"] {
+    width: calc(100% - 22px); /* 入力フィールドを幅いっぱいに広げる */
+    padding: 10px; /* 上下左右の余白 */
+    font-size: 16px; /* フォントサイズ */
+    border-radius: 5px; /* 角の丸み */
+    border: 1px solid #ccc; /* 枠線 */
+}
+
+select {
+    height: 40px; /* プルダウンメニューの高さを調整 */
+}
+
+button[type="submit"] {
+    background-color: #007bff; /* ボタンの背景色 */
+    color: #fff; /* ボタンの文字色 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 5px; /* 角の丸み */
+    padding: 10px 20px; /* 上下左右の余白 */
+    font-size: 16px; /* フォントサイズ */
+    cursor: pointer; /* マウスカーソルをポインターに */
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+}
+

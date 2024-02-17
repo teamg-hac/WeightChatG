@@ -4,7 +4,7 @@ body {
     padding: 20px;
 }
 
-/* ページ全体を中央に配置するためのスタイル */
+/* コンテナのスタイル */
 .container {
     border: 2px solid #ccc; /* 枠線のスタイル */
     border-radius: 10px; /* 枠の角の丸み */
@@ -14,8 +14,27 @@ body {
     position: relative; /* 相対的な位置指定 */
 }
 
+/* タイトルのスタイル */
+#title {
+    text-align: center; /* 文字を中央に配置 */
+}
+
 /* メニュー項目のボタン */
-.menu-button,
+.menu-button {
+    display: block; /* ボタンをブロック要素として表示 */
+    margin-bottom: 10px; /* 下側のマージン */
+    background-color: #007bff; /* 背景色 */
+    color: #fff; /* 文字色 */
+    text-decoration: none; /* リンクの下線を削除 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 10px; /* 角の丸み */
+    padding: 10px 20px; /* 上下左右の余白 */
+    font-size: 16px; /* フォントサイズ */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    text-align: center; /* 文字を中央に配置 */
+}
+
+/* チャットルームボタン */
 .chatroom-button {
     display: block; /* ボタンをブロック要素として表示 */
     margin-bottom: 10px; /* 下側のマージン */
@@ -30,21 +49,37 @@ body {
     text-align: center; /* 文字を中央に配置 */
 }
 
+.chatroom-button {
+    padding: 10px 100px; /* 上下左右の余白 */
+    margin-right: 20px; /* チャットルームボタンの右側マージン */
+}
+
+/* 削除ボタン */
+.delete-button {
+    background-color: #dc3545; /* 背景色 */
+    color: #fff; /* 文字色 */
+    padding: 5px 10px; /* 上下左右の余白 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 10px; /* 角の丸み */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    position: relative; /* 相対的な位置指定 */
+    float: right; /* 右側に浮かせる */
+    top: 50%; /* 上から50%の位置に */
+    transform: translateY(-10%); /* 上から10%の位置に配置 */
+}
+
+/* チャットルームと削除ボタンの親要素 */
+li {
+    display: flex; /* フレックスボックスを使用して横並びに配置 */
+    align-items: center; /* 中央に揃える */
+}
+
 .menu-button:hover,
 .chatroom-button:hover {
     background-color: #0056b3; /* ホバー時の背景色 */
 }
 
-/* チャットルーム操作ボタン */
-.open-button,
-.delete-button {
-    background-color: #f2f2f2; /* 背景色 */
-    border: none; /* ボーダーをなしに */
-    color: #000; /* 文字色 */
-    padding: 5px 10px; /* 上下左右の余白 */
-    margin-left: 10px; /* 左側のマージン */
-    cursor: pointer; /* マウスカーソルをポインターに */
-}
+
 
 /* ログアウトボタン */
 #logout-button {
@@ -55,9 +90,8 @@ body {
     border-radius: 10px; /* 角の丸み */
     cursor: pointer; /* マウスカーソルをポインターに */
     position: absolute; /* 絶対的な位置指定 */
-    top: 0; /* 上端からの距離 */
-    right: 0; /* 右端からの距離 */
-    margin: 20px; /* 外側の余白 */
+    bottom: 20px; /* 下端からの距離 */
+    right: 20px; /* 右端からの距離 */
 }
 
 #logout-button:hover {
@@ -69,8 +103,4 @@ ul {
     list-style-type: none; /* マーカー（・）を削除 */
     padding: 0; /* パディングをなしに */
     margin: 0; /* マージンをなしに */
-}
-
-li {
-    margin-bottom: 10px; /* 下側のマージン */
 }

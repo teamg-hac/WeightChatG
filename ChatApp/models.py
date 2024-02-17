@@ -69,20 +69,52 @@ class dbConnect:
     
     # 追加
     # ユーザーIDを指定して体重情報を更新 u_idとrecord_room_idが別のテーブルにあるから紐づけができない
-    def updateweightById(record_room_id):
+    def updateweightById(record_room_id,u_id):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
             cur.execute("SELECT value FROM records WHERE record_room_id = %s ORDER BY created_at DESC LIMIT 1 ", (record_room_id,))
             latest_value = cur.fetchone()[0]
-            cur.execute("UPDATE users SET latest_weight = %s", (latest_value,))
-            conn.commit
+            cur.execute("UPDATE users SET latest_weight = %s WHERE u_id= %s", (latest_value,u_id))
+            conn.commit()
         except Exception as e:
             print(str(e) + 'が発生しています')
             abort(500)
         finally:
             cur.close()
             conn.close()
+    #追加
+    #レコードルームIDを指定して、最新の体重を取得する。
+    def getlatestweightById(record_room_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "SELECT value FROM records WHERE record_room_id = %s ORDER BY created_at DESC LIMIT 1"
+            cur.execute(sql,record_room_id,)
+            latest_value = cur.fetchone()
+            return latest_value
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
+
+    #追加
+    #ユーザーIDを指定して、体重を更新する。
+    def updateweightById(latest_weight,u_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "UPDATE users SET latest_weight = %s WHERE u_id= %s" 
+            cur.execute(sql,latest_weight,u_id)
+            conn.commit()
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()      
         
     # すべてのインストラクター情報を取得
     def getInstructors():
@@ -287,7 +319,7 @@ class dbConnect:
             cur.close()
 
     #メッセージの追加
-    def aaddMessage(u_id, room_id, message, created_at):
+    def addMessage(u_id, room_id, message, created_at):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
@@ -301,14 +333,15 @@ class dbConnect:
             cur.close()
 
     #チャットルームIDを指定して該当チャンネルの持つメッセージを取得
+    #修正　massageをmessageに修正
     def getMessageAll(room_id):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
             sql = "SELECT * FROM messages WHERE room_id =%s;"
             cur.execute(sql,(room_id))
-            massages = cur.fetchall()
-            return massages
+            messages = cur.fetchall()
+            return messages
         except Exception as e:
             print(str(e) + 'が発生しています')
             abort(500)

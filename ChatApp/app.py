@@ -73,8 +73,9 @@ def show_mypage():
     if u_id is None:
         return redirect('/login')
     else:
-        users = dbConnect.getUserById(u_id) 
-        return render_template('menu/mypage.html',users=users)
+        users = dbConnect.getUserById(u_id)
+        record_rooms = dbConnect.getRecordRoomAll(u_id)
+        return render_template('menu/mypage.html',users=users, record_rooms=record_rooms)
     
 #体重記録の追加
 @app.route('/add_record',methods=['POST'])
@@ -248,7 +249,7 @@ def add_chatroom():
         instructor = dbConnect.getUserByName(instructor_name)
         instructor_id = instructor['u_id']
         dbConnect.addChatRoom(room_name, u_id, instructor_id)
-        return redirect('/index')
+        return redirect('/mypage')
 
 # チャットルームの削除
 @app.route('/delete-room<int:room_id>')
@@ -306,6 +307,39 @@ def weight_page():
         plt.close()
             
         return render_template('menu/weight_page.html', graph=graph, indicate=indicate, indicate_values=indicate_values, indicate_dates=indicate_dates, unit=unit)
+
+# 記録ルーム追加画面の表示
+@app.route('/add-recordroom')
+def show_add_recordroom():
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/login')
+    else:
+        return render_template('option/add_recordroom.html')
+        
+# 記録ルーム作成処理
+@app.route('/add-recordroom', methods=['POST'])
+def add_recordroom():
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/login')
+    else:
+        record_name = request.form.get('record_name')
+        unit = request.form.get('unit')
+        is_public = request.form.get('is_public')
+        remind = request.form.get('remind')
+        remind_time = request.form.get('remind_time')
+        if record_name == '':
+            flash('記録名を入力してください')
+        elif unit == '':
+            flash('単位を入力してください')
+        else:
+            if remind_time == '':
+                remind_time = '00:00:00'
+            dbConnect.addRecordRoom(record_name, u_id, unit, is_public, remind, remind_time)
+            return redirect('/mypage')
+        return redirect('/add-recordroom')
+    
 
 # 404エラーの画面遷移
 @app.errorhandler(404)

@@ -35,6 +35,20 @@
             </form>
         </div>
 
+        <!-- 体重以外の記録ルームの表示 -->
+        {% if record_rooms %}
+        {% for record_room in record_rooms %}
+            <div>
+                <p>{{ record_room['record_name'] }}</p>
+                <form action="/add_record" method="POST">
+                    <input type="text" placeholder="記録入力" name="{{ record_room['record_room_id'] }}">
+                    <input type="hidden" name="{{ record_rooms.index(record_room) }}" value="{{ record_room['record_room_id'] }}">
+                    <button type="submit">送信</button>
+                </form>
+            </div>
+        {% endfor %}
+        {% endif %}
+
         <!-- ボタン -->
         <div class="buttons">
             <button class="edit-button">編集</button>

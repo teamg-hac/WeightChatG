@@ -28,11 +28,20 @@ def signup():
     is_instructor = request.form.get('is_instructor')
     latest_weight = request.form.get('latest_weight')
     height = request.form.get('height')
-    goal = request.form.get('goal')
-    introduction = request.form.get('introduction')
-    address = request.form.get('address')
-    icon_path  = request.form.get('image/*')
+    if latest_weight == '' or latest_weight is None:
+        latest_weight = None
+    else:
+        latest_weight = float(latest_weight)
 
+    if height == '' or height is None:
+        height = None
+    else:
+        height = float(height)
+    goal = request.form.get('goal', None)
+    introduction = request.form.get('introduction', None)
+    address = request.form.get('address', None)
+    icon_path  = request.files.get('icon', None)
+    
     pattern = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
 
     if user_name == '' or mail =='' or password1 == '' or password2 == '':
@@ -85,13 +94,14 @@ def add_record():
         record_room_id = record_room['record_room_id']
         value = request.form.get('weight') 
         created_at = datetime.now() 
-        #created_at = datetime.strptime(created_at_str, '%Y-%m-%dT%H:%M')  # 文字列をdatetimeオブジェクトに変換
         dbConnect.addRecord(record_room_id, value, created_at)
-        latest_value = dbConnect.getlatestweightById(record_room_id)
-        latest_weight = latest_value['value']
-        dbConnect.updateweightById(latest_weight,u_id)
-        users = dbConnect.getUserById(u_id)
-        return render_template('menu/mypage.html',users=users)
+        value = dbConnect.getlatestrecordById(record_room_id)
+        weight = value['value']
+        weight = float(weight)
+        dbConnect.updateweightById(weight,u_id)
+        #users = dbConnect.getUserById(u_id)
+        return redirect('/mypage')
+        #return render_template('menu/mypage.html', users=users)
 
 #チャット表示
 @app.route('/room/<int:room_id>',methods=['GET'])

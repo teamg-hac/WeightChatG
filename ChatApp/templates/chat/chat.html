@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チャットページ</title>
+    <link rel="stylesheet" href="../../Static/css/btn3.css">
+    <link rel="stylesheet" href="../../Static/css/chatroom.css">
+</head>
+<body>
+    <!-- 戻るボタン -->
+    <button id="back-button" class="back-button">戻る</button>
+
+    <div class="container">
+    <!-- ユーザー情報バー -->
+    <div class="user-info-bar" id="user-info-bar">
+        <form action="/room/{{ room_id }}" method="GET">
+            <img src="{{ users['icon_path'] }}" alt="User Image">
+            <h2>ユーザー名:<strong>{{ users['user_name'] }}</strong></h2>
+        </form>
+    </div>
+
+    <!-- ユーザー情報（初期状態は非表示） -->
+    <div class="user-info" id="user-info">
+        <form action="/room/{{ room_id }}" method="GET">
+        <p>メールアドレス:<strong>{{ users['mail'] }}</strong></p>
+        <p>年齢:20歳</p>
+        <p>性別:女性</p>
+        <!-- 他のユーザー情報を追加 -->
+        </form>
+    </div>
+
+    <!-- チャット欄 -->
+    <div class="chat-area">
+        <form action="/room/{{ room_id }}" method="GET">
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message['message'] }}</p>
+                    <p>{{ message['created_at'] }}</p>
+                {% endfor %}
+            {% else %}
+                <p>メッセージはありません</p>
+
+            {% endif %}
+        </form>
+        <!--<div class="chat-bubble self">
+            <p>こんにちは</p>
+        </div>
+        <div class="chat-bubble other">
+            <p>こんにちは</p>
+        </div>
+        <div class="chat-bubble self">
+            <p>今日は筋トレします</p>
+        </div>
+        <div class="chat-bubble other">
+            <p>がんばりましょう</p>
+        </div>-->
+    </div>
+   
+    <!-- チャット送信フォーム -->
+    <form id="chat-form" action="{{ url_for('add_message') }}" method="post">
+        <input type="hidden" name="room_id" value="{{ room_id }}">
+        <input type="text" id="message-input" name="message" placeholder="メッセージを入力">
+        <button type="submit">送信</button>
+    </form>
+    </div>
+    <script>
+        const userInfoBar = document.getElementById('user-info-bar');
+        const userInfo = document.getElementById('user-info');
+
+        // ユーザー情報バーがクリックされたときに、ユーザー情報を切り替える
+        userInfoBar.addEventListener('click', () => {
+            userInfo.classList.toggle('show');
+        });
+    </script>
+</body>
+</html>

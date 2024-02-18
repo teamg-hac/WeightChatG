@@ -39,7 +39,8 @@
                 {% if rooms %}
                     {% for room in rooms %}
                         <li>
-                            <form action="/room{{ room['room_id'] }}">
+                            <!--/room/{{ room['room_id'] }}について/roomの後に/を追加しチャットルーム作成処理のルーティングを合わせた-->
+                            <form action="/room/{{ room['room_id'] }}">
                                 <button type="submit" class="chatroom-button" >{{ room['room_name'] }}</button>
                                 <!-- <a onclick="document.{{ room['room_id'] }}.submit();">{{ room['room_name'] }}</a> -->
                             </form>

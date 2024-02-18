@@ -1,0 +1,106 @@
+/* 全体のスタイル */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+/* コンテナのスタイル */
+.container {
+  width: 80%;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* タイトルのスタイル */
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+/* 戻るボタンのスタイル */
+.container button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* 履歴情報のスタイル */
+.history-item {
+  display: flex; /* Flexbox を使用して要素を水平に配置 */
+  align-items: center; /* 要素を垂直方向に中央揃え */
+  justify-content: center; /* 要素を水平方向に中央揃え */
+}
+
+.history-item p {
+  margin-right: 10px; /* 日付と体重の間隔を調整 */
+}
+
+.history-item button {
+  margin-left: 10px; /* ボタンと体重の間隔を調整 */
+}
+
+.history {
+  margin-bottom: 20px; /* 履歴データ間の間隔を広げる */
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  text-align: center; /* テキストを中央に配置 */
+  font-size: 20px; /* テキストを大きく */
+}
+
+.history-item span {
+  margin-right: 10px;
+}
+
+/* 削除ボタンのスタイル */
+.history-item button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #dc3545;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* グラフのスタイル */
+.graph {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* ページボタンのスタイル */
+.pagination {
+  margin-top: 50px; /* 前へ、次へボタンの間隔を開ける */
+  text-align: center;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  margin: 0 30px; /* ボタンの間隔を開ける */
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* プルダウンメニューのスタイル */
+.dropdown {
+  margin-top: 20px; /* プルダウンメニューの間隔を設定 */
+  text-align: center; /* テキストを中央に配置 */
+}
+
+.dropdown select {
+  padding: 5px 10px;
+  border-radius: 5px;
+  width: 150px; /* プルダウンメニューの幅を設定 */
+}

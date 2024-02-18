@@ -1,0 +1,38 @@
+/* 戻るボタン */
+
+/* バー上の戻るボタン */
+.back-button {
+    position: fixed; /* 要素を固定位置に配置 */
+    top: 20px; /* 上端からの距離 */
+    left: 20px; /* 左端からの距離 */
+    padding: 10px 20px; /* 上下左右の余白 */
+    background-color: #007bff; /* 背景色 */
+    color: #fff; /* 文字色 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 10px; /* 角の丸み */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    z-index: 999; /* 要素の重なり順序を設定 */
+    transition: top 0.3s ease; /* ホバー時のアニメーション */
+}
+
+.back-button:hover {
+    top: 10px; /* ホバー時の位置 */
+}
+/* バー上の戻るボタン */
+.back-button {
+    position: fixed; /* 要素を固定位置に配置 */
+    top: 20px; /* 上端からの距離 */
+    left: 20px; /* 左端からの距離 */
+    padding: 10px 20px; /* 上下左右の余白 */
+    background-color: #007bff; /* 背景色 */
+    color: #fff; /* 文字色 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 10px; /* 角の丸み */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    z-index: 999; /* 要素の重なり順序を設定 */
+    transition: top 0.3s ease; /* ホバー時のアニメーション */
+}
+
+.back-button:hover {
+    top: 10px; /* ホバー時の位置 */
+}

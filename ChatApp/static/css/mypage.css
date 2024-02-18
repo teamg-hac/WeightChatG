@@ -33,36 +33,6 @@ body {
 .profile-details {
     font-size: 18px; /* テキストサイズを大きく */
 }
-
-
-了解しました。修正されたCSSコードは以下の通りです。
-
-css
-Copy code
-/* 体重入力のスタイル */
-.weight-input {
-    margin-bottom: 30px; /* 下部に余白を追加 */
-    display: flex; /* テキストボックスとボタンを横並びにする */
-    align-items: center; /* 垂直方向に中央揃え */
-}
-
-.weight-input input[type="text"] {
-    width: calc(100% - 120px); /* テキストボックスの幅を縮める */
-    padding: 10px; /* 上下の余白を少し減らす */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 10px; /* テキストボックスとボタンの間隔を設定 */
-}
-
-.weight-input button {
-    padding: 10px 20px; /* 上下の余白を少し減らす */
-    border: none;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
 /* 体重入力のスタイル */
 .weight-input {
     margin-bottom: 30px; /* 下部に余白を追加 */
@@ -108,8 +78,3 @@ Copy code
     color: #fff;
 }
 
-/* 戻るボタンのスタイル */
-.back-button {
-    background-color: #007bff; /* 青色 */
-    color: #fff;
-}

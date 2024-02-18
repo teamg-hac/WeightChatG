@@ -1,4 +1,4 @@
-from flask import Flask, request, session, render_template, redirect, flash
+from flask import Flask, request, session, render_template, redirect, flash, url_for
 import hashlib
 import uuid
 from datetime import datetime, timedelta, date
@@ -73,9 +73,14 @@ def show_mypage():
     if u_id is None:
         return redirect('/login')
     else:
+<<<<<<< HEAD
         users = dbConnect.getUserById(u_id)
         record_rooms = dbConnect.getRecordRoomAll(u_id)
         return render_template('menu/mypage.html',users=users, record_rooms=record_rooms)
+=======
+        users = dbConnect.getUserById(u_id) 
+        return render_template('menu/mypage.html',users=users)
+>>>>>>> 9de8bd55456122df7333a4a0531b29d14c3164a9
     
 #体重記録の追加
 @app.route('/add_record',methods=['POST'])
@@ -90,10 +95,47 @@ def add_record():
         created_at = datetime.now() 
         #created_at = datetime.strptime(created_at_str, '%Y-%m-%dT%H:%M')  # 文字列をdatetimeオブジェクトに変換
         dbConnect.addRecord(record_room_id, value, created_at)
+<<<<<<< HEAD
         #dbConnect.updateweightById(record_room_id) エラーが出る。
         users = dbConnect.getUserById(u_id)
         return render_template('menu/mypage.html',users=users)
 
+=======
+        latest_value = dbConnect.getlatestweightById(record_room_id)
+        latest_weight = latest_value['value']
+        dbConnect.updateweightById(latest_weight,u_id)
+        users = dbConnect.getUserById(u_id)
+        return render_template('menu/mypage.html',users=users)
+
+#チャット表示
+@app.route('/room/<int:room_id>',methods=['GET'])
+def show_messages(room_id):
+    u_id = session.get("uid")
+    if u_id is None:
+        return redirect('/login')
+    
+    else:
+        users = dbConnect.getUserById(u_id) 
+        messages = dbConnect.getMessageAll(room_id)
+        return render_template('chat/chat.html',room_id=room_id,users=users, messages=messages)
+    
+#チャット投稿
+@app.route('/add_message',methods=['POST'])
+def add_message():
+    u_id = session.get("uid")
+    if u_id is None:
+        return redirect('/login')
+    
+    room_id = request.form.get('room_id')
+    message  = request.form.get('message')
+    created_at = datetime.now()
+
+    if message:
+        dbConnect.addMessage(u_id, room_id, message, created_at)
+    
+    return redirect('/room/{room_id}'.format(room_id=room_id))
+
+>>>>>>> 9de8bd55456122df7333a4a0531b29d14c3164a9
 # トップ画面の表示
 @app.route('/')
 def top():

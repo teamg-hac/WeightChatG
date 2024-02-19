@@ -1,9 +1,12 @@
-<!-- {% block css %} --> <!-- cssブロックの開始 -->
-    <link rel="stylesheet" href="../../Static/css/btn3.css">
-    <link rel="stylesheet" href="../../Static/css/mypage.css">
-<!-- {% endblock %} --> <!-- cssブロックの終了 -->
+{% extends 'menu/base.html' %}
 
-<!-- {% block main %} --> <!-- mainブロックの開始 -->
+{% block head %}
+<title>マイページ</title>
+<link rel="stylesheet" href="../../static/css/btn3.css">
+<link rel="stylesheet" href="../../static/css/mypage.css">
+{% endblock %}
+
+{% block main %} <!-- mainブロックの開始 -->
 <div class="main-container"> <!-- メインコンテナ -->
     <div class="container">
         <!-- ユーザー情報 -->
@@ -12,39 +15,47 @@
                 <img src="../../Static/img/hashimotokanna.jpeg" alt="プロフィール画像">
             </div>
             <div class="profile-details">
-                <h2>ユーザー名: <strong>橋本環奈</strong></h2>
-                <p>メールアドレス: <strong>yurusanai_kanna@example.com</strong></p>
-                <p>現在の身長: <strong>160</strong>cm</p>
-                <p>現在の体重: <strong>40</strong>kg</p>
-                <p>目標: <strong>目標がここに表示されます</strong></p>
-                <p>自己紹介: <strong>自己紹介がここに表示されます</strong></p>
-                <p>所在地: <strong>埼玉県</strong></p>
+                <h2>ユーザー名: <strong>{{ user['user_name'] }}</strong></h2>
+                <p>メールアドレス: <strong>{{ user['mail'] }}</strong></p>
+                <p>現在の身長: <strong>{{ user['height'] }}</strong>cm</p>
+                <p>現在の体重: <strong>{{ user['latest_weight'] }}</strong>kg</p>
+                <p>目標: <strong>{{ user['goal'] }}</strong></p>
+                <p>自己紹介: <strong>{{ user['introduction'] }}</strong></p>
+                <p>所在地: <strong>{{ user['address'] }}</strong></p>
             </div>
         </div>
 
         <!-- 体重入力 -->
-        <div class="weight-input">
-            <input type="text" placeholder="体重入力">
-            <button>送信</button>
-        </div>
+        <form class="weight-input" action="/add-record" method="POST">
+            <input type="text" name="weight" placeholder="体重入力">
+            <button type="submit">送信</button>
+        </form>
 
         <!-- ボタン -->
         <div class="buttons">
-            <button onclick="window.location.href = 'edit_user.html'" class="edit-button">編集</button>
-            <button onclick="window.location.href = 'weight_page.html'" class="edit-button">詳細</button>
+            <form action="/edit-user">
+                <button class="edit-button">編集</button>
+            </form>
+            <form action="/weight-page">
+                <button class="edit-button">詳細</button>
+            </form>
             <!-- 目標追加項目 -->
-            <button onclick="window.location.href = ''" class="edit-button">目標1</button>
-            <button onclick="window.location.href = ''" class="edit-button">目標2</button>
-            <button onclick="window.location.href = ''" class="edit-button">目標3</button>
-            <button class="delete-button">退会</button>
-            <button onclick="window.location.href = '../index.html'" class="back-button">戻る</button>
+            <!-- <button onclick="window.location.href = ''" class="edit-button">目標1</button> -->
+            <!-- <button onclick="window.location.href = ''" class="edit-button">目標2</button> -->
+            <!-- <button onclick="window.location.href = ''" class="edit-button">目標3</button> -->
+            <form action="/delete-user">
+                <button class="delete-button">退会</button>
+            </form>
+            <form action="/index">
+                <button class="back-button">戻る</button>
+            </form>
         </div>
     </div>
 </div>
-<!-- {% endblock %} --> <!-- bodyブロックの終了 -->
+{% endblock %} <!-- bodyブロックの終了 -->
 
 
-<!-- {% block script %} --> <!-- scriptブロックの開始 -->
+{% block script %} <!-- scriptブロックの開始 -->
     <!-- JSファイルのリンク -->
-    <script src="../../Static/js/mypage.js"></script>
-<!-- {% endblock %} --> <!-- scriptブロックの終了 -->
+    <script src="../../static/js/mypage.js"></script>
+{% endblock %} <!-- scriptブロックの終了 -->

@@ -69,31 +69,20 @@ class dbConnect:
     
     # 追加
     # ユーザーIDを指定して体重情報を更新 u_idとrecord_room_idが別のテーブルにあるから紐づけができない
-<<<<<<< HEAD
-    def updateweightById(record_room_id):
-=======
     def updateweightById(record_room_id,u_id):
->>>>>>> 9de8bd55456122df7333a4a0531b29d14c3164a9
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
             cur.execute("SELECT value FROM records WHERE record_room_id = %s ORDER BY created_at DESC LIMIT 1 ", (record_room_id,))
             latest_value = cur.fetchone()[0]
-<<<<<<< HEAD
-            cur.execute("UPDATE users SET latest_weight = %s", (latest_value,))
-            conn.commit
-=======
             cur.execute("UPDATE users SET latest_weight = %s WHERE u_id= %s", (latest_value,u_id))
             conn.commit()
->>>>>>> 9de8bd55456122df7333a4a0531b29d14c3164a9
         except Exception as e:
             print(str(e) + 'が発生しています')
             abort(500)
         finally:
             cur.close()
             conn.close()
-<<<<<<< HEAD
-=======
     #追加
     #レコードルームIDを指定して、最新の体重を取得する。
     def getlatestweightById(record_room_id):
@@ -126,7 +115,6 @@ class dbConnect:
         finally:
             cur.close()
             conn.close()      
->>>>>>> 9de8bd55456122df7333a4a0531b29d14c3164a9
         
     # すべてのインストラクター情報を取得
     def getInstructors():
@@ -254,7 +242,6 @@ class dbConnect:
             cur.close()
             conn.close()
 
-<<<<<<< HEAD
     # 記録ルームIDを指定してルーム情報を更新
     def updateRecordRoom(record_room_id, record_name, unit, is_public, remind, remind_time):
         try:
@@ -270,8 +257,6 @@ class dbConnect:
             cur.close()
             conn.close()
     
-=======
->>>>>>> 9de8bd55456122df7333a4a0531b29d14c3164a9
     # 記録の追加
     def addRecord(record_room_id, value, created_at):
         try:

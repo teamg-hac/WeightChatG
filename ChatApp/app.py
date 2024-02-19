@@ -73,14 +73,8 @@ def show_mypage():
     if u_id is None:
         return redirect('/login')
     else:
-<<<<<<< HEAD
-        users = dbConnect.getUserById(u_id)
-        record_rooms = dbConnect.getRecordRoomAll(u_id)
-        return render_template('menu/mypage.html',users=users, record_rooms=record_rooms)
-=======
         users = dbConnect.getUserById(u_id) 
         return render_template('menu/mypage.html',users=users)
->>>>>>> 9de8bd55456122df7333a4a0531b29d14c3164a9
     
 #体重記録の追加
 @app.route('/add_record',methods=['POST'])
@@ -95,12 +89,6 @@ def add_record():
         created_at = datetime.now() 
         #created_at = datetime.strptime(created_at_str, '%Y-%m-%dT%H:%M')  # 文字列をdatetimeオブジェクトに変換
         dbConnect.addRecord(record_room_id, value, created_at)
-<<<<<<< HEAD
-        #dbConnect.updateweightById(record_room_id) エラーが出る。
-        users = dbConnect.getUserById(u_id)
-        return render_template('menu/mypage.html',users=users)
-
-=======
         latest_value = dbConnect.getlatestweightById(record_room_id)
         latest_weight = latest_value['value']
         dbConnect.updateweightById(latest_weight,u_id)
@@ -135,7 +123,6 @@ def add_message():
     
     return redirect('/room/{room_id}'.format(room_id=room_id))
 
->>>>>>> 9de8bd55456122df7333a4a0531b29d14c3164a9
 # トップ画面の表示
 @app.route('/')
 def top():

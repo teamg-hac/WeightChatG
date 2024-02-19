@@ -4,23 +4,21 @@ body {
     padding: 20px;
     text-align: center; /* テキストを中央揃え */
 }
-
-/* 戻るボタンのスタイル */
-.back-button {
-    margin-bottom: 20px; /* 下部のマージン */
-    padding: 10px 20px; /* パディング */
-    border: none; /* ボーダーなし */
-    border-radius: 5px; /* 角丸 */
-    background-color: #007bff; /* 背景色 */
-    color: #fff; /* 文字色 */
-    cursor: pointer; /* マウスカーソル */
-    font-size: 16px; /* 文字サイズ */
+/* コンテナのスタイル */
+.container {
+    border: 2px solid #ccc; /* 枠線のスタイル */
+    border-radius: 10px; /* 枠の角の丸み */
+    padding: 20px; /* 内側の余白 */
+    max-width: 400px; /* 最大幅 */
+    margin: auto; /* ページの中央に配置 */
+    position: relative; /* 相対的な位置指定 */
 }
-
 /* タイトルのスタイル */
 h1 {
+    display: block; /* または inline-block */
     margin-bottom: 20px; /* 下部のマージン */
 }
+
 /* インストラクター一覧のコンテナ */
 .container {
     display: flex;

@@ -40,7 +40,7 @@ input[type="email"],
 input[type="password"],
 select,
 textarea {
-    width: 100%; /* 入力フィールドを幅いっぱいに広げる */
+    width: 90%; /* 入力フィールドを幅いっぱいに広げる */
     padding: 10px; /* 上下左右の余白 */
     font-size: 16px; /* フォントサイズ */
     border-radius: 5px; /* 角の丸み */
@@ -48,7 +48,7 @@ textarea {
 }
 
 input[type="number"] {
-    width: calc(100% - 22px); /* 入力フィールドを幅いっぱいに広げる */
+    width: 90%; /* 入力フィールドを幅いっぱいに広げる */
     padding: 10px; /* 上下左右の余白 */
     font-size: 16px; /* フォントサイズ */
     border-radius: 5px; /* 角の丸み */
@@ -71,5 +71,26 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+/* ラジオボタンのスタイル */
+input[type="radio"] {
+    display: none; /* ラジオボタンを非表示にする */
+}
+
+/* ラジオボタンのカスタムスタイル */
+input[type="radio"] + label {
+    display: inline-block; /* ラベルをインラインブロック要素として表示 */
+    margin-right: 10px; /* ラジオボタンとラベルの間に右側のマージンを設定 */
+    padding: 5px 10px; /* 上下左右の余白 */
+    border: 1px solid #ccc; /* 枠線 */
+    border-radius: 5px; /* 角の丸み */
+    cursor: pointer; /* マウスカーソルをポインターに */
+}
+
+/* ラジオボタンが選択されたときのカスタムスタイル */
+input[type="radio"]:checked + label {
+    background-color: #007bff; /* ラジオボタンが選択されたときの背景色 */
+    color: #fff; /* テキスト色 */
 }
 

@@ -7,6 +7,11 @@
     overflow: hidden; /* 内容が枠外にはみ出さないように */
 }
 
+/* チャットルーム名*/
+.chat-title{
+    text-align: center;
+    
+}
 
 /* ユーザー情報バー */
 .user-info-bar {

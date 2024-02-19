@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
-        <meta charset="utf-8">
+        <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>ログイン画面</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="../static/css/btn.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>人の腹見て我が腹直せ。</title>
+        <link rel="stylesheet" href="../static/css/btn1.css">
+        <link rel="stylesheet" href="../static/css/btn2.css">
         <link rel="stylesheet" href="../static/css/top.css">
     </head>
     <body>
-        <div id="title" class="title">    <!-- タイトル表示部 -->
-            <h1>生きるために食べよ。食べるために生きるのではない。</h1><br>
-        </div>
-
-        <div class="main">
-            <div id="menu_user" class="contents1 button-container">    <!-- メニュー表示部 -->
-                <div class="dark" class="button-container">
-                    <h2></h2>
-                    <form action="/login">
-                        <button class="login-button" onclick="window.location.href = './login/user_login.html'">ログイン</button>
-                    </form>
-                </div>
-                <div class="dark">
-                    <form action="/signup" class="buttonOutlineGradient">
-                        <button class="buttonOutlineGradient_item" onclick="window.location.href = './signup/signup.html'">新規登録はこちら</button>
-                    </form>
-                </div>
+        <div class="container">
+            <!-- タイトル表示部 -->
+            <div id="title" class="title">    
+                <h1>人の腹見て我が腹直せ。</h1><br>
             </div>
+
+            <!-- メニュー表示部（ユーザー） -->
+            <div id="menu_user" class="contents1 button-container">    
+                <h3>ユーザーの方はこちら</h3>
+                <div id="menu">
+                    <!-- ログインボタン -->
+                    <form action="/login">
+                        <button class="login-button">
+                            ログイン
+                        </button>
+                    </form>
+                </div>
+                <div id="content">
+                    <!-- 新規登録ボタン -->
+                    <div class="dark">
+                        <form class="buttonOutlineGradient signup-button" action="/signup" name="signup">
+                            <span class="buttonOutlineGradient_item">新規登録はこちら</span>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+
+
         </div>
-    
-        <script src="../static/js/popup.js"></script>
-        <script src="../static/js/popup2.js"></script>
     </body>
 </html>

@@ -11,8 +11,11 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
   
-
 // ログアウトボタンのクリックイベント
 document.getElementById("logout-button").addEventListener("click", function() {
-    alert("ログアウトしました！");
+  // 確認メッセージを表示し、ユーザーが「はい」を選択した場合のみログアウト
+  if (confirm("ログアウトしますか？")) {
+      alert("ログアウトしました！");
+      // ログアウトの処理を記述（例えば、セッションをクリアするなど）
+  }
 });

@@ -1,0 +1,40 @@
+/* メニューボタンの装飾 */
+#menu-button {
+    background-color: #007bff; /* 青系の背景色 */
+    color: white; /* ボタンの文字色 */
+    border: none; /* ボーダーを削除 */
+    padding: 10px 20px; /* パディング */
+    border-radius: 5px; /* 角丸 */
+    cursor: pointer; /* ホバー時のカーソルを指定 */
+  }
+  
+  /* メニューボタンのホバー時の装飾 */
+  #menu-button:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+  }
+  
+/* ログアウトボタンの装飾 */
+#logout-button {
+    margin-top: 20px; /* 上部マージンを追加 */
+    background-color: #dc3545; /* 赤系の背景色 */
+    color: white; /* ボタンの文字色 */
+    border: none; /* ボーダーを削除 */
+    padding: 10px 20px; /* パディング */
+    border-radius: 5px; /* 角丸 */
+    cursor: pointer; /* ホバー時のカーソルを指定 */
+  }
+  
+  /* ログアウトボタンのホバー時の装飾 */
+  #logout-button:hover {
+    background-color: #c82333; /* ホバー時の背景色 */
+  }
+  
+  /* 閉じるボタンの装飾 */
+  #close-button {
+    margin-top: 10px; /* 上部マージンを追加 */
+    color: black; /* ボタンの文字色（黒系）*/
+    border: none; /* ボーダーを削除 */
+    padding: 10px 20px; /* パディング */
+    border-radius: 5px; /* 角丸 */
+    cursor: pointer; /* ホバー時のカーソルを指定 */
+  }

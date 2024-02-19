@@ -1,51 +1,87 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人の腹見て我が腹直せ。</title>
+    <link rel="stylesheet" href="../Static/css/btn1.css">
+    <link rel="stylesheet" href="../Static/css/btn2.css">
+    <link rel="stylesheet" href="../Static/css/top.css">
+    <link rel="stylesheet" href="../../Static/css/register.css">
+    <link rel="stylesheet" href="../../Static/css/base.css">
+</head>
+<body>
+    <body>
+          <!-- Header -->
+        <header>
+            <!-- ヘッダータイトル（Jinja2変数を想定） -->
+            <h1 style="color: white;">Welcome</h1>
+        </header>
 
-  {% block title %}
-  <title>登録画面</title>
-  {% endblock %}
+        <div class="main-container"> <!-- メインコンテナ -->
+        <div class="container">
 
-  {% block body %}
-    <form action="/signup" method="POST" enctype="multipart/form-data">
-      <div>
-        <input type="radio" name="is_instructor" value="0"checked>
-        <label>一般ユーザー</label>
-      </div>
-      <div>
-        <input type="radio" name="is_instructor" value="1">
-        <label>インストラクター</label>
-      </div>
-      <div>
-        <label>ユーザー名</label>
-        <input type="text" placeholder="ユーザー名" name="user_name"/>
-        <label>メールアドレス</label>
-        <input type="mail" placeholder="メールアドレス" name="mail"/>
-        <label>パスワード1</label>
-        <input type="password" placeholder="パスワード1" name="password1"/>
-        <label>パスワード2</label>
-        <input type="password" placeholder="パスワード2" name="password2"/>
-        <label>体重</label>
-        <input type="text" placeholder="体重" name="latest_weight"/>
-        <label>身長</label>
-        <input type="text" placeholder="身長" name="height"/>
-        <label>目標</label>
-        <input type="text" placeholder="目標" name="goal"/>
-        <label>自己紹介</label>
-        <input type="text" placeholder="自己紹介" name="introduction"/>
-        <label>住所</label>
-        <input type="text" placeholder="住所" name="address"/>
-        <label>アイコン</label>
-        <input type="file" name="icon_path" accept="image/*"/>
-      </div>
-      {% with messages = get_flashed_messages() %} 
-      {% if messages %}
-        <ul class="flashes">
-          {% for message in messages %}
-          <li>{{ message }}</li>
-          {% endfor %}
-       </ul>
-      {% endif %} 
-      {% endwith %}
-      <button type="submit">登録</button>
-    </form>
-  {% endblock %}
-  
+            <h1>新規登録</h1>
+            <!-- ユーザー情報入力フォーム -->
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="username">ユーザー名:</label>
+                    <input type="text" id="username" name="username" placeholder="ユーザー名を入力" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">メールアドレス:</label>
+                    <input type="email" id="email" name="email" placeholder="メールアドレスを入力" required>
+                </div>
+                <div class="form-group">
+                    <label for="password1">パスワード:</label>
+                    <input type="password" id="password1" name="password1" placeholder="パスワードを入力" required>
+                </div>
+                <div class="form-group">
+                    <label for="password2">パスワード確認:</label>
+                    <input type="password" id="password2" name="password2" placeholder="パスワードを再入力" required>
+                </div>
+                <div class="form-group">
+                    <label for="height">身長(cm):</label>
+                    <input type="number" id="height" name="height" placeholder="身長を入力" required>
+                </div>
+                <!-- 体重入力項目の追加 -->
+                <div class="form-group">
+                    <label for="weight">体重(kg):</label>
+                    <input type="number" id="weight" name="weight" placeholder="体重を入力" required>
+                </div>
+                <!-- 性別の削除 -->
+                <div class="form-group">
+                    <label for="location">所在地:</label>
+                    <select id="location" name="location">
+                        <option value="">選択してください</option>
+                        <!-- JavaScriptで生成される都道府県の選択肢 -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="goal">目標:</label>
+                    <input type="text" id="goal" name="goal" placeholder="目標を入力">
+                </div>
+                <!-- ラジオボタン（ユーザー・インストラクター）の追加 -->
+                <div class="form-group">
+                    <label>登録するユーザーを選択してください:</label><br>
+                    <input type="radio" id="user" name="user_type" value="user">
+                    <label for="user">ユーザー</label>
+                    <input type="radio" id="instructor" name="user_type" value="instructor">
+                    <label for="instructor">インストラクター</label><br>
+                </div>
+                <button type="submit">登録</button>
+            </form>
+        </div>
+        </div>
+        <footer>
+            <!-- コピーライト -->
+            <p>&copy; 2023 Example Company. All rights reserved.</p>
+            <!-- 時刻表示 -->
+            <p id="current-time"></p>
+          </footer>
+
+        <script src="../Static/js/base.js"></script>
+        <script src="../../Static/js/time.js"></script>
+        <script src="../../Static/js/register.js"></script>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+{% exteds 'base.html' %}
+
+{% block head %}
+<title>メニュー</title>
+<link rel="stylesheet" href="../static/css/menu.css">
+{% endblock %}
+
+{% block main %} <!-- mainブロックの開始 -->
+<div class="main-container"> <!-- メインコンテナ -->
+
+    <div class="container"> <!-- 全体のコンテナ -->
+        <!-- タイトル表示部 -->
+        <div id="title">
+            <h1>人の腹見て我が腹直せ。</h1>
+        </div>
+        <!-- メニュー表示部 -->
+        <div>
+            <h3>Menu</h3>
+            <ul>
+                <li>
+                    <form action="/mypage">
+                        <button class="menu-button">マイページ</button>
+                    </form>
+                </li>
+                <li>
+                    <form action="/instructors">
+                        <button class="menu-button">インストラクター一覧</button>
+                    </form>
+                </li>    
+            </ul>
+        </div>
+        <!-- チャットルーム表示部 -->
+        <div>
+            <h3>チャット一覧</h3>
+            {% if rooms %}
+            {% for room in rooms %}
+            <ul>
+                <li>
+                    <form action="{{ room['room_id'] }}"
+                    <button class="chatroom-button">{{ room['room_name'] }}</button>
+                    <button id="delete-button" class="delete-button">削除</button>
+                </li>
+                <li>
+                    <button onclick="location.href='chat/chat.html';" class="chatroom-button">チャットルーム2</button>
+                    <button id="delete-button" class="delete-button">削除</button>
+                </li>
+                <li>
+                    <button onclick="location.href='chat/chat.html';" class="chatroom-button">チャットルーム3</button>
+                    <button id="delete-button" class="delete-button">削除</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ログアウトボタン -->
+    <button id="logout-button">ログアウト</button>
+</div>
+<!-- {% endblock %} --> <!-- bodyブロックの終了 -->
+
+
+<!-- {% block script %} --> <!-- scriptブロックの開始 -->
+    <!-- JSファイルのリンク -->
+    <script src="../Static/js/login.js"></script>
+    <script src="../Static/js/delete.js"></script>
+<!-- {% endblock %} --> <!-- scriptブロックの終了 -->

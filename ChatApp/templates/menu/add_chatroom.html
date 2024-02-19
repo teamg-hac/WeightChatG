@@ -1,16 +1,28 @@
-{% extends 'menu/base.html' %}
+<!-- {% block css %} --> <!-- cssブロックの開始 -->
+    <link rel="stylesheet" href="../../Static/css/btn3.css">
+    <link rel="stylesheet" href="../../Static/css/addroom.css">
+<!-- {% endblock %} --> <!-- cssブロックの終了 -->
 
-{% block title %}
-<title>チャットルームの作成</title>
-{% endblock %}
+<!-- {% block main %} --> <!-- mainブロックの開始 -->
+<div class="main-container"> <!-- メインコンテナ -->
+   <!-- 戻るボタン -->
+   <button onclick="history.back()" class="back-button">戻る</button>
 
-{% block body %}
-<h1>{{ instructor_name }}さんとのチャットルーム作成</h1>
-<form action="/add-chatroom" method="POST">
-    <input type="text" placeholder="チャットルーム名" name="room_name">
-    <input type="hidden" name="instructor_name" value="{{ instructor_name }}">
-    <button type="submit">作成</button>
-</form>
-<button type="button" onclick="history.back()">戻る</button>
+    <div class="container"> <!-- 全体のコンテナ -->
+        <!-- チャットルーム作成フォーム -->
+        <form id="chatroom-form">
+            <h2>チャットルーム作成</h2>
+            <div class="form-group">
+                <label for="chatroom-name">チャットルーム名：</label>
+                <input type="text" id="chatroom-name" name="chatroom-name" placeholder="チャットルーム名を入力してください" required>
+            </div>
+            <button type="submit">作成</button>
+        </form>
+    </div>
+</div>
+<!-- {% endblock %} --> <!-- bodyブロックの終了 -->
 
-{% endblock %}
+<!-- {% block script %} --> <!-- scriptブロックの開始 -->
+    <!-- JSファイルのリンク -->
+    <script src="../../Static/js/chat.js"></script>
+<!-- {% endblock %} --> <!-- scriptブロックの終了 -->

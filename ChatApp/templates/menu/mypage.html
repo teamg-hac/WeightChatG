@@ -1,64 +1,50 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マイページ</title>
+<!-- {% block css %} --> <!-- cssブロックの開始 -->
+    <link rel="stylesheet" href="../../Static/css/btn3.css">
     <link rel="stylesheet" href="../../Static/css/mypage.css">
-</head>
-<body>
+<!-- {% endblock %} --> <!-- cssブロックの終了 -->
+
+<!-- {% block main %} --> <!-- mainブロックの開始 -->
+<div class="main-container"> <!-- メインコンテナ -->
     <div class="container">
         <!-- ユーザー情報 -->
         <div class="profile">
             <div class="profile-picture">
-                <form action="/mypage" method="GET">
-                    <img src="{{ users['icon_path'] }}" alt="プロフィール画像">
-                </form>
+                <img src="../../Static/img/hashimotokanna.jpeg" alt="プロフィール画像">
             </div>
             <div class="profile-details">
-                <form action="/mypage" method="GET">
-                    <h2>ユーザー名: <strong>{{ users['user_name'] }}</strong></h2>
-                    <p>メールアドレス: <strong>{{ users['mail'] }}</strong></p>
-                    <p>現在の身長: <strong>{{ users['latest_weight'] }}</strong>cm</p>
-                    <p>現在の体重: <strong>{{ users['height'] }}</strong>kg</p>
-                    <p>目標: <strong>{{ users['goal'] }}</strong></p>
-                    <p>自己紹介: <strong>{{ users['introduction']}}</strong></p>
-                    <p>所在地: <strong>{{ users['address'] }}</strong></p>
-                </form>
+                <h2>ユーザー名: <strong>橋本環奈</strong></h2>
+                <p>メールアドレス: <strong>yurusanai_kanna@example.com</strong></p>
+                <p>現在の身長: <strong>160</strong>cm</p>
+                <p>現在の体重: <strong>40</strong>kg</p>
+                <p>目標: <strong>目標がここに表示されます</strong></p>
+                <p>自己紹介: <strong>自己紹介がここに表示されます</strong></p>
+                <p>所在地: <strong>埼玉県</strong></p>
             </div>
-        </div>
-        <!-- 体重入力 BEへの受け渡し追加 -->
-        <div class="weight-input">
-            <form  action="/add_record" method="POST">
-                <input type="text" placeholder="体重入力" name="weight">
-                <button type="submit">送信</button>
-            </form>
         </div>
 
-        <!-- 体重以外の記録ルームの表示 -->
-        {% if record_rooms %}
-        {% for record_room in record_rooms %}
-            <div>
-                <p>{{ record_room['record_name'] }}</p>
-                <form action="/edit-recordroom{{ record_room['record_room_id'] }}">
-                    <button type="submit">編集</button>
-                </form>
-                <form action="/add_record" method="POST">
-                    <input type="text" placeholder="記録入力" name="{{ record_room['record_room_id'] }}">
-                    <input type="hidden" name="{{ record_rooms.index(record_room) }}" value="{{ record_room['record_room_id'] }}">
-                    <button type="submit">送信</button>
-                </form>
-            </div>
-        {% endfor %}
-        {% endif %}
+        <!-- 体重入力 -->
+        <div class="weight-input">
+            <input type="text" placeholder="体重入力">
+            <button>送信</button>
+        </div>
 
         <!-- ボタン -->
         <div class="buttons">
-            <button class="edit-button">編集</button>
+            <button onclick="window.location.href = 'edit_user.html'" class="edit-button">編集</button>
+            <button onclick="window.location.href = 'weight_page.html'" class="edit-button">詳細</button>
+            <!-- 目標追加項目 -->
+            <button onclick="window.location.href = ''" class="edit-button">目標1</button>
+            <button onclick="window.location.href = ''" class="edit-button">目標2</button>
+            <button onclick="window.location.href = ''" class="edit-button">目標3</button>
             <button class="delete-button">退会</button>
-            <button class="back-button">戻る</button>
+            <button onclick="window.location.href = '../index.html'" class="back-button">戻る</button>
         </div>
     </div>
+</div>
+<!-- {% endblock %} --> <!-- bodyブロックの終了 -->
+
+
+<!-- {% block script %} --> <!-- scriptブロックの開始 -->
+    <!-- JSファイルのリンク -->
     <script src="../../Static/js/mypage.js"></script>
-</body>
-</html>
+<!-- {% endblock %} --> <!-- scriptブロックの終了 -->

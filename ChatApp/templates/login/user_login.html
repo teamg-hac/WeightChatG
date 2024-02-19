@@ -1,39 +1,26 @@
-{% extends 'login/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../Static/css/btn3.css">
+    <link rel="stylesheet" href="../../Static/css/login.css">
+    <title>人の腹見て我が腹直せ。/ログイン</title>
+</head>
+<body>
 
-{% block head %}
-    <title>Document</title>
-    <link rel="stylesheet" href="../../static/css/login.css">
-{% endblock %}
+    <!-- 戻るボタン -->
+    <button id="back-button" class="back-button" onclick="window.location.href='../top.html';">戻る</button>
 
-{% block body %}
-    <div class="container"> <!--ユーザーログイン画面-->
-        <!--トップページからポップアップ表示する-->
-        <form action="/login" method="POST">
-            {% if is_instructor == '0' %}
-                <p class="fsize">ユーザーログイン画面</p>
-            {% elif is_instructor == '1' %}
-                <p class="fsize">インストラクターログイン画面</p>
-            {% elif is_instructor == '2' %}
-                <p class="fsize">管理者ログイン画面</p>
-            {% else %}
-                <p class="fsize">ログイン画面</p>
-            {% endif %}
-            <input type="text" placeholder="Username" name="mail" /><br>
-            <input type="password" placeholder="Password" name="password" /><br>
+
+    <div class="container">
+
+        <form>
+            <p class="fsize">ユーザーログイン画面</p>
+            <input type="text" placeholder="mall" name="mail"/><br>
+            <input type="password" placeholder="Password" name="password"/><br>
             <button type="submit">ログイン</button><br>
         </form>
-        
-        <!-- エラーメッセージの表示 -->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-            <a>{{ message }}</a>
-            {% endfor %}
-        {% endif %}
-        {% endwith %}
     </div>
-    
-    {% block script %}
-    <!-- <script src="../../static/js/login.js"></script> -->
-    {% endblock %}
-{% endblock %}
+</body>
+</html>

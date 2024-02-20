@@ -70,7 +70,7 @@ class dbConnect:
 
     #追加　体重記録の追加に使用
     #ユーザーIDを指定して、usersテーブルの体重を更新する。
-    def updateweightById(weight,u_id):
+    def updateweightById(weight, u_id):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
@@ -118,12 +118,12 @@ class dbConnect:
             conn.close()
     
     # ユーザーIDを指定してユーザー情報を更新
-    def updateUser(u_id, user_name, mail, password, is_instructor, height, goal, introduction, address, icon_path):
+    def updateUser(u_id, user_name, mail, height, goal, introduction, address, icon_path):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
-            sql = "UPDATE users SET user_name=%s, mail=%s, password=%s, is_instructor=%s, height=%s, goal=%s, introduction=%s, address=%s, icon_path=%s WHERE u_id=%s;"
-            cur.execute(sql, (user_name, mail, password, is_instructor, height, goal, introduction, address, icon_path, u_id))
+            sql = "UPDATE users SET user_name=%s, mail=%s, height=%s, goal=%s, introduction=%s, address=%s, icon_path=%s WHERE u_id=%s;"
+            cur.execute(sql, (user_name, mail, height, goal, introduction, address, icon_path, u_id))
             conn.commit()
         except Exception as e:
             print(str(e) + 'が発生しています')
@@ -193,16 +193,33 @@ class dbConnect:
         finally:
             cur.close()
             conn.close()
-    # 追加
+    
+    # 追加（getRecordRoomAll(u_id)とまったく同じものです by butch）
     # ユーザーIDを指定して記録ルーム情報を取得
-    def getRecordRoom(u_id):
+    # def getRecordRoom(u_id):
+    #     try:
+    #         conn = DB.getConnection()
+    #         cur = conn.cursor()
+    #         sql = "SELECT * FROM record_setting WHERE u_id=%s;"
+    #         cur.execute(sql, (u_id))
+    #         record_rooms = cur.fetchone()
+    #         return record_rooms
+    #     except Exception as e:
+    #         print(str(e) + 'が発生しています')
+    #         abort(500)
+    #     finally:
+    #         cur.close()
+    #         conn.close()
+
+    # u_idを指定して体重記録ルーム情報を取得
+    def getWeightRecordById(u_id):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
-            sql = "SELECT * FROM record_setting WHERE u_id=%s;"
+            sql = "SELECT * FROM record_setting WHERE record_name='体重' AND u_id=%s;"
             cur.execute(sql, (u_id))
-            record_rooms = cur.fetchone()
-            return record_rooms
+            record_room = cur.fetchone()
+            return record_room
         except Exception as e:
             print(str(e) + 'が発生しています')
             abort(500)

@@ -1,26 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../Static/css/btn3.css">
-    <link rel="stylesheet" href="../../Static/css/login.css">
-    <title>人の腹見て我が腹直せ。/ログイン</title>
-</head>
-<body>
-
-    <!-- 戻るボタン -->
-    <button id="back-button" class="back-button" onclick="window.location.href='../top.html';">戻る</button>
-
-
-    <div class="container">
-
-        <form>
-            <p class="fsize">ユーザーログイン画面</p>
-            <input type="text" placeholder="mall" name="mail"/><br>
-            <input type="password" placeholder="Password" name="password"/><br>
-            <button type="submit">ログイン</button><br>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../static/css/btn3.css">
+        <link rel="stylesheet" href="../../static/css/login.css">
+        <title>人の腹見て我が腹直せ。ログイン</title>
+    </head>
+    <body>
+        <!-- 戻るボタン -->
+        <form action="/">
+            <button id="back-button" class="back-button">戻る</button>
         </form>
-    </div>
-</body>
+
+        <div class="container">
+            <form action="/login" method="POST">
+                <p class="fsize">ユーザーログイン画面</p>
+                <input type="email" placeholder="mail" name="mail"/><br>
+                <input type="password" placeholder="Password" name="password"/><br>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <button type="submit">ログイン</button><br>
+            </form>
+        </div>
+    </body>
 </html>

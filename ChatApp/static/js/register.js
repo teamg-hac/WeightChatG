@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         "その他"
     ];
 
-    const locationSelect = document.getElementById("location");
+    const locationSelect = document.getElementById("address");
 
     // 都道府県と海外の選択肢をプルダウンメニューに追加する
     options.forEach(function(option) {

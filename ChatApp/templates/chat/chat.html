@@ -1,53 +1,60 @@
-<!-- {% block css %} --> <!-- cssブロックの開始 -->
-    <link rel="stylesheet" href="../../Static/css/btn3.css">
-    <link rel="stylesheet" href="../../Static/css/chatroom.css">
-<!-- {% endblock %} --> <!-- cssブロックの終了 -->
+{% extends 'chat/base.html' %}
 
-<!-- {% block main %} --> <!-- mainブロックの開始 -->
+{% block head %} <!-- cssブロックの開始 -->
+<title>チャットルーム</title>
+<link rel="stylesheet" href="../../static/css/btn3.css">
+<link rel="stylesheet" href="../../static/css/chatroom.css">
+{% endblock %} <!-- cssブロックの終了 -->
+
+{% block main %} <!-- mainブロックの開始 -->
 <div class="main-container"> <!-- メインコンテナ -->
-   <!-- 戻るボタン -->
-   <button onclick="history.back()" class="back-button">戻る</button>
+    <!-- 戻るボタン -->
+    <form action="/index">
+        <button class="back-button">戻る</button>
+    </form>
 
     <div class="container">
 
         <!-- チャットルーム名 -->
         <div class="chat-title">
-            <h2>チャットルーム名</h2>
+            <h2>{{ room['room_name'] }}</h2>
         </div>
 
     <!-- ユーザー情報バー -->
     <div class="user-info-bar" id="user-info-bar">
-        <img src="../../Static/img/hashimotokanna.jpeg" alt="User Image">
-        <h2>ユーザー名</h2>
+        <img src="{{ user['icon_path'] }}" alt="User Image">
+        <h2>{{ user['user_name'] }}</h2>
     </div>
 
     <!-- ユーザー情報（初期状態は非表示） -->
     <div class="user-info" id="user-info">
-        <p>メールアドレス：user@example.com</p>
-        <p>年齢：20歳</p>
-        <p>性別：女性</p>
+        <p>メールアドレス：{{ user['mail'] }}</p>
         <!-- 他のユーザー情報を追加 -->
     </div>
 
+    {% if messages %}
     <!-- チャット欄 -->
     <div class="chat-area">
+    {% for message in messages %}
+        {% if message['u_id'] == user['u_id'] %}
         <div class="chat-bubble self">
-            <p>こんにちは</p>
+            <p>{{ message['message'] }}</p>
         </div>
+        {% else %}
         <div class="chat-bubble other">
-            <p>こんにちは</p>
+            <p>{{ message['message'] }}</p>
         </div>
-        <div class="chat-bubble self">
-            <p>今日は筋トレします</p>
-        </div>
-        <div class="chat-bubble other">
-            <p>がんばりましょう</p>
-        </div>
+        {% endif %}
+    {% endfor %}
     </div>
+    {% else %}
+    <p>メッセージはありません</p>
+    {% endif %}
 
     <!-- チャット送信フォーム -->
-    <form id="chat-form">
-        <input type="text" id="message-input" placeholder="メッセージを入力">
+    <form id="chat-form" action="/add-message" method="POST">
+        <input type="text" id="message-input" placeholder="メッセージを入力" name="message">
+        <input type="hidden" name="room_id" value="{{ room['room_id'] }}">
         <button type="submit">送信</button>
     </form>
 
@@ -57,5 +64,5 @@
 
 <!-- {% block script %} --> <!-- scriptブロックの開始 -->
     <!-- JSファイルのリンク -->
-    <script src="../../Static/js/chat.js"></script>
+    <script src="../../static/js/chat.js"></script>
 <!-- {% endblock %} --> <!-- scriptブロックの終了 -->

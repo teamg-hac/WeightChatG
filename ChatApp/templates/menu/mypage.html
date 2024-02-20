@@ -12,7 +12,7 @@
         <!-- ユーザー情報 -->
         <div class="profile">
             <div class="profile-picture">
-                <img src="../../Static/img/hashimotokanna.jpeg" alt="プロフィール画像">
+                <img src="{{ user['icon_path'] }}" alt="プロフィール画像">
             </div>
             <div class="profile-details">
                 <h2>ユーザー名: <strong>{{ user['user_name'] }}</strong></h2>
@@ -24,6 +24,14 @@
                 <p>所在地: <strong>{{ user['address'] }}</strong></p>
             </div>
         </div>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
 
         <!-- 体重入力 -->
         <form class="weight-input" action="/add-record" method="POST">
@@ -37,7 +45,7 @@
                 <button class="edit-button">編集</button>
             </form>
             <form action="/weight-page">
-                <button class="edit-button">詳細</button>
+                <button class="edit-button" name="span" value="week">詳細</button>
             </form>
             <!-- 目標追加項目 -->
             <!-- <button onclick="window.location.href = ''" class="edit-button">目標1</button> -->

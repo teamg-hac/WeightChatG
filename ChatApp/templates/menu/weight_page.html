@@ -1,63 +1,50 @@
-<!-- {% block css %} --> <!-- cssブロックの開始 -->
-<link rel="stylesheet" href="../../Static/css/btn3.css">
-<link rel="stylesheet" href="../../Static/css/data_page.css">
-<!-- {% endblock %} --> <!-- cssブロックの終了 -->
+{% extends 'menu/base.html' %}
 
-<!-- {% block main %} --> <!-- mainブロックの開始 -->
+{% block head %} <!-- cssブロックの開始 -->
+<title>体重履歴</title>
+<link rel="stylesheet" href="../../static/css/btn3.css">
+<link rel="stylesheet" href="../../static/css/data_page.css">
+{% endblock %} <!-- cssブロックの終了 -->
+
+{% block main %} <!-- mainブロックの開始 -->
 <div class="main-container"> <!-- メインコンテナ -->
     <!-- 戻るボタン -->
     <button onclick="history.back()" class="back-button">戻る</button>
 
-  <div class="container">
+    <div class="container">
 
     <h1>体重履歴</h1>
     <div class="history">
-      <div class="history-item">
-          <p>2024/02/01 10:00</p>
-          <span>80kg</span>
-          <button id="delete-button" >削除</button>
-      </div>
-      <div class="history-item">
-          <p>2024/02/02 10:00</p>
-          <span>80kg</span>
-          <button id="delete-button" >削除</button>    
-      </div>    
-      <div class="history-item">
-          <p>2024/02/03 10:00</p>
-          <span>80kg</span>
-          <button id="delete-button" >削除</button>
-      </div>
-      <div class="history-item">
-          <p>2024/02/04 10:00</p>
-          <span>80kg</span>
-          <button id="delete-button" >削除</button>
-      </div>
-      <div class="history-item">
-          <p>2024/02/05 10:00</p>
-          <span>80kg</span>
-          <button id="delete-button" >削除</button>
-      </div>
-      <!-- 他の履歴情報も同様に表示 -->
+        {% for i in range(indicate) %}
+        <div class="history-item">
+            <p>{{ indicate_dates[i] }}</p>
+            <span>{{ indicate_values[i] }}{{ unit }}</span>
+            <button id="delete-button">削除</button>
+        </div>
+        {% endfor %}
+        <!-- 他の履歴情報も同様に表示 -->
     </div>
     <div class="graph">
-      <!-- ここにPythonで生成したグラフを表示 -->
-      <img src="../../Static/img/Graph.png" alt="Graph">
+        <!-- ここにPythonで生成したグラフを表示 -->
+        <img src="data:img/png;base64,{{ graph }}" alt="Graph">
     </div>
     <div class="pagination">
-      <button>前へ</button>
-      <button>次へ</button>
+        <button>前へ</button>
+        <button>次へ</button>
     </div>
     <div class="dropdown">
-      <select>
-        <option value="week">週</option>
-        <option value="month">月</option>
-        <option value="year">年</option>
-      </select>
+        <select>
+        <option name="span" value="week">週</option>
+        <option name="span" value="month">月</option>
+        <option name="span" value="year">年</option>
+        </select>
     </div>
-  </div>
+    </div>
 </div>
-<!-- {% endblock %} --> <!-- bodyブロックの終了 -->
+{% endblock %} <!-- bodyブロックの終了 -->
 
+{% block script %}
 <!-- JS追加 -->
-  <script src="../../Static/js/delete.js"></script>
+<script src="../../static/js/delete.js"></script>
 <!--  -->
+{% endblock %}

@@ -5,6 +5,7 @@ from datetime import datetime, timedelta, date
 from models import dbConnect
 import os
 from werkzeug.utils import secure_filename
+import unicodedata
 import matplotlib.pyplot as plt
 import io
 import base64
@@ -17,11 +18,10 @@ app.permanent_session_lifetime = timedelta(days=7)
 #登録画面の表示
 @app.route('/signup')
 def show_signup():
-    is_instructor = request.args.get("is_instructor")
-    return render_template('signup/signup.html', is_instructor=is_instructor)
+    return render_template('signup/signup.html')
 
 #登録処理
-@app.route('/signup',methods=['POST'])
+@app.route('/signup', methods=['POST'])
 def signup():
     user_name = request.form.get('user_name')
     mail = request.form.get('mail')
@@ -64,8 +64,6 @@ def signup():
             flash('ユーザー名は既に登録されているようです')
         else:
             dbConnect.createUser(u_id, user_name, mail, password, is_instructor, latest_weight, height, goal, introduction, address, icon_path)
-            UserId = str(u_id)
-            session['uid'] = UserId
             record_name= '体重'
             unit= 'kg'
             is_public = 0
@@ -82,56 +80,65 @@ def show_mypage():
     if u_id is None:
         return redirect('/login')
     else:
-        users = dbConnect.getUserById(u_id) 
-        return render_template('menu/mypage.html',users=users)
+        user = dbConnect.getUserById(u_id)
+        return render_template('menu/mypage.html',user=user)
     
 #体重記録の追加
-@app.route('/add_record',methods=['POST'])
+@app.route('/add-record', methods=['POST'])
 def add_record():
     u_id = session.get('uid')
     if u_id is None:
         return redirect('/login')
     else:
-        record_room = dbConnect.getRecordRoom(u_id)
+        # record_room = dbConnect.getRecordRoom(u_id)
+        record_room = dbConnect.getWeightRecordById(u_id)
         record_room_id = record_room['record_room_id']
-        value = request.form.get('weight') 
+        value = request.form.get('weight')
+        # 全角の数字を半角に変換
+        value = unicodedata.normalize('NFKC', value)
+        # valueが数値の文字列か判定
+        try:
+            result = float(value)
+        except ValueError:
+            flash('数値を入力してください')
+            return redirect('/mypage')
+            
         created_at = datetime.now() 
         dbConnect.addRecord(record_room_id, value, created_at)
         value = dbConnect.getlatestrecordById(record_room_id)
         weight = value['value']
-        weight = float(weight)
-        dbConnect.updateweightById(weight,u_id)
+        # weight = float(weight)
+        dbConnect.updateweightById(weight, u_id)
         #users = dbConnect.getUserById(u_id)
         return redirect('/mypage')
         #return render_template('menu/mypage.html', users=users)
 
 #チャット表示
-@app.route('/room/<int:room_id>',methods=['GET'])
+@app.route('/room<int:room_id>', methods=['GET'])
 def show_messages(room_id):
     u_id = session.get("uid")
     if u_id is None:
         return redirect('/login')
-    
     else:
-        users = dbConnect.getUserById(u_id) 
+        user = dbConnect.getUserById(u_id) 
         messages = dbConnect.getMessageAll(room_id)
-        return render_template('chat/chat.html',room_id=room_id,users=users, messages=messages)
+        room = dbConnect.getRoomByID(room_id)
+        return render_template('chat/chat.html',room=room, user=user, messages=messages)
     
 #チャット投稿
-@app.route('/add_message',methods=['POST'])
+@app.route('/add-message',methods=['POST'])
 def add_message():
     u_id = session.get("uid")
     if u_id is None:
         return redirect('/login')
-    
-    room_id = request.form.get('room_id')
-    message  = request.form.get('message')
-    created_at = datetime.now()
+    else:
+        room_id = request.form.get('room_id')
+        message  = request.form.get('message')
+        created_at = datetime.now()
 
     if message:
         dbConnect.addMessage(u_id, room_id, message, created_at)
-    
-    return redirect('/room/{room_id}'.format(room_id=room_id))
+    return redirect('/room{room_id}'.format(room_id=room_id))
 
 # トップ画面の表示
 @app.route('/')
@@ -199,7 +206,7 @@ def menu():
     else:
         rooms = dbConnect.getRoomAll(u_id)
         user = dbConnect.getUserById(u_id)
-        return render_template('menu/index.html', is_instructor=user['is_instructor'], rooms=rooms)
+        return render_template('index.html', user=user, rooms=rooms)
 
 # ユーザー情報の編集画面表示
 @app.route('/edit-user')
@@ -221,13 +228,11 @@ def edit_user():
         file = request.files.get('icon')
         user_name = request.form.get('user_name')
         mail = request.form.get('mail')
-        password = request.form.get('password')
         height = request.form.get('height')
-        height = float(height)
         goal = request.form.get('goal')
         introduction = request.form.get('introduction')
         address = request.form.get('address')
-        is_instructor = request.form.get('is_instructor')
+        # is_instructor = request.form.get('is_instructor')
         user = dbConnect.getUserById(u_id)
         icon_name = secure_filename(file.filename)
         # 新しい画像ファイルを受取ったか確認
@@ -245,14 +250,14 @@ def edit_user():
                 os.remove(user['icon_path'])
             # 受取った写真（icon）をimg_addフォルダに保存
             file.save(icon_path)
+        
         # 新しいpasswordを受取ったか確認
-        if password == '':
-            hash_password = user['password']
-        else:
-            hash_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        dbConnect.updateUser(u_id, user_name, mail, hash_password, is_instructor, height, goal, introduction, address, icon_path)
-        # マイページができたら/mypageへリダイレクト
-        return redirect('/edit-user')
+        # if password == ''
+            # hash_password = user['password']
+        # else:
+            # hash_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        dbConnect.updateUser(u_id, user_name, mail, height, goal, introduction, address, icon_path)
+        return redirect('/mypage')
 
 # インストラクター一覧画面
 @app.route('/instructors')
@@ -263,8 +268,9 @@ def instructors():
     else:
         instructors = dbConnect.getInstructors()
         rooms = dbConnect.getRoomAll(u_id)
+        user = dbConnect.getUserById(u_id)
         invited_u_ids = [x['invited_u_id'] for x in rooms]
-        return render_template('menu/supporter.html', instructors=instructors, invited_u_ids=invited_u_ids)
+        return render_template('menu/supporter.html', instructors=instructors, user=user, invited_u_ids=invited_u_ids)
 
 # チャットルーム作成画面の表示
 @app.route('/add-chatroom')
@@ -274,7 +280,8 @@ def show_add_chatroom():
         return redirect('/login')
     else:
         instructor_name = request.args.get('instructor_name')
-        return render_template('menu/add_chatroom.html', instructor_name=instructor_name)
+        user = dbConnect.getUserById(u_id)
+        return render_template('menu/add_chatroom.html', instructor_name=instructor_name, user=user)
 
 # チャットルームの作成処理
 @app.route('/add-chatroom', methods=['POST'])
@@ -288,10 +295,10 @@ def add_chatroom():
         instructor = dbConnect.getUserByName(instructor_name)
         instructor_id = instructor['u_id']
         dbConnect.addChatRoom(room_name, u_id, instructor_id)
-        return redirect('/mypage')
+        return redirect('/index')
 
 # チャットルームの削除
-@app.route('/delete-room<int:room_id>')
+@app.route('/delete-room<int:room_id>', methods=['POST'])
 def delete_room(room_id):
     u_id = session.get('uid')
     if u_id is None:
@@ -308,23 +315,25 @@ def weight_page():
     if u_id is None:
         return redirect('/login')
     else:
-        record_room_id = 1
-        span = 'week'
+        user = dbConnect.getUserById(u_id)
+        record_room = dbConnect.getWeightRecordById(u_id)
+        record_room_id = record_room['record_room_id']
+        unit = record_room['unit']
+        span = request.args.get('span')
         records = dbConnect.getRecordAll(record_room_id)
-        room = dbConnect.getRecordRoomById(record_room_id)
-        unit = room['unit']
         values = [float(x['value']) for x in records]
-        dates = [y['created_at'].date() for y in records]
+        dates = [y['created_at'] for y in records]
         if span == 'week':
             indicate = 7
-        else:
+        elif span == 'month':
             indicate = 30
-            
-        # day_of_week = dates[-1].weekday()
+        else:
+            indicate = 365
+        
         indicate_values = values[-indicate:]
-        indicate_dates = [a.strftime('%Y-%m-%d') for a in dates[-indicate:]]
-        graph_dates = [z[-5:] for z in indicate_dates]
-        plt.plot(graph_dates, indicate_values)
+        indicate_dates = [a for a in dates[-indicate:]]
+        # graph_dates = [z[-5:] for z in indicate_dates]
+        plt.plot(indicate_dates, indicate_values)
         
         # Y軸の目盛りを設定
         sample_value =round(round(indicate_values[-1], -1))
@@ -334,7 +343,7 @@ def weight_page():
         plt.yticks(scale)
         
         # Y軸のラベルを設定
-        plt.ylabel(room['unit'])
+        plt.ylabel(unit)
         
         # グラフを画像として保存
         buffer = io.BytesIO()
@@ -345,7 +354,7 @@ def weight_page():
         graph = base64.b64encode(buffer.read()).decode('utf-8')
         plt.close()
             
-        return render_template('menu/weight_page.html', graph=graph, indicate=indicate, indicate_values=indicate_values, indicate_dates=indicate_dates, unit=unit)
+        return render_template('menu/weight_page.html', graph=graph, indicate=indicate, indicate_values=indicate_values, indicate_dates=indicate_dates, unit=unit, user=user)
 
 # 記録ルーム追加画面の表示
 @app.route('/add-recordroom')
@@ -411,7 +420,7 @@ def error404(error):
 
 # 500エラーの画面遷移
 @app.errorhandler(500)
-def error404(error):
+def error500(error):
     return render_template('error/500.html'),500
 
 if __name__ =='__main__':

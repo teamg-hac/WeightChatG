@@ -1,63 +1,74 @@
-<!-- {% block css %} --> <!-- cssブロックの開始 -->
-    <link rel="stylesheet" href="../../Static/css/btn3.css">
-    <link rel="stylesheet" href="../../Static/css/edit-profile.css">
-<!-- {% endblock %} --> <!-- cssブロックの終了 -->
+{% extends 'menu/base.html' %}
 
-<!-- {% block main %} --> <!-- mainブロックの開始 -->
+{% block head %} <!-- cssブロックの開始 -->
+<title>プロフィール編集</title>
+<link rel="stylesheet" href="../../static/css/btn3.css">
+<link rel="stylesheet" href="../../static/css/edit-profile.css">
+{% endblock %} <!-- cssブロックの終了 -->
+
+{% block main %} <!-- mainブロックの開始 -->
 <div class="main-container"> <!-- メインコンテナ -->
     <h1>プロフィール編集</h1>
 
     <!-- 戻るボタン -->
-    <button onclick="history.back()" class="back-button">戻る</button>
+    <form action="/mypage">
+        <button class="back-button">戻る</button>
+    </form>
 
     <div class="container">
+        <form id="edit-profile-form" action="/edit-user" method="POST" enctype="multipart/form-data">
+            <!-- プロフィール画像のアップロード -->
+            <div class="profile-picture">
+                <label for="profile-image">
+                    <img id="profile-preview" src="{{ user['icon_path'] }}" alt="プロフィール画像">
+                    <input type="file" id="profile-image" name="icon" accept="image/*">
+                    <span>画像を変更</span>
+                </label>
+            </div>
 
-        <!-- プロフィール画像のアップロード -->
-        <div class="profile-picture">
-            <input type="file" id="profile-image" accept="image/*">
-            <label for="profile-image">
-                <img id="profile-preview" src="../../Static/img/hashimotokanna.jpeg" alt="プロフィール画像">
-                <span>画像を変更</span>
-            </label>
-        </div>
-
-
-        <!-- ユーザー情報編集フォーム -->
-        <form id="edit-profile-form">
+            <!-- ユーザー情報編集フォーム -->
             <div class="form-group">
-                <label for="username">ユーザー名:</label>
-                <input type="text" id="username" name="username" placeholder="ユーザー名を入力" required>
+                <label for="user_name">ユーザー名:</label>
+                <input type="text" id="username" name="user_name" value="{{ user['user_name'] }}" required>
             </div>
             <div class="form-group">
-                <label for="email">メールアドレス:</label>
-                <input type="email" id="email" name="email" placeholder="メールアドレスを入力" required>
+                <label for="mail">メールアドレス:</label>
+                <input type="email" id="email" name="mail" value="{{ user['mail'] }}" required>
             </div>
             <div class="form-group">
                 <label for="height">現在の身長:</label>
-                <input type="number" id="height" name="height" placeholder="身長を入力" required>
+                <input type="number" id="height" name="height" value="{{ user['height'] }}" required>
             </div>
             <div class="form-group">
-                <label for="location">所在地:</label>
+                <label for="address">所在地:</label>
                 <!-- JavaScriptで生成される都道府県のプルダウンメニュー -->
-                <select id="location" name="location">
+                <select id="address" name="address">
+                    <option value="{{ user['address'] }}">選択してください</option>
                     <!-- ここに都道府県の選択肢が追加されます -->
                 </select>
             </div>
             <div class="form-group">
                 <label for="goal">目標:</label>
-                <input type="text" id="goal" name="goal" placeholder="目標を入力">
+                <input type="text" id="goal" name="goal" value="{{ user['goal'] }}">
             </div>
             <div class="form-group">
-                <label for="bio">自己紹介:</label>
-                <textarea id="bio" name="bio" placeholder="自己紹介を入力"></textarea>
+                <label for="introduction">自己紹介:</label>
+                <textarea id="bio" name="introduction" value="{{ user['introduction'] }}"></textarea>
             </div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
             <button type="submit">保存</button>
         </form>
     </div>
 </div>
-<!-- {% endblock %} --> <!-- bodyブロックの終了 -->
+{% endblock %} <!-- bodyブロックの終了 -->
 
-<!-- {% block script %} --> <!-- scriptブロックの開始 -->
+{% block script %} <!-- scriptブロックの開始 -->
     <!-- JSファイルのリンク -->
-    <script src="../../Static/js/register.js"></script>
-<!-- {% endblock %} --> <!-- scriptブロックの終了 -->
+    <script src="../../static/js/register.js"></script>
+{% endblock %} <!-- scriptブロックの終了 -->

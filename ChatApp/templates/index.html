@@ -1,4 +1,4 @@
-{% exteds 'base.html' %}
+{% extends 'base.html' %}
 
 {% block head %}
 <title>メニュー</title>
@@ -36,30 +36,31 @@
             {% for room in rooms %}
             <ul>
                 <li>
-                    <form action="{{ room['room_id'] }}"
-                    <button class="chatroom-button">{{ room['room_name'] }}</button>
-                    <button id="delete-button" class="delete-button">削除</button>
-                </li>
-                <li>
-                    <button onclick="location.href='chat/chat.html';" class="chatroom-button">チャットルーム2</button>
-                    <button id="delete-button" class="delete-button">削除</button>
-                </li>
-                <li>
-                    <button onclick="location.href='chat/chat.html';" class="chatroom-button">チャットルーム3</button>
-                    <button id="delete-button" class="delete-button">削除</button>
+                    <form action="/room{{ room['room_id'] }}">
+                        <button class="chatroom-button">{{ room['room_name'] }}</button>
+                    </form>
+                    <form action="/delete-room{{ room['room_id'] }}" method="POST">
+                        <button id="delete-button" class="delete-button">削除</button>
+                    </form>
                 </li>
             </ul>
+            {% endfor %}
+            {% else %}
+            <p>チャットルームはありません</p>
+            {% endif %}
         </div>
     </div>
 
     <!-- ログアウトボタン -->
-    <button id="logout-button">ログアウト</button>
+    <form action="/logout">
+        <button id="logout-button">ログアウト</button>
+    </form>
 </div>
-<!-- {% endblock %} --> <!-- bodyブロックの終了 -->
+{% endblock %} <!-- mainブロックの終了 -->
 
 
-<!-- {% block script %} --> <!-- scriptブロックの開始 -->
+{% block script %} <!-- scriptブロックの開始 -->
     <!-- JSファイルのリンク -->
-    <script src="../Static/js/login.js"></script>
-    <script src="../Static/js/delete.js"></script>
-<!-- {% endblock %} --> <!-- scriptブロックの終了 -->
+    <script src="../static/js/login.js"></script>
+    <!-- <script src="../static/js/delete.js"></script> -->
+{% endblock %} <!-- scriptブロックの終了 -->

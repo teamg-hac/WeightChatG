@@ -326,6 +326,8 @@ def weight_page():
         values.reverse()
         dates = [str(y['created_at']).replace('-', '/')[:16] for y in records]
         dates.reverse()
+        ids = [z['record_id'] for z in records]
+        ids.reverse()
         
         if span == 'week':
             per_page = 7
@@ -345,6 +347,7 @@ def weight_page():
         indicate_values = values[start:end]
         indicate_dates = dates[start:end]
         indicate_dates.reverse()
+        indicate_ids = ids[start:end]
         
         fig, ax = plt.subplots()
         # graph_dates = [z[-5:] for z in indicate_dates]
@@ -373,7 +376,7 @@ def weight_page():
         graph = base64.b64encode(buffer.read()).decode('utf-8')
         plt.close()
             
-        return render_template('menu/weight_page.html', graph=graph, per_page=per_page, indicate_values=indicate_values, indicate_dates=indicate_dates, unit=unit, user=user, pagination=pagination)
+        return render_template('menu/weight_page.html', graph=graph, per_page=per_page, indicate_values=indicate_values, indicate_dates=indicate_dates, indicate_ids=indicate_ids, unit=unit, user=user, pagination=pagination)
 
 # 記録ルーム追加画面の表示
 @app.route('/add-recordroom')

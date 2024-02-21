@@ -28,13 +28,7 @@
             <!-- ここにPythonで生成したグラフを表示 -->
             <img src="data:img/png;base64,{{ graph }}" alt="Graph">
         </div>
-        <!-- <div class="pagination">
-            <button>前へ</button>
-            <button>次へ</button>
-        </div> -->
-        <div>
-            {{ pagination.links }}
-        </div>
+        {{ pagination.links }}
         <div class="dropdown">
             <select>
             <option name="span" value="week">週</option>

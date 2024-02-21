@@ -111,7 +111,6 @@ def add_record():
         dbConnect.updateweightById(weight, u_id)
         #users = dbConnect.getUserById(u_id)
         return redirect('/mypage')
-        #return render_template('menu/mypage.html', users=users)
 
 #チャット表示
 @app.route('/room<int:room_id>', methods=['GET'])
@@ -354,7 +353,20 @@ def weight_page():
         graph = base64.b64encode(buffer.read()).decode('utf-8')
         plt.close()
             
-        return render_template('menu/weight_page.html', graph=graph, indicate=indicate, indicate_values=indicate_values, indicate_dates=indicate_dates, unit=unit, user=user)
+        return render_template('menu/weight_page.html', graph=graph, indicate=indicate, indicate_values=indicate_values, indicate_dates=indicate_dates, unit=unit, user=user,redords=records)
+    
+# 記録した体重の削除
+@app.route('/delete-value', methods=['POST'])
+def delete_value():
+    u_id = session.get('uid')
+    if u_id is None:
+        return redirect('/login')
+    
+    record_id = request.form.get('record_id')
+
+    if record_id:
+        dbConnect.deleteValueById(record_id)
+        return redirect('/weight-page')      
 
 # 記録ルーム追加画面の表示
 @app.route('/add-recordroom')

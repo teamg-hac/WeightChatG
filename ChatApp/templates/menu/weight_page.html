@@ -19,7 +19,9 @@
         <div class="history-item">
             <p>{{ indicate_dates[i] }}</p>
             <span>{{ indicate_values[i] }}{{ unit }}</span>
-            <button id="delete-button">削除</button>
+            <form action="/delete-value" method="POST">
+                <button id="delete-button" name="record_id" value="{{ indicate_values[i] }}">削除</button>
+            </form>
         </div>
         {% endfor %}
         <!-- 他の履歴情報も同様に表示 -->

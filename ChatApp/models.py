@@ -288,8 +288,23 @@ class dbConnect:
             abort(500)
         finally:
             cur.close()
-            conn.close()    
-    
+            conn.close() 
+
+    #追加　体重記録の削除
+    #レコードIDを指定して、記録を削除
+    def deleteValueById(record_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "DELETE FROM records WHERE record_id =%s;"
+            cur.execute(sql,(record_id))
+            conn.commit()
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()     
     
     #チャットルームの追加
     def addChatRoom(room_name, created_u_id, invited_u_id):
@@ -320,6 +335,7 @@ class dbConnect:
             abort(500)
         finally:
             cur.close()
+            conn.close() 
     
     #ユーザーIDを指定してチャットルーム情報をすべて取得
     def getRoomAll(u_id):
@@ -396,6 +412,7 @@ class dbConnect:
             abort(500)
         finally:
             cur.close()
+            conn.close() 
 
     #メッセージの追加
     def addMessage(u_id, room_id, message, created_at):
@@ -410,6 +427,7 @@ class dbConnect:
             abort(500)
         finally:
             cur.close()
+            conn.close() 
 
     #チャットルームIDを指定して該当チャンネルの持つメッセージを取得
     #修正　massageをmessageに修正
@@ -425,14 +443,16 @@ class dbConnect:
             print(str(e) + 'が発生しています')
             abort(500)
         finally:
-            cur.close()  
+            cur.close()
+            conn.close() 
 
     #メッセージIDを指定してメッセージ情報を削除
+    #修正*削除
     def deleteMessage(message_id):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
-            sql = "DELETE * FROM messages WHERE message_id =%s;"
+            sql = "DELETE FROM messages WHERE message_id =%s;"
             cur.execute(sql,(message_id))
             conn.commit()
         except Exception as e:
@@ -440,3 +460,4 @@ class dbConnect:
             abort(500)
         finally:
             cur.close()
+            conn.close() 

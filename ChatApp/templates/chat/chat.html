@@ -1,4 +1,4 @@
-{% extends 'chat/base.html' %}
+{% extends 'base.html' %}
 
 {% block head %} <!-- cssブロックの開始 -->
 <title>チャットルーム</title>
@@ -22,7 +22,11 @@
 
     <!-- ユーザー情報バー -->
     <div class="user-info-bar" id="user-info-bar">
+        {% if user['icon_path'] %}
         <img src="{{ user['icon_path'] }}" alt="User Image">
+        {% else %}
+            <img src="../../static/img/none.png" alt="デフォルト画像">
+        {% endif %}
         <h2>{{ user['user_name'] }}</h2>
     </div>
 

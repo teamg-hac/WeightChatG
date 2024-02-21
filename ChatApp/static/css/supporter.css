@@ -72,3 +72,14 @@ h1 {
     font-size: 16px; /* 文字サイズ */
     margin-top: 20px; /* 上部のマージン */
 }
+
+/* 選択ボタン（登録あり） */
+.select-button-none {
+    background-color: gray; /* 背景色 */
+    color: #fff; /* 文字色 */
+    padding: 10px 20px; /* パディング */
+    border: none; /* ボーダーなし */
+    border-radius: 10px; /* 角丸 */
+    font-size: 16px; /* 文字サイズ */
+    margin-top: 20px; /* 上部のマージン */
+}

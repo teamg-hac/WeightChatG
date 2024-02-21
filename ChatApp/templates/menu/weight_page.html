@@ -1,4 +1,4 @@
-{% extends 'menu/base.html' %}
+{% extends 'base.html' %}
 
 {% block head %} <!-- cssブロックの開始 -->
 <title>体重履歴</title>
@@ -13,31 +13,32 @@
 
     <div class="container">
 
-        <h1>体重履歴</h1>
-        <div class="history">
-        {% for i in range(indicate_values|length) %}
-            <div class="history-item">
-                <p>{{ indicate_dates[i] }}</p>
-                <span>{{ indicate_values[i] }}{{ unit }}</span>
-                <form action="/delete-value" method="POST">
-                    <button id="delete-button" name="record_id" value="{{ indicate_ids[i] }}">削除</button>
-                </form>
-            </div>
+    <h1>体重履歴</h1>
+    <div class="history">
+        {% for i in range(indicate) %}
+        <div class="history-item">
+            <p>{{ indicate_dates[i] }}</p>
+            <span>{{ indicate_values[i] }}{{ unit }}</span>
+            <button id="delete-button">削除</button>
+        </div>
         {% endfor %}
-            <!-- 他の履歴情報も同様に表示 -->
-        </div>
-        <div class="graph">
-            <!-- ここにPythonで生成したグラフを表示 -->
-            <img src="data:img/png;base64,{{ graph }}" alt="Graph">
-        </div>
-        {{ pagination.links }}
-        <div class="dropdown">
-            <select>
-            <option name="span" value="week">週</option>
-            <option name="span" value="month">月</option>
-            <option name="span" value="year">年</option>
-            </select>
-        </div>
+        <!-- 他の履歴情報も同様に表示 -->
+    </div>
+    <div class="graph">
+        <!-- ここにPythonで生成したグラフを表示 -->
+        <img src="data:img/png;base64,{{ graph }}" alt="Graph">
+    </div>
+    <div class="pagination">
+        <button>前へ</button>
+        <button>次へ</button>
+    </div>
+    <div class="dropdown">
+        <select>
+        <option name="span" value="week">週</option>
+        <option name="span" value="month">月</option>
+        <option name="span" value="year">年</option>
+        </select>
+    </div>
     </div>
 </div>
 {% endblock %} <!-- bodyブロックの終了 -->

@@ -57,6 +57,10 @@ body {
     cursor: pointer;
 }
 
+.buttons-form{
+    display: inline-block;
+}
+
 /* ボタンのスタイル */
 .buttons button {
     padding: 15px 30px; /* 上下の余白を追加 */

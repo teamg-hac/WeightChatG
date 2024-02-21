@@ -3,64 +3,60 @@
 {% block head %}
 <title>メニュー</title>
 <link rel="stylesheet" href="../static/css/menu.css">
+<link rel="stylesheet" href="../static/css/btn1.css">
 {% endblock %}
 
 {% block main %} <!-- mainブロックの開始 -->
 <div class="main-container"> <!-- メインコンテナ -->
 
     <div class="container"> <!-- 全体のコンテナ -->
-        <!-- タイトル表示部 -->
-        <div id="title">
-            <h1>人の腹見て我が腹直せ。</h1>
-        </div>
         <!-- メニュー表示部 -->
         <div>
             <h3>Menu</h3>
             <ul>
-                <li>
+                <li class="menu-button-width">
                     <form action="/mypage">
                         <button class="menu-button">マイページ</button>
                     </form>
                 </li>
+                {% if user['is_instructor'] == 1 %}
+                {% else %}
                 <li>
                     <form action="/instructors">
                         <button class="menu-button">インストラクター一覧</button>
                     </form>
-                </li>    
+                </li> 
+                {% endif %}
             </ul>
         </div>
         <!-- チャットルーム表示部 -->
-        <div>
+        <div class="chatroom">
             <h3>チャット一覧</h3>
-            {% if rooms %}
-            {% for room in rooms %}
+ 
             <ul>
+                {% if rooms %}
+                {% for room in rooms %}
                 <li>
                     <form action="/room{{ room['room_id'] }}">
                         <button class="chatroom-button">{{ room['room_name'] }}</button>
                     </form>
-                    <form action="/delete-room{{ room['room_id'] }}" method="POST">
+                    <form action="/delete-room{{ room['room_id'] }}" method="GET">
                         <button id="delete-button" class="delete-button">削除</button>
                     </form>
                 </li>
+                {% endfor %}
+                {% else %}
+                <p>チャットルームはありません</p>
+                {% endif %}
             </ul>
-            {% endfor %}
-            {% else %}
-            <p>チャットルームはありません</p>
-            {% endif %}
+ 
         </div>
     </div>
-
-    <!-- ログアウトボタン -->
-    <form action="/logout">
-        <button id="logout-button">ログアウト</button>
-    </form>
 </div>
 {% endblock %} <!-- mainブロックの終了 -->
 
 
 {% block script %} <!-- scriptブロックの開始 -->
     <!-- JSファイルのリンク -->
-    <script src="../static/js/login.js"></script>
-    <!-- <script src="../static/js/delete.js"></script> -->
+    <script src="../static/js/delete.js"></script>
 {% endblock %} <!-- scriptブロックの終了 -->

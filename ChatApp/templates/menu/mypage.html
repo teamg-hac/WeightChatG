@@ -1,4 +1,4 @@
-{% extends 'menu/base.html' %}
+{% extends 'base.html' %}
 
 {% block head %}
 <title>マイページ</title>
@@ -12,7 +12,11 @@
         <!-- ユーザー情報 -->
         <div class="profile">
             <div class="profile-picture">
+                {% if user['icon_path'] %}
                 <img src="{{ user['icon_path'] }}" alt="プロフィール画像">
+                {% else %}
+                    <img src="../../static/img/none.png" alt="デフォルト画像">
+                {% endif %}
             </div>
             <div class="profile-details">
                 <h2>ユーザー名: <strong>{{ user['user_name'] }}</strong></h2>
@@ -22,6 +26,8 @@
                 <p>目標: <strong>{{ user['goal'] }}</strong></p>
                 <p>自己紹介: <strong>{{ user['introduction'] }}</strong></p>
                 <p>所在地: <strong>{{ user['address'] }}</strong></p>
+                 <!-- パスワードをhiddenで保持 -->
+                 <input type="hidden" id="userPassword" value="{{ user['password'] }}">
             </div>
         </div>
 
@@ -41,14 +47,18 @@
 
         <!-- ボタン -->
         <div class="buttons">
-            <form action="/edit-user">
+            <form action="/edit-user" class="buttons-form">
                 <button class="edit-button">編集</button>
             </form>
-            <form action="/weight-page">
+            <form action="/weight-page" class="buttons-form">
                 <button class="edit-button" name="span" value="week">詳細</button>
             </form>
-            <form action="/delete-user">
-                <button class="delete-button">退会</button>
+            <!-- 目標追加項目 -->
+            <!-- <button onclick="window.location.href = ''" class="edit-button">目標1</button> -->
+            <!-- <button onclick="window.location.href = ''" class="edit-button">目標2</button> -->
+            <!-- <button onclick="window.location.href = ''" class="edit-button">目標3</button> -->
+            <form action="/delete-user" id="delete-button" class="buttons-form" method="post">
+                <button type="submit" class="delete-button">退会</button>
             </form>
             <form action="/index">
                 <button class="back-button">戻る</button>
@@ -61,5 +71,5 @@
 
 {% block script %} <!-- scriptブロックの開始 -->
     <!-- JSファイルのリンク -->
-    <script src="../../static/js/mypage.js"></script>
+    <!--<script src="../../static/js/mypage.js"></script> -->
 {% endblock %} <!-- scriptブロックの終了 -->

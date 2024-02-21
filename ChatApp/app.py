@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 import re
+from flask_paginate import Pagination, get_page_parameter
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
@@ -322,25 +323,43 @@ def weight_page():
         span = request.args.get('span')
         records = dbConnect.getRecordAll(record_room_id)
         values = [float(x['value']) for x in records]
-        dates = [y['created_at'] for y in records]
-        if span == 'week':
-            indicate = 7
-        elif span == 'month':
-            indicate = 30
-        else:
-            indicate = 365
+        values.reverse()
+        dates = [str(y['created_at']).replace('-', '/')[:16] for y in records]
+        dates.reverse()
         
-        indicate_values = values[-indicate:]
-        indicate_dates = [a for a in dates[-indicate:]]
+        if span == 'week':
+            per_page = 7
+        elif span == 'month':
+            per_page = 30
+        else:
+            per_page = 365
+        
+        page = request.args.get(get_page_parameter(), type=int, default=1)
+        
+        # ページネーションオブジェクトを作成
+        pagination = Pagination(page=page, per_page=per_page, total=len(values), prev_label='次へ', next_label='前へ', css_framework='bootstrap5')        
+        
+        # 表示する範囲
+        start = (page - 1) * per_page
+        end = page * per_page
+        indicate_values = values[start:end]
+        indicate_dates = dates[start:end]
+        indicate_dates.reverse()
+        
+        fig, ax = plt.subplots()
         # graph_dates = [z[-5:] for z in indicate_dates]
-        plt.plot(indicate_dates, indicate_values)
+        # plt.figure(figsize=(10, 5))
+        plt.plot(indicate_dates, indicate_values, marker="o")
+        
+        # X軸の目盛りを設定
+        fig.autofmt_xdate(ha='center')
         
         # Y軸の目盛りを設定
-        sample_value =round(round(indicate_values[-1], -1))
-        scale = []
-        for i in range(sample_value - 5, sample_value + 16, 5):
-            scale.append(i)
-        plt.yticks(scale)
+        sample_value =int(sum(values) / len(values))
+        y_scale = []
+        for i in range(sample_value - 5, sample_value + 5, 1):
+            y_scale.append(i)
+        plt.yticks(y_scale)
         
         # Y軸のラベルを設定
         plt.ylabel(unit)
@@ -354,7 +373,7 @@ def weight_page():
         graph = base64.b64encode(buffer.read()).decode('utf-8')
         plt.close()
             
-        return render_template('menu/weight_page.html', graph=graph, indicate=indicate, indicate_values=indicate_values, indicate_dates=indicate_dates, unit=unit, user=user)
+        return render_template('menu/weight_page.html', graph=graph, per_page=per_page, indicate_values=indicate_values, indicate_dates=indicate_dates, unit=unit, user=user, pagination=pagination)
 
 # 記録ルーム追加画面の表示
 @app.route('/add-recordroom')

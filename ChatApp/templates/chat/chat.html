@@ -9,7 +9,7 @@
 {% block main %} <!-- mainブロックの開始 -->
 <div class="main-container"> <!-- メインコンテナ -->
     <!-- 戻るボタン -->
-    <form action="/index">
+    <form action="/">
         <button class="back-button">戻る</button>
     </form>
 
@@ -22,19 +22,35 @@
 
     <!-- ユーザー情報バー -->
     <div class="user-info-bar" id="user-info-bar">
-        {% if user['icon_path'] %}
-        <img src="{{ user['icon_path'] }}" alt="User Image">
+        {% if chat_user['icon_path'] %}
+        <img src="{{ chat_user['icon_path'] }}" alt="User Image">
         {% else %}
             <img src="../../static/img/none.png" alt="デフォルト画像">
         {% endif %}
-        <h2>{{ user['user_name'] }}</h2>
+        <h2>{{ chat_user['user_name'] }}</h2>
     </div>
 
     <!-- ユーザー情報（初期状態は非表示） -->
+    {% if is_public is not none %}
     <div class="user-info" id="user-info">
-        <p>メールアドレス：{{ user['mail'] }}</p>
-        <!-- 他のユーザー情報を追加 -->
+        {% if chat_user['goal'] is none %}
+        <p>目標：まだ記入されていません</p>
+        {% else %}
+        <p>目標：{{ chat_user['goal'] }}</p>
+        {% endif %}
+        {% if is_public == 1 %}
+        <p>現在の体重：{{ chat_user['latest_weight'] }}</p>
+        {% endif %}
     </div>
+    {% else %}
+    <div class="user-info" id="user-info">
+        {% if chat_user['introduction'] is none %}
+        <p>自己PR：まだ記入されていません</p>
+        {% else %}
+        <p>自己PR：{{ chat_user['introduction'] }}</p>
+        {% endif %}
+    </div>
+    {% endif %}
 
     {% if messages %}
     <!-- チャット欄 -->

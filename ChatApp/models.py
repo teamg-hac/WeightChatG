@@ -273,9 +273,9 @@ class dbConnect:
             cur.close()
             conn.close()
     
-     #追加　体重記録の追加に使用
-    #レコードルームIDを指定して、レコードテーブルの最新の情報を取得する。
-    def getlatestrecordById(record_room_id):
+    #追加　体重記録の追加に使用
+    #レコードルームIDを指定して、recordsテーブルの最新の情報を取得
+    def getLatestRecordById(record_room_id):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
@@ -283,6 +283,22 @@ class dbConnect:
             cur.execute(sql,record_room_id,)
             latest_value = cur.fetchone()
             return latest_value
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close() 
+
+    # record_idを指定してrecordsテーブルからrecord情報を取得
+    def getRecordById(record_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "SELECT * FROM records WHERE record_id = %s;"
+            cur.execute(sql, (record_id))
+            record = cur.fetchone()
+            return record
         except Exception as e:
             print(str(e) + 'が発生しています')
             abort(500)
@@ -439,6 +455,22 @@ class dbConnect:
             cur.execute(sql,(room_id))
             messages = cur.fetchall()
             return messages
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
+    
+    # room_idを指定して最新のメッセージのu_idを取得
+    def getLatestMessageUidByRoomId(room_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "SELECT u_id FROM messages WHERE room_id=%s ORDER BY created_at DESC LIMIT 1"
+            cur.execute(sql, (room_id))
+            latest_u_id = cur.fetchone()
+            return latest_u_id
         except Exception as e:
             print(str(e) + 'が発生しています')
             abort(500)

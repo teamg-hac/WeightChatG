@@ -51,7 +51,7 @@ h1 {
     height: 100px; /* 高さを設定 */
     object-fit: cover; /* 画像を完全に覆うように設定 */
     border-radius: 50%; /* 丸型に設定 */
-    margin: 0 auto 20px; /* マージン */
+    margin: 0 auto 20px; マージン
 }
 
 /* インストラクター名 */

@@ -1,7 +1,7 @@
 from flask import Flask, request, session, render_template, redirect, flash, url_for
 import hashlib
 import uuid
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, timezone
 from models import dbConnect
 import os
 from werkzeug.utils import secure_filename
@@ -103,13 +103,20 @@ def add_record():
         except ValueError:
             flash('数値を入力してください')
             return redirect('/mypage')
-            
-        created_at = datetime.now() 
+        
+        created_at = datetime.now(timezone(timedelta(hours=9)))
+        
+        # 最新の記録の日にちを確認し、同じであれば上書きをするか確認
+        # latest_record = dbConnect.getLatestRecordById(record_room_id)
+        # if str(latest_record['created_at'])[:11] == str(created_at)[:11]:
+        #     flash('今日は記録済みです。上書きしますか？')
+        #     return redirect()
+        
         dbConnect.addRecord(record_room_id, value, created_at)
-        value = dbConnect.getlatestrecordById(record_room_id)
-        weight = value['value']
+        # value = dbConnect.getlatestrecordById(record_room_id)
+        # weight = value['value']
         # weight = float(weight)
-        dbConnect.updateweightById(weight, u_id)
+        dbConnect.updateweightById(value, u_id)
         #users = dbConnect.getUserById(u_id)
         return redirect('/mypage')
 
@@ -123,7 +130,18 @@ def show_messages(room_id):
         user = dbConnect.getUserById(u_id) 
         messages = dbConnect.getMessageAll(room_id)
         room = dbConnect.getRoomByID(room_id)
-        return render_template('chat/chat.html',room=room, user=user, messages=messages)
+        
+        if user['is_instructor'] == 0:
+            chat_u_id = room['invited_u_id']
+            is_public = None
+        else:
+            chat_u_id = room['created_u_id']
+            weight_record = dbConnect.getWeightRecordById(chat_u_id)
+            is_public = weight_record['is_public']
+        
+        chat_user = dbConnect.getUserById(chat_u_id)
+        
+        return render_template('chat/chat.html',room=room, user=user, messages=messages, chat_user=chat_user, is_public=is_public)
     
 #チャット投稿
 @app.route('/add-message',methods=['POST'])
@@ -141,7 +159,7 @@ def add_message():
     return redirect('/room{room_id}'.format(room_id=room_id))
 
 # トップ画面の表示
-@app.route('/')
+@app.route('/index')
 def top():
     return render_template('top.html')
 
@@ -172,7 +190,7 @@ def login():
                 flash('パスワードが違います')
             else:
                 session['uid'] = user['u_id']
-                return redirect('/index')
+                return redirect('/')
     return redirect('/login')
 
 # ログアウト処理
@@ -195,18 +213,39 @@ def delete_user():
         session.clear()
         dbConnect.deleteUser(u_id)
         flash('退会しました')
-        return redirect('/')
+        return redirect('/index')
 
 # メニュー画面の表示
-@app.route('/index')
+@app.route('/')
 def menu():
     u_id = session.get('uid')
     if u_id is None:
-        return redirect('/')
+        return redirect('/index')
+    
+    rooms = dbConnect.getRoomAll(u_id)
+    user = dbConnect.getUserById(u_id)
+    
+    # チャット相手のユーザー名リスト（users_name）を作成
+    if user['is_instructor'] == 0:
+        chat_u_id = [x['invited_u_id'] for x in rooms]
     else:
-        rooms = dbConnect.getRoomAll(u_id)
-        user = dbConnect.getUserById(u_id)
-        return render_template('index.html', user=user, rooms=rooms)
+        chat_u_id = [x['created_u_id'] for x in rooms]
+    users_name = []
+    for i in chat_u_id:
+        users_name.append(dbConnect.getUserById(i)['user_name'])
+    
+    # 各チャットルームの最新投稿がユーザーかどうか判定するためのリストを作成
+    room_ids = [x['room_id'] for x in rooms]
+    latest_u_ids = []
+    for j in room_ids:
+        latest_u_id = dbConnect.getLatestMessageUidByRoomId(j)
+        if latest_u_id:
+            latest_u_ids.append(latest_u_id['u_id'])
+        latest_u_ids.append('')
+        
+    
+    return render_template('index.html', user=user, rooms=rooms, users_name=users_name, latest_u_ids=latest_u_ids)
+
 
 # ユーザー情報の編集画面表示
 @app.route('/edit-user')
@@ -295,7 +334,7 @@ def add_chatroom():
         instructor = dbConnect.getUserByName(instructor_name)
         instructor_id = instructor['u_id']
         dbConnect.addChatRoom(room_name, u_id, instructor_id)
-        return redirect('/index')
+        return redirect('/')
 
 # チャットルームの削除
 @app.route('/delete-room<int:room_id>', methods=['POST'])
@@ -305,7 +344,7 @@ def delete_room(room_id):
         return redirect('/login')
     else:
         dbConnect.deleteChatRoom(room_id)
-        return redirect('/index')
+        return redirect('/')
     
 
 # 体重画面の表示
@@ -314,66 +353,77 @@ def weight_page():
     u_id = session.get('uid')
     if u_id is None:
         return redirect('/login')
+    
+    user = dbConnect.getUserById(u_id)
+    record_room = dbConnect.getWeightRecordById(u_id)
+    record_room_id = record_room['record_room_id']
+    unit = record_room['unit']
+    span = request.args.get('span')
+    records = dbConnect.getRecordAll(record_room_id)
+    
+    # まだ記録が無い場合はマイページにリダイレクト
+    try:
+        records.reverse()
+    except:
+        flash('まだ記録がありません')
+        return redirect('/mypage')
+    
+    # records.reverse()
+    values = [float(x['value']) for x in records]
+    dates = [str(y['created_at']).replace('-', '/')[:16] for y in records]
+    ids = [z['record_id'] for z in records]
+    
+    if span == 'week':
+        per_page = 7
+    elif span == 'month':
+        per_page = 30
+    elif span == 'year':
+        per_page = 365
     else:
-        user = dbConnect.getUserById(u_id)
-        record_room = dbConnect.getWeightRecordById(u_id)
-        record_room_id = record_room['record_room_id']
-        unit = record_room['unit']
-        span = request.args.get('span')
-        records = dbConnect.getRecordAll(record_room_id)
-        values = [float(x['value']) for x in records]
-        values.reverse()
-        dates = [str(y['created_at']).replace('-', '/')[:16] for y in records]
-        dates.reverse()
-        ids = [z['record_id'] for z in records]
-        ids.reverse()
-        
-        if span == 'week':
-            per_page = 7
-        elif span == 'month':
-            per_page = 30
-        else:
-            per_page = 365
-        
-        page = request.args.get(get_page_parameter(), type=int, default=1)
-        
-        # ページネーションオブジェクトを作成
-        pagination = Pagination(page=page, per_page=per_page, total=len(values), prev_label='次へ', next_label='前へ', css_framework='bootstrap5')        
-        
-        # 表示する範囲
-        start = (page - 1) * per_page
-        end = page * per_page
-        indicate_values = values[start:end]
-        indicate_dates = dates[start:end]
-        indicate_dates.reverse()
-        indicate_ids = ids[start:end]
-        
-        fig, ax = plt.subplots()
-        # graph_dates = [z[-5:] for z in indicate_dates]
-        # plt.figure(figsize=(10, 5))
-        plt.plot(indicate_dates, indicate_values, marker="o")
-        
-        # X軸の目盛りを設定
-        fig.autofmt_xdate(ha='center')
-        
-        # Y軸の目盛りを設定
-        sample_value =int(sum(values) / len(values))
-        y_scale = []
-        for i in range(sample_value - 5, sample_value + 5, 1):
-            y_scale.append(i)
-        plt.yticks(y_scale)
-        
-        # Y軸のラベルを設定
-        plt.ylabel(unit)
-        
-        # グラフを画像として保存
-        buffer = io.BytesIO()
-        plt.savefig(buffer, format='png')
-        buffer.seek(0)
-        
-        # 画像をBase64にエンコード
-        graph = base64.b64encode(buffer.read()).decode('utf-8')
-        plt.close()
+        per_page = 7
+    
+    page = request.args.get(get_page_parameter(), type=int, default=1)
+    
+    # ページネーションオブジェクトを作成
+    pagination = Pagination(page=page, per_page=per_page, total=len(values), prev_label='次へ', next_label='前へ')        
+    
+    # 表示する範囲
+    start = (page - 1) * per_page
+    end = page * per_page
+    indicate_values = values[start:end]
+    indicate_values.reverse()
+    indicate_dates = dates[start:end]
+    indicate_dates.reverse()
+    indicate_ids = ids[start:end]
+    indicate_ids.reverse()
+    
+    fig, ax = plt.subplots()
+    plt.plot(indicate_dates, indicate_values, marker="o")
+    
+    # X軸の目盛りを設定
+    fig.autofmt_xdate(ha='center')
+    
+    # Y軸の目盛りを設定
+    max_value = round(max(values)) + 5
+    min_value = round(min(values)) - 5
+    scale = []
+    
+    while min_value <= max_value:
+        scale.append(min_value)
+        min_value += 2
+    plt.yticks(scale)
+    
+    # Y軸のラベルを設定
+    plt.ylabel(unit)
+    
+    # グラフを画像として保存
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    
+    # 画像をBase64にエンコード
+    graph = base64.b64encode(buffer.read()).decode('utf-8')
+    plt.close()
             
     return render_template('menu/weight_page.html', graph=graph, per_page=per_page, indicate_values=indicate_values, indicate_dates=indicate_dates, indicate_ids=indicate_ids, unit=unit, user=user, pagination=pagination)
     
@@ -385,11 +435,23 @@ def delete_value():
         return redirect('/login')
     
     record_id = request.form.get('record_id')
-
+    
+    record = dbConnect.getRecordById(record_id)
+    record_room_id = record['record_room_id']
+    latest_record = dbConnect.getLatestRecordById(record_room_id)
+    
+    # 体重記録の削除
     if record_id:
         dbConnect.deleteValueById(record_id)
-        return redirect('/weight-page')      
-        
+    
+    # 削除した記録が最新だった場合、usersのlatest_weightを更新
+    if int(record_id) == latest_record['record_id']:
+        new_latest_record = dbConnect.getLatestRecordById(record_room_id)
+        new_value = new_latest_record['value']
+        dbConnect.updateweightById(new_value, u_id)
+
+    return redirect('/weight-page')
+
 
 # 記録ルーム追加画面の表示
 @app.route('/add-recordroom')

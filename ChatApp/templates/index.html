@@ -35,12 +35,18 @@
  
             <ul>
                 {% if rooms %}
-                {% for room in rooms %}
+                {% for i in range(rooms|length) %}
                 <li>
-                    <form action="/room{{ room['room_id'] }}">
-                        <button class="chatroom-button">{{ room['room_name'] }}</button>
+                    <form action="/room{{ rooms[i]['room_id'] }}">
+                        {% if latest_u_ids[i] != user['u_id'] %}
+                        <!-- 最新のメッセージが相手ユーザーの場合 -->
+                        <button class="chatroom-button">{{ rooms[i]['room_name'] }}({{ users_name[i] }})</button>
+                        {% else %}
+                        <!-- 最新のメッセージがユーザーの場合 -->
+                        <button class="chatroom-button">{{ rooms[i]['room_name'] }}({{ users_name[i] }})</button>
+                        {% endif %}
                     </form>
-                    <form action="/delete-room{{ room['room_id'] }}" method="GET">
+                    <form action="/delete-room{{ rooms[i]['room_id'] }}" method="POST">
                         <button id="delete-button" class="delete-button">削除</button>
                     </form>
                 </li>

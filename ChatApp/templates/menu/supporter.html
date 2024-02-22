@@ -1,4 +1,4 @@
-{% extends 'menu/base.html' %}
+{% extends 'base.html' %}
 
 {% block head %} <!-- cssブロックの開始 -->
 <title>インストラクター一覧</title>
@@ -22,24 +22,36 @@
  
         <!-- インストラクター1 -->
         {% if instructors %}
-        {% for instructor in instructors %}
-        {% if instructor['user_name'] == 'deleted_instructor' %}
-        {% else %}
-        <div class="instructor-container">
-            <img src="{{ instructor['icon_path'] }}" alt="インストラクターの画像" class="instructor-img">
-            <h2 class="instructor-name">{{ instructor['user_name'] }}</h2>
-            <p>出身地：{{ instructor['address'] }}</p>
-            <p>自己PR：{{ instructor['introduction'] }}</p>
-            {% if instructor['u_id'] not in invited_u_ids %}
-            <form action="/add-chatroom">
-                <button class="select-button" name="instructor_name" value="{{ instructor['user_name'] }}">選択</button>
-            </form>
-            {% else %}
-            <button class="select-button">選択</button>
-            {% endif %}
-        </div>
-        {% endif %}
-        {% endfor %}
+            {% for instructor in instructors %}
+                {% if instructor['user_name'] == 'deleted_instructor' %}
+                {% else %}
+                <div class="instructor-container">
+
+                    <div class="profile">
+        
+                            <div class="profile-picture">
+                                {% if instructor['icon_path'] %}
+                                <img src="{{ instructor['icon_path'] }}" alt="インストラクターの画像1" class="instructor-img">
+                                {% else %}
+                                <img src="../../static/img/none.png" alt="インストラクターの画像2" class="instructor-img">
+                                {% endif %}
+                            </div>
+
+                        <h2 class="instructor-name">{{ instructor['user_name'] }}</h2>
+                        <p>出身地：{{ instructor['address'] }}</p>
+                        <p>自己PR：{{ instructor['introduction'] }}</p>
+                            {% if instructor['u_id'] not in invited_u_ids %}
+                            <form action="/add-chatroom">
+                                <button class="select-button" name="instructor_name" value="{{ instructor['user_name'] }}">選択</button>
+                            </form>
+                            {% else %}
+                            <button class="select-button-none">選択</button>
+                            {% endif %}
+                    </div>
+
+                </div>
+                {% endif %}
+            {% endfor %}
         {% endif %}
     </div>
 </div>

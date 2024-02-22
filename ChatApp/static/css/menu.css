@@ -58,6 +58,8 @@ body {
     font-size: 16px; /* フォントサイズ */
     cursor: pointer; /* マウスカーソルをポインターに */
     text-align: center; /* 文字を中央に配置 */
+    width: 320px; /* ボタンの幅を固定 */
+    height: 40px; /* ボタンの高さを固定 */
 }
 
 .chatroom-button {
@@ -80,26 +82,10 @@ body {
 }
 
 /* チャットルームと削除ボタンの親要素 */
-li {
+.chatroom li {
     display: flex; /* フレックスボックスを使用して横並びに配置 */
     align-items: center; /* 中央に揃える */
-}
-
-/* ログアウトボタン */
-#logout-button {
-    background-color: #dc3545; /* 背景色 */
-    color: #fff; /* 文字色 */
-    padding: 10px 20px; /* 上下左右の余白 */
-    border: none; /* ボーダーをなしに */
-    border-radius: 10px; /* 角の丸み */
-    cursor: pointer; /* マウスカーソルをポインターに */
-    position: absolute; /* 絶対的な位置指定 */
-    bottom: 20px; /* 下端からの距離 */
-    right: 20px; /* 右端からの距離 */
-}
-
-#logout-button:hover {
-    background-color: #c82333; /* ホバー時の背景色 */
+    width: max-content;
 }
 
 /* リストのスタイル */

@@ -77,22 +77,6 @@ h1 {
   text-align: center;
 }
 
-/* ページボタンのスタイル */
-.pagination {
-  margin-top: 50px; /* 前へ、次へボタンの間隔を開ける */
-  text-align: center;
-}
-
-.pagination button {
-  padding: 10px 20px;
-  margin: 0 30px; /* ボタンの間隔を開ける */
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-}
-
 /* プルダウンメニューのスタイル */
 .dropdown {
   margin-top: 20px; /* プルダウンメニューの間隔を設定 */
@@ -103,4 +87,56 @@ h1 {
   padding: 5px 10px;
   border-radius: 5px;
   width: 150px; /* プルダウンメニューの幅を設定 */
+}
+
+/* ページボタンのスタイル */
+.pagination ul {
+  display: flex;
+  justify-content: space-evenly;
+  list-style: none;
+  flex-direction: row-reverse;
+}
+
+.content nav {
+  background-color: #fff;
+  padding: 10px;
+  z-index: 9999;
+}
+
+.page-item.active .page-link {
+  color: #212529;
+  border-color: #f2f2f2;
+  background-color: #f2f2f2;
+}
+
+.pagination {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  margin: 0 0 3px 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+}
+
+.pagination li.active a {
+  font-weight: bold;
+}
+
+.pagination li a {
+  text-decoration: none;
+  color: #000;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.pagination li a:hover {
+  background-color: #f5f5f5
+}
+
+.history ul {
+  list-style: none;
+  display: inline-block;
 }

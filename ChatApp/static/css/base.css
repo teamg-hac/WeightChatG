@@ -15,31 +15,6 @@ body {
     align-items: center;
   }
   
-/* サイドバーの装飾 */
-aside {
-    position: fixed;
-    top: 50;
-    right: -250px;
-    width: 250px;
-    height: 100%;
-    background-color: #333; /* ダークグレーの背景色 */
-    padding: 0px;
-    transition: right 0.3s ease-in-out;
-    z-index: 999;
-    color: white;
-  }
-  
-  /* サイドバー内のテキスト装飾 */
-  aside p {
-    margin-top: 10px; /* テキストの上部に余白を追加 */
-    color: #66ccff; /* 薄い青色の番号 */
-  }
-
-  /* サイドバーを開いた時 */
-  aside.open {
-    padding: 20px; /* 開いている時のpadding */
-  }  
-
 /* フッターの装飾 */
   footer {
     background: linear-gradient(to right, #555, #888); /* グレーのグラデーション */

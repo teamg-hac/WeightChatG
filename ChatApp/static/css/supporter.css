@@ -51,7 +51,7 @@ h1 {
     height: 100px; /* 高さを設定 */
     object-fit: cover; /* 画像を完全に覆うように設定 */
     border-radius: 50%; /* 丸型に設定 */
-    margin: 0 auto 20px; /* マージン */
+    margin: 0 auto 20px; マージン
 }
 
 /* インストラクター名 */
@@ -69,6 +69,17 @@ h1 {
     border: none; /* ボーダーなし */
     border-radius: 10px; /* 角丸 */
     cursor: pointer; /* マウスカーソル */
+    font-size: 16px; /* 文字サイズ */
+    margin-top: 20px; /* 上部のマージン */
+}
+
+/* 選択ボタン（登録あり） */
+.select-button-none {
+    background-color: gray; /* 背景色 */
+    color: #fff; /* 文字色 */
+    padding: 10px 20px; /* パディング */
+    border: none; /* ボーダーなし */
+    border-radius: 10px; /* 角丸 */
     font-size: 16px; /* 文字サイズ */
     margin-top: 20px; /* 上部のマージン */
 }

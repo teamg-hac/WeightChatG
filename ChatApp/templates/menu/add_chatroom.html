@@ -1,4 +1,4 @@
-{% extends 'menu/base.html' %}
+{% extends 'base.html' %}
 {% block head %} <!-- cssブロックの開始 -->
 <title>チャットルームの作成</title>
 <link rel="stylesheet" href="../../static/css/btn3.css">
@@ -19,7 +19,7 @@
                 <input type="text" id="chatroom-name" name="room_name" placeholder="チャットルーム名を入力してください" required>
                 <input type="hidden" name="instructor_name" value="{{ instructor_name }}">
             </div>
-            <button type="submit">作成</button>
+            <button type="submit">作成！</button>
         </form>
     </div>
 </div>
@@ -27,5 +27,5 @@
 
 {% block script %} <!-- scriptブロックの開始 -->
     <!-- JSファイルのリンク -->
-    <script src="../../static/js/chat.js"></script>
+    <script src="../../static/js/chat2.js"></script>
 {% endblock %} <!-- scriptブロックの終了 -->

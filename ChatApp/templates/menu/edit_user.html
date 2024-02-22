@@ -1,4 +1,4 @@
-{% extends 'menu/base.html' %}
+{% extends 'base.html' %}
 
 {% block head %} <!-- cssブロックの開始 -->
 <title>プロフィール編集</title>
@@ -20,7 +20,13 @@
             <!-- プロフィール画像のアップロード -->
             <div class="profile-picture">
                 <label for="profile-image">
-                    <img id="profile-preview" src="{{ user['icon_path'] }}" alt="プロフィール画像">
+                    <div class="profile-picture">
+                        {% if user['icon_path'] %}
+                        <img src="{{ user['icon_path'] }}" alt="プロフィール画像">
+                        {% else %}
+                            <img src="../../static/img/none.png" alt="デフォルト画像">
+                        {% endif %}
+                    </div>
                     <input type="file" id="profile-image" name="icon" accept="image/*">
                     <span>画像を変更</span>
                 </label>

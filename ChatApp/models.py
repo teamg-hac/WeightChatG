@@ -273,9 +273,9 @@ class dbConnect:
             cur.close()
             conn.close()
     
-     #追加　体重記録の追加に使用
-    #レコードルームIDを指定して、レコードテーブルの最新の情報を取得する。
-    def getlatestrecordById(record_room_id):
+    #追加　体重記録の追加に使用
+    #レコードルームIDを指定して、recordsテーブルの最新の情報を取得
+    def getLatestRecordById(record_room_id):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
@@ -288,8 +288,39 @@ class dbConnect:
             abort(500)
         finally:
             cur.close()
-            conn.close()    
-    
+            conn.close() 
+
+    # record_idを指定してrecordsテーブルからrecord情報を取得
+    def getRecordById(record_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "SELECT * FROM records WHERE record_id = %s;"
+            cur.execute(sql, (record_id))
+            record = cur.fetchone()
+            return record
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close() 
+
+    #追加　体重記録の削除
+    #レコードIDを指定して、記録を削除
+    def deleteValueById(record_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "DELETE FROM records WHERE record_id =%s;"
+            cur.execute(sql,(record_id))
+            conn.commit()
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()     
     
     #チャットルームの追加
     def addChatRoom(room_name, created_u_id, invited_u_id):
@@ -320,6 +351,7 @@ class dbConnect:
             abort(500)
         finally:
             cur.close()
+            conn.close() 
     
     #ユーザーIDを指定してチャットルーム情報をすべて取得
     def getRoomAll(u_id):
@@ -396,6 +428,7 @@ class dbConnect:
             abort(500)
         finally:
             cur.close()
+            conn.close() 
 
     #メッセージの追加
     def addMessage(u_id, room_id, message, created_at):
@@ -410,6 +443,7 @@ class dbConnect:
             abort(500)
         finally:
             cur.close()
+            conn.close() 
 
     #チャットルームIDを指定して該当チャンネルの持つメッセージを取得
     #修正　massageをmessageに修正
@@ -425,14 +459,32 @@ class dbConnect:
             print(str(e) + 'が発生しています')
             abort(500)
         finally:
-            cur.close()  
+            cur.close()
+            conn.close()
+    
+    # room_idを指定して最新のメッセージのu_idを取得
+    def getLatestMessageUidByRoomId(room_id):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "SELECT u_id FROM messages WHERE room_id=%s ORDER BY created_at DESC LIMIT 1"
+            cur.execute(sql, (room_id))
+            latest_u_id = cur.fetchone()
+            return latest_u_id
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close() 
 
     #メッセージIDを指定してメッセージ情報を削除
+    #修正*削除
     def deleteMessage(message_id):
         try:
             conn = DB.getConnection()
             cur = conn.cursor()
-            sql = "DELETE * FROM messages WHERE message_id =%s;"
+            sql = "DELETE FROM messages WHERE message_id =%s;"
             cur.execute(sql,(message_id))
             conn.commit()
         except Exception as e:
@@ -440,3 +492,4 @@ class dbConnect:
             abort(500)
         finally:
             cur.close()
+            conn.close() 

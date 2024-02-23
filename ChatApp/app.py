@@ -82,7 +82,10 @@ def show_mypage():
         return redirect('/login')
     else:
         user = dbConnect.getUserById(u_id)
-        return render_template('menu/mypage.html',user=user)
+        weight_record = dbConnect.getWeightRecordById(u_id)
+        latest_record = dbConnect.getLatestRecordById(weight_record['record_room_id'])
+        latest_record_timestamp = str(latest_record['created_at'])
+        return render_template('menu/mypage.html',user=user, latest_record_timestamp=latest_record_timestamp)
     
 #体重記録の追加
 @app.route('/add-record', methods=['POST'])

@@ -82,7 +82,10 @@ def show_mypage():
         return redirect('/login')
     else:
         user = dbConnect.getUserById(u_id)
-        return render_template('menu/mypage.html',user=user)
+        weight_record = dbConnect.getWeightRecordById(u_id)
+        latest_record = dbConnect.getLatestRecordById(weight_record['record_room_id'])
+        latest_record_timestamp = str(latest_record['created_at'])
+        return render_template('menu/mypage.html',user=user, latest_record_timestamp=latest_record_timestamp)
     
 #体重記録の追加
 @app.route('/add-record', methods=['POST'])
@@ -368,11 +371,26 @@ def weight_page():
         flash('まだ記録がありません')
         return redirect('/mypage')
     
-    # records.reverse()
     values = [float(x['value']) for x in records]
     dates = [str(y['created_at']).replace('-', '/')[:16] for y in records]
     ids = [z['record_id'] for z in records]
     
+    # リストのページネーション
+    page_list = request.args.get(get_page_parameter('list'), type=int, default=1)
+    
+    pagination_list = Pagination(list=page_list, per_page=30, total=len(values), prev_label='次へ', next_label='前へ', page_parameter='list')
+    
+    start_list = (page_list - 1) * 30
+    end_list = page_list * 30
+    list_values = values[start_list:end_list]
+    list_values.reverse()
+    list_dates = dates[start_list:end_list]
+    list_dates.reverse()
+    list_ids = ids[start_list:end_list]
+    list_ids.reverse()
+    
+    
+    # グラフのページネーション
     if span == 'week':
         per_page = 7
     elif span == 'month':
@@ -382,23 +400,21 @@ def weight_page():
     else:
         per_page = 7
     
-    page = request.args.get(get_page_parameter(), type=int, default=1)
+    page_graph = request.args.get(get_page_parameter('graph'), type=int, default=1)
     
-    # ページネーションオブジェクトを作成
-    pagination = Pagination(page=page, per_page=per_page, total=len(values), prev_label='次へ', next_label='前へ')        
+    pagination_graph = Pagination(graph=page_graph, per_page=per_page, total=len(values), prev_label='次へ', next_label='前へ', page_parameter='graph')        
     
     # 表示する範囲
-    start = (page - 1) * per_page
-    end = page * per_page
-    indicate_values = values[start:end]
-    indicate_values.reverse()
-    indicate_dates = dates[start:end]
-    indicate_dates.reverse()
-    indicate_ids = ids[start:end]
-    indicate_ids.reverse()
+    start_graph = (page_graph - 1) * per_page
+    end_graph = page_graph * per_page
+    graph_values = values[start_graph:end_graph]
+    graph_values.reverse()
+    graph_dates = dates[start_graph:end_graph]
+    graph_dates = [a[:10] for a in graph_dates]
+    graph_dates.reverse()
     
     fig, ax = plt.subplots()
-    plt.plot(indicate_dates, indicate_values, marker="o")
+    plt.plot(graph_dates, graph_values, marker="o")
     
     # X軸の目盛りを設定
     fig.autofmt_xdate(ha='center')
@@ -425,7 +441,8 @@ def weight_page():
     graph = base64.b64encode(buffer.read()).decode('utf-8')
     plt.close()
             
-    return render_template('menu/weight_page.html', graph=graph, per_page=per_page, indicate_values=indicate_values, indicate_dates=indicate_dates, indicate_ids=indicate_ids, unit=unit, user=user, pagination=pagination)
+    return render_template('menu/weight_page.html', graph=graph, list_values=list_values, list_dates=list_dates, list_ids=list_ids, unit=unit, user=user, pagination_list=pagination_list, pagination_graph=pagination_graph)
+
     
 # 記録した体重の削除
 @app.route('/delete-value', methods=['POST'])

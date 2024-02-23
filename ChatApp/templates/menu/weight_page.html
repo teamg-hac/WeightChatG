@@ -16,23 +16,89 @@
     <div class="container">
 
         <h1>体重履歴</h1>
-        <div class="history">
-        {% for i in range(indicate_values|length) %}
-            <div class="history-item">
-                <p>{{ indicate_dates[i] }}</p>
-                <span>{{ indicate_values[i] }}{{ unit }}</span>
-                <form action="/delete-value" method="POST">
-                    <button id="delete-button" name="record_id" value="{{ indicate_ids[i] }}">削除</button>
-                </form>
+        <div class="list">
+            {% if list_dates|length < 10 %}
+            <div class="history">
+                {% for i in range(list_dates|length) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-            <!-- 他の履歴情報も同様に表示 -->
+            {% elif list_dates|length < 20 %}
+            <div class="history">
+                {% for i in range(10) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="history">
+                {% for i in range(10, list_dates|length) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="history">
+                {% for i in range(10) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="history">
+                {% for i in range(10, 20) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="history">
+                {% for i in range(20, list_dates|length) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
+        <div class="pagination-list">
+            {{ pagination_list.links }}
+        </div>
+        
         <div class="graph">
             <!-- ここにPythonで生成したグラフを表示 -->
             <img src="data:img/png;base64,{{ graph }}" alt="Graph">
         </div>
-        {{ pagination.links }}
+        <div class="pagination-graph">
+            {{ pagination_graph.links }}
+        </div>
         <div class="dropdown">
             <select>
             <option name="span" value="week">週</option>

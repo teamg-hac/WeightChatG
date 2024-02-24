@@ -61,6 +61,7 @@
                 <label for="introduction">自己紹介:</label>
                 <textarea id="bio" name="introduction" value="{{ user['introduction'] }}"></textarea>
             </div>
+            
             {% with messages = get_flashed_messages() %}
             {% if messages %}
             {% for message in messages %}
@@ -76,5 +77,6 @@
 
 {% block script %} <!-- scriptブロックの開始 -->
     <!-- JSファイルのリンク -->
+    <script src="../../static/js/edit.js"></script>
     <script src="../../static/js/register.js"></script>
 {% endblock %} <!-- scriptブロックの終了 -->

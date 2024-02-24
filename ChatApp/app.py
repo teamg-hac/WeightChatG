@@ -1,7 +1,7 @@
 from flask import Flask, request, session, render_template, redirect, flash, url_for
 import hashlib
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone, date
 from models import dbConnect
 import os
 from werkzeug.utils import secure_filename
@@ -11,6 +11,9 @@ import io
 import base64
 import re
 from flask_paginate import Pagination, get_page_parameter
+import pandas as pd
+import calendar
+import math
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
@@ -42,6 +45,8 @@ def signup():
         height = float(height)
     goal = request.form.get('goal', None)
     introduction = request.form.get('introduction', None)
+    #introductionは入力されないのでNoneとなるため、Noneを空の文字列に変換
+    introduction = "" if introduction is None else introduction
     address = request.form.get('address', None)
     icon_path  = request.files.get('icon', None)
     
@@ -71,6 +76,14 @@ def signup():
             remind = 0 
             remind_time = "00:00:00"
             dbConnect.addRecordRoom(record_name, u_id, unit, is_public, remind, remind_time)
+            #登録時に入力されたlatest_weightをrecodsテーブルのvalueとして格納する。
+            record_room = dbConnect.getWeightRecordById(u_id)
+            record_room_id = record_room['record_room_id']
+            value = latest_weight
+            # 全角の数字を半角に変換(latest_valueはfloat型になっているので不要)
+            #value = unicodedata.normalize('NFKC', value)
+            created_at = datetime.now(timezone(timedelta(hours=9)))
+            dbConnect.addRecord(record_room_id, value, created_at)
             return redirect('/login')
     return redirect('/signup')
 
@@ -84,7 +97,10 @@ def show_mypage():
         user = dbConnect.getUserById(u_id)
         weight_record = dbConnect.getWeightRecordById(u_id)
         latest_record = dbConnect.getLatestRecordById(weight_record['record_room_id'])
-        latest_record_timestamp = str(latest_record['created_at'])
+        if latest_record:
+            latest_record_timestamp = str(latest_record['created_at'])
+        else:
+            latest_record_timestamp = None
         return render_template('menu/mypage.html',user=user, latest_record_timestamp=latest_record_timestamp)
     
 #体重記録の追加
@@ -362,32 +378,88 @@ def weight_page():
     record_room_id = record_room['record_room_id']
     unit = record_room['unit']
     span = request.args.get('span')
-    records = dbConnect.getRecordAll(record_room_id)
+    get_records = dbConnect.getRecordAll(record_room_id)
+    # データが日付順に並んでいない場合を考慮して並べ替え
+    records = sorted(get_records, key=lambda x: x['created_at'])
     
     # まだ記録が無い場合はマイページにリダイレクト
-    try:
-        records.reverse()
-    except:
+    if not records:
         flash('まだ記録がありません')
         return redirect('/mypage')
     
-    values = [float(x['value']) for x in records]
-    dates = [str(y['created_at']).replace('-', '/')[:16] for y in records]
-    ids = [z['record_id'] for z in records]
+    # 表示する範囲の日にちの入ったリスト(正確にはリストじゃない)を作成
+    latest_year = records[-1]['created_at'].year
+    latest_month = records[-1]['created_at'].month
+    latest_day = records[-1]['created_at'].day
+    oldest_year = records[0]['created_at'].year
+    oldest_month = records[0]['created_at'].month
+    oldest_day = records[0]['created_at'].day
+    start = datetime.strptime(str(oldest_year) + '-' + str(oldest_month) + '-' + str(oldest_day), '%Y-%m-%d')
+    end = datetime.strptime(str(latest_year) + '-' + str(latest_month) + '-' + str(latest_day), '%Y-%m-%d')
+    indicate_dates = pd.date_range(start, end)
+    indicate_dates = [str(y)[:16] for y in indicate_dates]
+    
+    # 指定した範囲の日付のうち、記録があれば日時と記録を追加
+    # 記録が無ければNoneを追加
+    dates = []
+    values = []
+    ids = []
+    for i in indicate_dates:
+        for j in records:
+            if i[:10] == str(j['created_at'])[:10]:
+                dates.append(str(j['created_at'])[:16].replace('-', '/'))
+                values.append(float(j['value']))
+                ids.append(j['record_id'])
+                break
+        else:
+            dates.append(i.replace('-', '/'))
+            values.append(None)
+            ids.append(None)
+    
     
     # リストのページネーション
     page_list = request.args.get(get_page_parameter('list'), type=int, default=1)
     
-    pagination_list = Pagination(list=page_list, per_page=30, total=len(values), prev_label='次へ', next_label='前へ', page_parameter='list')
+    count = 0
+    # if latest_month + 1 - page_list <= 0:
+    if latest_month + 1 - page_list == 0:
+        count += 1
+    elif latest_month + 1 - page_list == -12:
+        count += 2
+    elif latest_month + 1 - page_list == -24:
+        count += 3
+    elif latest_month + 1 - page_list == -36:
+        count += 4
+    elif latest_month + 1 - page_list == -48:
+        count += 5
+    year = latest_year - count
+    month = latest_month + 1 - page_list + (12 * count)
+    per_page_list = calendar.monthrange(year, month)[1]
     
-    start_list = (page_list - 1) * 30
-    end_list = page_list * 30
-    list_values = values[start_list:end_list]
-    list_values.reverse()
-    list_dates = dates[start_list:end_list]
-    list_dates.reverse()
-    list_ids = ids[start_list:end_list]
-    list_ids.reverse()
+    if len(str(month)) == 1:
+        month = '0' + str(month)
+    
+    # 日付だけのリストを作成
+    no_times = [c[:10] for c in dates]
+    if str(year) + '/' + month + '/01' in no_times:
+        start_list = no_times.index(str(year) + '/' + month + '/01')
+    else:
+        start_list = 0
+    if str(year) + '/' + month + '/' + str(per_page_list) in no_times:
+        end_list = no_times.index(str(year) + '/' + month + '/' + str(per_page_list))
+    else:
+        end_list = None
+    
+    if end_list:
+        list_values = values[start_list:end_list + 1]
+        list_dates = dates[start_list:end_list + 1]
+        list_ids = ids[start_list:end_list + 1]
+    else:
+        list_values = values[start_list:]
+        list_dates = dates[start_list:]
+        list_ids = ids[start_list:]
+    
+    pagination_list = Pagination(list=page_list, per_page=per_page_list, total=len(indicate_dates), prev_label='次へ', next_label='前へ', page_parameter='list')
     
     
     # グラフのページネーション
@@ -402,13 +474,15 @@ def weight_page():
     
     page_graph = request.args.get(get_page_parameter('graph'), type=int, default=1)
     
-    pagination_graph = Pagination(graph=page_graph, per_page=per_page, total=len(values), prev_label='次へ', next_label='前へ', page_parameter='graph')        
+    pagination_graph = Pagination(graph=page_graph, per_page=per_page, total=len(indicate_dates), prev_label='次へ', next_label='前へ', page_parameter='graph')        
     
     # 表示する範囲
     start_graph = (page_graph - 1) * per_page
     end_graph = page_graph * per_page
+    values.reverse()
     graph_values = values[start_graph:end_graph]
     graph_values.reverse()
+    dates.reverse()
     graph_dates = dates[start_graph:end_graph]
     graph_dates = [a[:10] for a in graph_dates]
     graph_dates.reverse()
@@ -420,10 +494,10 @@ def weight_page():
     fig.autofmt_xdate(ha='center')
     
     # Y軸の目盛りを設定
-    max_value = round(max(values)) + 5
-    min_value = round(min(values)) - 5
+    y_values = [float(x['value']) for x in records]
+    max_value = round(max(y_values)) + 5
+    min_value = round(min(y_values)) - 5
     scale = []
-    
     while min_value <= max_value:
         scale.append(min_value)
         min_value += 2

@@ -38,13 +38,12 @@ h1 {
 .list {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
 }
 
 .history-item {
   display: flex; /* Flexbox を使用して要素を水平に配置 */
   align-items: center; /* 要素を垂直方向に中央揃え */
-  justify-content: center; /* 要素を水平方向に中央揃え */
+  /* justify-content: center; 要素を水平方向に中央揃え */
 }
 
 .history-item p {
@@ -62,7 +61,7 @@ h1 {
   border-radius: 5px;
   text-align: center; /* テキストを中央に配置 */
   font-size: 20px; /* テキストを大きく */
-  display: table-cell; /* butch追記 */
+  display: grid; /* butch追記 */
 }
 
 .history-item span {

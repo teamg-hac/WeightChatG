@@ -22,10 +22,13 @@
                 {% for i in range(list_dates|length) %}
                 <div class="history-item">
                     <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
                         <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -34,10 +37,13 @@
                 {% for i in range(10) %}
                 <div class="history-item">
                     <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
                         <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -45,10 +51,13 @@
                 {% for i in range(10, list_dates|length) %}
                 <div class="history-item">
                     <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
                         <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -57,10 +66,13 @@
                 {% for i in range(10) %}
                 <div class="history-item">
                     <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
                         <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -68,10 +80,13 @@
                 {% for i in range(10, 20) %}
                 <div class="history-item">
                     <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
                         <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
@@ -79,10 +94,13 @@
                 {% for i in range(20, list_dates|length) %}
                 <div class="history-item">
                     <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
                         <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>

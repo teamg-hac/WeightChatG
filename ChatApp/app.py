@@ -45,6 +45,8 @@ def signup():
         height = float(height)
     goal = request.form.get('goal', None)
     introduction = request.form.get('introduction', None)
+    #introductionは入力されないのでNoneとなるため、Noneを空の文字列に変換
+    introduction = "" if introduction is None else introduction
     address = request.form.get('address', None)
     icon_path  = request.files.get('icon', None)
     
@@ -74,6 +76,14 @@ def signup():
             remind = 0 
             remind_time = "00:00:00"
             dbConnect.addRecordRoom(record_name, u_id, unit, is_public, remind, remind_time)
+            #登録時に入力されたlatest_weightをrecodsテーブルのvalueとして格納する。
+            record_room = dbConnect.getWeightRecordById(u_id)
+            record_room_id = record_room['record_room_id']
+            value = latest_weight
+            # 全角の数字を半角に変換(latest_valueはfloat型になっているので不要)
+            #value = unicodedata.normalize('NFKC', value)
+            created_at = datetime.now(timezone(timedelta(hours=9)))
+            dbConnect.addRecord(record_room_id, value, created_at)
             return redirect('/login')
     return redirect('/signup')
 

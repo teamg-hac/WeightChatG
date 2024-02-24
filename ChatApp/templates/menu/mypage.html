@@ -39,10 +39,17 @@
         {% endif %}
         {% endwith %}
 
-        <!-- 体重入力 -->
+        <!-- 体重入力（初回） -->
+<!--  -  
         <form class="weight-input" action="/add-record" method="POST">
             <input type="text" name="weight" placeholder="体重入力">
             <button type="submit">送信</button>
+        </form>
+-->      
+        <!-- 体重入力(2回目以降) -->
+        <form id="weight-form" class="weight-input 2nd-records" action="/add-record" method="POST">
+            <input type="text" id="weight-input" name="weight" placeholder="体重入力">
+            <button type="submit" onclick="submitWeight()">送信</button>
         </form>
 
         <!-- ボタン -->
@@ -71,5 +78,5 @@
 
 {% block script %} <!-- scriptブロックの開始 -->
     <!-- JSファイルのリンク -->
-    <!--<script src="../../static/js/mypage.js"></script> -->
+    <script src="../../static/js/mypage.js"></script>
 {% endblock %} <!-- scriptブロックの終了 -->

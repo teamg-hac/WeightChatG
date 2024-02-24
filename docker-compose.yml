@@ -1,5 +1,5 @@
 # docker-composeのバージョンを指定
-version: "1.0"
+version: "2.2"
 
 # db(MySQL),app(Flask)のコンテナを作成
 services:

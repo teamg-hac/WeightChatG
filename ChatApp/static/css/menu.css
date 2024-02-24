@@ -54,16 +54,18 @@ body {
     text-decoration: none; /* リンクの下線を削除 */
     border: none; /* ボーダーをなしに */
     border-radius: 10px; /* 角の丸み */
-    padding: 10px 20px; /* 上下左右の余白 */
+    padding: 10px 10px; /* 上下左右の余白 */
     font-size: 16px; /* フォントサイズ */
     cursor: pointer; /* マウスカーソルをポインターに */
     text-align: center; /* 文字を中央に配置 */
     width: 320px; /* ボタンの幅を固定 */
     height: 40px; /* ボタンの高さを固定 */
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+    overflow: hidden; /* テキストがはみ出した場合に隠す */
+    text-overflow: ellipsis; /* テキストがはみ出した場合に省略記号を表示 */
 }
 
 .chatroom-button {
-    padding: 10px 100px; /* 上下左右の余白 */
     margin-right: 20px; /* チャットルームボタンの右側マージン */
 }
 

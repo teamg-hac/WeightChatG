@@ -5,7 +5,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to bottom, #777, #333); /* グレーから濃い色にグラデーション */
+    background: #93b69c; 
 }
 
 /* タイトルのスタイル */

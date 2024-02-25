@@ -27,7 +27,11 @@
         {% else %}
             <img src="../../static/img/none.png" alt="デフォルト画像">
         {% endif %}
+        {% if chat_user['user_name'] == 'deleted_instructor' %}
+        <h2>退会済ユーザー</h2>
+        {% else %}
         <h2>{{ chat_user['user_name'] }}</h2>
+        {% endif %}
     </div>
 
     <!-- ユーザー情報（初期状態は非表示） -->
@@ -44,10 +48,14 @@
     </div>
     {% else %}
     <div class="user-info" id="user-info">
+        {% if chat_user['user_name'] == 'deleted_instructor' %}
+        <p>このインストラクターは退会しました</p>
+        {% else %}
         {% if chat_user['introduction'] is none %}
         <p>自己PR：まだ記入されていません</p>
         {% else %}
         <p>自己PR：{{ chat_user['introduction'] }}</p>
+        {% endif %}
         {% endif %}
     </div>
     {% endif %}

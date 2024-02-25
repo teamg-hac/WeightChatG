@@ -96,11 +96,14 @@ def show_mypage():
     else:
         user = dbConnect.getUserById(u_id)
         weight_record = dbConnect.getWeightRecordById(u_id)
-        latest_record = dbConnect.getLatestRecordById(weight_record['record_room_id'])
-        if latest_record:
+        
+        # 最新の記録の有無を確認し、あればその日付を代入
+        try:
+            latest_record = dbConnect.getLatestRecordById(weight_record['record_room_id'])
             latest_record_timestamp = str(latest_record['created_at'])
-        else:
+        except:
             latest_record_timestamp = None
+            
         return render_template('menu/mypage.html',user=user, latest_record_timestamp=latest_record_timestamp)
     
 #体重記録の追加

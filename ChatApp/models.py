@@ -421,7 +421,7 @@ class dbConnect:
             conn = DB.getConnection()
             cur = conn.cursor()
             sql = "DELETE FROM rooms WHERE room_id =%s;"
-            cur.execute(sql,(room_id))
+            cur.execute(sql, (room_id))
             conn.commit()
         except Exception as e:
             print(str(e) + 'が発生しています')

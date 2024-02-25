@@ -38,13 +38,23 @@
                 {% for i in range(rooms|length) %}
                 <li>
                     <form action="/room{{ rooms[i]['room_id'] }}">
-                        {% if latest_u_ids[i] != user['u_id'] %}
-                        <!-- 最新のメッセージが相手ユーザーの場合 -->
-                        <button class="chatroom-button">{{ rooms[i]['room_name'] }}({{ users_name[i] }})</button>
+                    {% if latest_u_ids[i] != user['u_id'] %}
+                    <!-- 最新のメッセージが相手ユーザーの場合 -->
+                        <!-- インストラクターが退会済の場合 -->
+                        {% if users_name[i] == 'deleted_instructor' %}
+                        <button class="chatroom-button">{{ rooms[i]['room_name'] }}(退会済)</button>
                         {% else %}
-                        <!-- 最新のメッセージがユーザーの場合 -->
                         <button class="chatroom-button">{{ rooms[i]['room_name'] }}({{ users_name[i] }})</button>
                         {% endif %}
+                    {% else %}
+                    <!-- 最新のメッセージがユーザーの場合 -->
+                        <!-- インストラクターが退会済の場合 -->
+                        {% if users_name[i] == 'deleted_instructor' %}
+                        <button class="chatroom-button">{{ rooms[i]['room_name'] }}(退会済)</button>
+                        {% else %}
+                        <button class="chatroom-button">{{ rooms[i]['room_name'] }}({{ users_name[i] }})</button>
+                        {% endif %}
+                    {% endif %}
                     </form>
                     <form action="/delete-room{{ rooms[i]['room_id'] }}" method="POST">
                         <button id="delete-button" class="delete-button">削除</button>

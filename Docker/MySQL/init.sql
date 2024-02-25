@@ -59,7 +59,7 @@ CREATE TABLE messages(
     message varchar(255) NOT NULL,
     created_at timestamp NOT NULL,
     PRIMARY KEY (message_id),
-    FOREIGN KEY (room_id) REFERENCES rooms(room_id),
+    FOREIGN KEY (room_id) REFERENCES rooms(room_id) ON DELETE CASCADE,
     FOREIGN KEY (u_id) REFERENCES users(u_id) ON DELETE CASCADE
 );
 

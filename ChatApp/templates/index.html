@@ -43,6 +43,7 @@
                         <!-- インストラクターが退会済の場合 -->
                         {% if users_name[i] == 'deleted_instructor' %}
                         <button class="chatroom-button">{{ rooms[i]['room_name'] }}(退会済)</button>
+                        <!-- インストラクターが登録中の場合 -->
                         {% else %}
                         <button class="chatroom-button">{{ rooms[i]['room_name'] }}({{ users_name[i] }})</button>
                         {% endif %}
@@ -51,14 +52,18 @@
                         <!-- インストラクターが退会済の場合 -->
                         {% if users_name[i] == 'deleted_instructor' %}
                         <button class="chatroom-button">{{ rooms[i]['room_name'] }}(退会済)</button>
+                        <!-- インストラクターが登録中の場合 -->
                         {% else %}
                         <button class="chatroom-button">{{ rooms[i]['room_name'] }}({{ users_name[i] }})</button>
                         {% endif %}
                     {% endif %}
                     </form>
+                    <!-- ユーザーが一般ユーザーの場合にのみ削除ボタンを表示 -->
+                    {% if user['is_instructor'] == 0 %}
                     <form action="/delete-room{{ rooms[i]['room_id'] }}" method="POST">
                         <button id="delete-button" class="delete-button">削除</button>
                     </form>
+                    {% endif %}
                 </li>
                 {% endfor %}
                 {% else %}

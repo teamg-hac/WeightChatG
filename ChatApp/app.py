@@ -277,7 +277,9 @@ def show_edit_user():
         return redirect('/login')
     else:
         user = dbConnect.getUserById(u_id)
-        return render_template('menu/edit_user.html', user=user)
+        weight_record = dbConnect.getWeightRecordById(u_id)
+        is_public = weight_record['is_public']
+        return render_template('menu/edit_user.html', user=user, is_public=is_public)
 
 # ユーザー情報の編集処理
 @app.route('/edit-user', methods=['POST'])
@@ -293,6 +295,7 @@ def edit_user():
         goal = request.form.get('goal')
         introduction = request.form.get('introduction')
         address = request.form.get('address')
+        is_public = request.form.get('is_public')
         # is_instructor = request.form.get('is_instructor')
         user = dbConnect.getUserById(u_id)
         icon_name = secure_filename(file.filename)
@@ -317,6 +320,13 @@ def edit_user():
             # hash_password = user['password']
         # else:
             # hash_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
+        
+        # 体重記録のis_publicの更新
+        weight_record = dbConnect.getWeightRecordById(u_id)
+        if is_public != weight_record['is_public']:
+            # is_publicの変更があれば、record_settingテーブルを更新
+            dbConnect.updateRecordRoom(weight_record['record_room_id'], weight_record['record_name'], weight_record['unit'], is_public, weight_record['remind'], weight_record['remind_time'])
+        
         dbConnect.updateUser(u_id, user_name, mail, height, goal, introduction, address, icon_path)
         return redirect('/mypage')
 

@@ -124,4 +124,22 @@ body {
   button[type="submit"]:hover {
     background-color: #0056b3;
   }
+
+  /* butch追加 */
+  .form-group .is_public {
+    display: contents;
+  }
+  .form-group span {
+    font-size: 0.7rem;
+    margin-left: 10px;
+  }
+
+  .checkbox {
+    display: flex;
+  }
+
+  .checkbox label {
+    margin: unset;
+    margin-right: 20px;
+  }
   

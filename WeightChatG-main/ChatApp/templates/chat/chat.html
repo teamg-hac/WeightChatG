@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block head %} <!-- cssブロックの開始 -->
+<title>チャットルーム</title>
+<link rel="stylesheet" href="../../static/css/btn3.css">
+<link rel="stylesheet" href="../../static/css/chatroom.css">
+{% endblock %} <!-- cssブロックの終了 -->
+
+{% block main %} <!-- mainブロックの開始 -->
+<div class="main-container"> <!-- メインコンテナ -->
+    <!-- 戻るボタン -->
+    <form action="/">
+        <button class="back-button">戻る</button>
+    </form>
+
+    <div class="container">
+
+        <!-- チャットルーム名 -->
+        <div class="chat-title">
+            <h2>{{ room['room_name'] }}</h2>
+        </div>
+
+    <!-- ユーザー情報バー -->
+    <div class="user-info-bar" id="user-info-bar">
+        {% if chat_user['icon_path'] %}
+        <img src="{{ chat_user['icon_path'] }}" alt="User Image">
+        {% else %}
+            <img src="../../static/img/none.png" alt="デフォルト画像">
+        {% endif %}
+        {% if chat_user['user_name'] == 'deleted_instructor' %}
+        <h2>退会済ユーザー</h2>
+        {% else %}
+        <h2>{{ chat_user['user_name'] }}</h2>
+        {% endif %}
+    </div>
+
+    <!-- ユーザー情報（初期状態は非表示） -->
+    {% if is_public is not none %}
+    <div class="user-info" id="user-info">
+        {% if chat_user['goal'] is none %}
+        <p>目標：まだ記入されていません</p>
+        {% else %}
+        <p>目標：{{ chat_user['goal'] }}</p>
+        {% endif %}
+        {% if is_public == 1 %}
+        <p>現在の体重：{{ chat_user['latest_weight'] }}kg</p>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="user-info" id="user-info">
+        {% if chat_user['user_name'] == 'deleted_instructor' %}
+        <p>このインストラクターは退会しました</p>
+        {% else %}
+        {% if chat_user['introduction'] is none %}
+        <p>自己PR：まだ記入されていません</p>
+        {% else %}
+        <p>自己PR：{{ chat_user['introduction'] }}</p>
+        {% endif %}
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if messages %}
+    <!-- チャット欄 -->
+    <div class="chat-area">
+    {% for message in messages %}
+        {% if message['u_id'] == user['u_id'] %}
+        <div class="chat-bubble self">
+            <p>{{ message['message'] }}</p>
+        </div>
+        {% else %}
+        <div class="chat-bubble other">
+            <p>{{ message['message'] }}</p>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+    {% else %}
+    <p>メッセージはありません</p>
+    {% endif %}
+
+    <!-- チャット送信フォーム -->
+    <form id="chat-form" action="/add-message" method="POST">
+        <input type="text" id="message-input" placeholder="メッセージを入力" name="message">
+        <input type="hidden" name="room_id" value="{{ room['room_id'] }}">
+        <button type="submit">送信</button>
+    </form>
+
+    </div>
+</div>
+<!-- {% endblock %} --> <!-- bodyブロックの終了 -->
+
+<!-- {% block script %} --> <!-- scriptブロックの開始 -->
+    <!-- JSファイルのリンク -->
+    <script src="../../static/js/chat.js"></script>
+<!-- {% endblock %} --> <!-- scriptブロックの終了 -->

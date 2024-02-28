@@ -1,0 +1,50 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* 横方向のスクロールを禁止 */
+  }
+
+  /* ヘッダーの装飾 */
+  header {
+    background: linear-gradient(to right, #555, #888); /* グレーのグラデーション */
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+/* フッターの装飾 */
+  footer {
+    background: linear-gradient(to right, #555, #888); /* グレーのグラデーション */
+    margin-top: 15px;
+    left: 0; /* 左端からの位置 */
+    bottom: 0; /* 下端からの位置 */
+    width: 100%; /* 幅を100%に設定 */
+    background-color: #333; /* 背景色 */
+    color: white; /* テキスト色 */
+    text-align: center; /* 文字を中央に配置 */
+    padding: 10px 0; /* 上下の余白 */
+    text-align: center; /* 文字を中央に配置 */
+    padding: 10px 0; /* 上下の余白 */
+    clear: both; /* コンテンツの後ろにフッターを表示 */
+  }
+
+/* 時間の装飾 */
+  #time {
+    font-size: 12px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  /* メインの装飾 */
+  .main-container{
+    background: linear-gradient(to bottom, #f8f8f8, #e0e0e0); /* より自然なグラデーション */
+  }
+  
+  .container{
+    background-color: white;
+  }
+  

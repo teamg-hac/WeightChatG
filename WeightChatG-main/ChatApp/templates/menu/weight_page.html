@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block head %} <!-- cssブロックの開始 -->
+<title>体重履歴</title>
+<link rel="stylesheet" href="../../static/css/btn3.css">
+<link rel="stylesheet" href="../../static/css/data_page.css">
+{% endblock %} <!-- cssブロックの終了 -->
+
+{% block main %} <!-- mainブロックの開始 -->
+<div class="main-container"> <!-- メインコンテナ -->
+    <!-- 戻るボタン -->
+    <form action="/mypage">
+        <button class="back-button">戻る</button>
+    </form>
+
+    <div class="container">
+
+        <h1>体重履歴</h1>
+        <div class="list">
+            {% if list_dates|length < 10 %}
+            <div class="history">
+                {% for i in range(list_dates|length) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% elif list_dates|length < 20 %}
+            <div class="history">
+                {% for i in range(10) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="history">
+                {% for i in range(10, list_dates|length) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="history">
+                {% for i in range(10) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="history">
+                {% for i in range(10, 20) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="history">
+                {% for i in range(20, list_dates|length) %}
+                <div class="history-item">
+                    <p>{{ list_dates[i] }}</p>
+                    {% if list_values[i] is none %}
+                    {% else %}
+                    <span>{{ list_values[i] }}{{ unit }}</span>
+                    <form action="/delete-value" method="POST">
+                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div class="pagination-list">
+            {{ pagination_list.links }}
+        </div>
+        
+        <div class="graph">
+            <!-- ここにPythonで生成したグラフを表示 -->
+            <img src="data:img/png;base64,{{ graph }}" alt="Graph">
+        </div>
+        <div class="pagination-graph">
+            {{ pagination_graph.links }}
+        </div>
+        <div class="dropdown">
+            <select>
+            <option name="span" value="week">週</option>
+            <option name="span" value="month">月</option>
+            <option name="span" value="year">年</option>
+            </select>
+        </div>
+    </div>
+</div>
+{% endblock %} <!-- bodyブロックの終了 -->
+
+{% block script %}
+<!-- JS追加 -->
+<script src="../../static/js/delete.js"></script>
+<!--  -->
+{% endblock %}

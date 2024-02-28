@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>人の腹見て我が腹直せ。</title>
+        <link rel="stylesheet" href="../../static/css/btn1.css">
+        <link rel="stylesheet" href="../../static/css/btn2.css">
+        <link rel="stylesheet" href="../../static/css/btn3.css">
+        <link rel="stylesheet" href="../../static/css/top.css">
+        <link rel="stylesheet" href="../../static/css/register.css">
+        <link rel="stylesheet" href="../../static/css/base.css">
+    </head>
+    <body>
+          <!-- Header -->
+        <header>
+            <!-- ヘッダータイトル（Jinja2変数を想定） -->
+            <h1 style="color: white;">人の腹見て我が腹直せ。</h1>
+        </header>
+
+            <!-- 戻るボタン -->
+            <form action="/">
+                <button id="back-button" class="back-button">戻る</button>
+            </form>
+
+        <div class="main-container"> <!-- メインコンテナ -->
+            <div class="container">
+
+                <h1>新規登録</h1>
+                <!-- ユーザー情報入力フォーム -->
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <form id="register-form" action="/signup" method="POST">
+                    <div class="form-group">
+                        <label for="user_name">ユーザー名:</label>
+                        <input type="text" id="username" name="user_name" placeholder="ユーザー名を入力" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mail">メールアドレス:</label>
+                        <input type="email" id="email" name="mail" placeholder="メールアドレスを入力" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password1">パスワード:</label>
+                        <input type="password" id="password1" name="password1" placeholder="パスワードを入力" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password2">パスワード確認:</label>
+                        <input type="password" id="password2" name="password2" placeholder="パスワードを再入力" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="height">身長(cm):</label>
+                        <input type="number" id="height" name="height" placeholder="身長を入力" required>
+                    </div>
+                    <!-- 体重入力項目の追加 -->
+                    <div class="form-group">
+                        <label for="latest_weight">体重(kg):</label>
+                        <input type="number" id="weight" name="latest_weight" placeholder="体重を入力" required>
+                    </div>
+                    <!-- 性別の削除 -->
+                    <div class="form-group">
+                        <label for="address">所在地:</label>
+                        <select id="address" name="address">
+                            <option value="">選択してください</option>
+                            <!-- JavaScriptで生成される都道府県の選択肢 -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="goal">目標:</label>
+                        <input type="text" id="goal" name="goal" placeholder="目標を入力">
+                    </div>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <!-- ラジオボタン（ユーザー・インストラクター）の追加 -->
+                    <div class="form-group">
+                        <label>登録するユーザーを選択してください:</label><br>
+                        <input type="radio" id="user" name="is_instructor" value="0">
+                        <label for="user">ユーザー</label>
+                        <input type="radio" id="instructor" name="is_instructor" value="1">
+                        <label for="instructor">インストラクター</label><br>
+                    </div>
+                    <button type="submit">登録</button>
+                </form>
+            </div>
+        </div>
+        <footer>
+            <!-- コピーライト -->
+            <p>&copy; 2024 Example Company. All rights reserved.</p>
+            <!-- 時刻表示 -->
+            <p id="current-time"></p>
+          </footer>
+
+        <script src="../../static/js/base.js"></script>
+        <script src="../../static/js/time.js"></script>
+        <script src="../../static/js/register.js"></script>
+    </body>
+</html>

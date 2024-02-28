@@ -1,0 +1,145 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+  
+  /* タイトルのスタイル */
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+  }
+  
+  /* コンテナのスタイル */
+  .container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+/* プロフィール画像のスタイル */
+.profile-picture {
+    margin-bottom: 20px;
+    position: relative;
+    text-align: center;
+}
+
+.profile-picture input[type="file"] {
+    display: none;
+}
+
+.profile-picture label {
+    cursor: pointer;
+}
+
+.profile-picture img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.profile-picture label span {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-picture label:hover span {
+    opacity: 1;
+}
+
+.profile-picture img:hover {
+    transform: scale(1.1);
+}
+
+
+  /* ユーザー情報編集フォームのスタイル */
+  #edit-profile-form {
+    margin-top: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="number"],
+  .form-group select,
+  .form-group textarea {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form-group select {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: url("arrow-down-icon.png") no-repeat right center;
+    background-size: 20px;
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+  }
+  
+  button[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+
+  /* butch追加 */
+  .form-group .is_public {
+    display: contents;
+  }
+  .form-group span {
+    font-size: 0.7rem;
+    margin-left: 10px;
+  }
+
+  .checkbox {
+    display: flex;
+  }
+
+  .checkbox label {
+    margin: unset;
+    margin-right: 20px;
+  }
+  

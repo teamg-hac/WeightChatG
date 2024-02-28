@@ -1,0 +1,47 @@
+/* 新規登録ボタンのスタイル */
+.signup-button {
+    font-size: 1.6rem; /* フォントサイズ */
+    font-weight: 700; /* フォントの太さ */
+    line-height: 1.5; /* 行の高さ */
+    position: relative; /* 相対位置指定 */
+    display: inline-block; /* インラインブロック要素 */
+    padding: 1rem 4rem; /* 上下左右の余白 */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    text-align: center; /* 文字を中央揃え */
+    vertical-align: middle; /* 垂直方向に中央揃え */
+    text-decoration: none; /* テキスト装飾を削除 */
+    letter-spacing: 0.1em; /* 文字間隔 */
+    color: #fff; /* テキスト色を白に設定 */
+    border-radius: 0.5rem; /* 角の丸み */
+    overflow: hidden; /* オーバーフローした内容を非表示 */
+    background: #000; /* 背景色 */
+    -webkit-transition: all 0.3s; /* すべての変化に0.3秒かけて変化 */
+    transition: all 0.3s;
+}
+
+.signup-button:hover:before {
+    -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+    transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+
+/* 新規登録ボタンのテキストスタイル */
+.signup-button span {
+    position: relative; /* 相対位置指定 */
+    color: #fff; /* ホバー前のテキスト色を白に設定 */
+}
+
+/* 新規登録ボタンの疑似要素のスタイル */
+.signup-button:before {
+    position: absolute; /* 絶対位置指定 */
+    top: 0;
+    left: 0;
+    width: 150%; /* 幅 */
+    height: 500%; /* 高さ */
+    content: ""; /* コンテンツ */
+    -webkit-transition: all 0.5s ease-in-out; /* すべての変化に0.5秒かけて変化 */
+    transition: all 0.5s ease-in-out;
+    -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg); /* 初期位置と回転 */
+    transform: translateX(-98%) translateY(-25%) rotate(45deg);
+    background: #00b7ee; /* 背景色 */
+}
+

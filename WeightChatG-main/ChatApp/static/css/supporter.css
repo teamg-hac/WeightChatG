@@ -1,0 +1,85 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    text-align: center; /* テキストを中央揃え */
+}
+/* コンテナのスタイル */
+.container {
+    border: 2px solid #ccc; /* 枠線のスタイル */
+    border-radius: 10px; /* 枠の角の丸み */
+    padding: 20px; /* 内側の余白 */
+    max-width: 400px; /* 最大幅 */
+    margin: auto; /* ページの中央に配置 */
+    position: relative; /* 相対的な位置指定 */
+}
+/* タイトルのスタイル */
+h1 {
+    display: block; /* または inline-block */
+    margin-bottom: 20px; /* 下部のマージン */
+}
+
+/* インストラクター一覧のコンテナ */
+.container {
+    display: flex;
+    flex-wrap: wrap; /* 折り返し */
+    justify-content: center; /* 中央揃え */
+    max-width: 1200px; /* 最大幅 */
+    margin: 0 auto; /* 水平方向に中央揃え */
+}
+
+/* インストラクター個別のコンテナ */
+.instructor-container {
+    width: calc(100% / 3 - 40px); /* 幅を計算して設定（3つ並ぶための計算式） */
+    margin: 20px; /* マージン */
+}
+
+
+/* インストラクターごとのコンテナ */
+.instructor-container {
+    width: 30%; /* 幅を30%に設定 */
+    margin: 20px; /* マージン */
+    padding: 20px; /* パディング */
+    background-color: #f8d7da; /* 背景色 */
+    border-radius: 10px; /* 角丸 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 影の設定 */
+}
+
+/* インストラクター画像 */
+.instructor-img {
+    width: 100px; /* 幅を設定 */
+    height: 100px; /* 高さを設定 */
+    object-fit: cover; /* 画像を完全に覆うように設定 */
+    border-radius: 50%; /* 丸型に設定 */
+    margin: 0 auto 20px; /*マージン*/
+}
+
+/* インストラクター名 */
+.instructor-name {
+    font-size: 24px; /* 文字サイズを大きく */
+    font-weight: bold; /* 太字 */
+    margin-bottom: 10px; /* 下部のマージン */
+}
+
+/* 選択ボタン */
+.select-button {
+    background-color: #ffc107; /* 背景色 */
+    color: #fff; /* 文字色 */
+    padding: 10px 20px; /* パディング */
+    border: none; /* ボーダーなし */
+    border-radius: 10px; /* 角丸 */
+    cursor: pointer; /* マウスカーソル */
+    font-size: 16px; /* 文字サイズ */
+    margin-top: 20px; /* 上部のマージン */
+}
+
+/* 選択ボタン（登録あり） */
+.select-button-none {
+    background-color: gray; /* 背景色 */
+    color: #fff; /* 文字色 */
+    padding: 10px 20px; /* パディング */
+    border: none; /* ボーダーなし */
+    border-radius: 10px; /* 角丸 */
+    font-size: 16px; /* 文字サイズ */
+    margin-top: 20px; /* 上部のマージン */
+}

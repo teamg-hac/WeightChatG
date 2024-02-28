@@ -1,0 +1,84 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    padding: 30px; /* 全体的に余白を追加 */
+}
+
+/* コンテナのスタイル */
+.container {
+    border: 2px solid #ccc;
+    border-radius: 15px; /* 枠の角を丸く */
+    padding: 30px; /* 全体的に余白を追加 */
+    max-width: 800px; /* コンテナの最大幅を指定 */
+    margin: auto;
+}
+
+/* プロフィール欄のスタイル */
+.profile {
+    border: 2px solid #ccc;
+    border-radius: 15px; /* 枠の角を丸く */
+    padding: 30px; /* 全体的に余白を追加 */
+    margin-bottom: 30px; /* 下部に余白を追加 */
+}
+
+/* プロフィール画像のスタイル */
+.profile-picture img {
+    width: 200px; /* 画像の幅を拡大 */
+    height: 200px; /* 画像の高さを拡大 */
+    border-radius: 50%;
+    margin-right: 30px; /* 右側に余白を追加 */
+}
+
+/* プロフィール詳細のスタイル */
+.profile-details {
+    font-size: 18px; /* テキストサイズを大きく */
+}
+/* 体重入力のスタイル */
+.weight-input {
+    margin-bottom: 30px; /* 下部に余白を追加 */
+    display: flex; /* テキストボックスとボタンを横並びにする */
+    align-items: center; /* 垂直方向に中央揃え */
+}
+
+.weight-input input[type="number"] {
+    width: calc(100% - 120px); /* テキストボックスの幅を縮める */
+    padding: 10px; /* 上下の余白を少し減らす */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px; /* テキストボックスとボタンの間隔を設定 */
+}
+
+.weight-input button {
+    padding: 10px 20px; /* 上下の余白を少し減らす */
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.buttons-form{
+    display: inline-block;
+}
+
+/* ボタンのスタイル */
+.buttons button {
+    padding: 15px 30px; /* 上下の余白を追加 */
+    margin-right: 20px; /* ボタン同士の間隔を設定 */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 編集ボタンのスタイル */
+.edit-button {
+    background-color: #28a745; /* 緑色 */
+    color: #fff;
+}
+
+/* 退会ボタンのスタイル */
+.delete-button {
+    background-color: #dc3545; /* 赤色 */
+    color: #fff;
+}
+

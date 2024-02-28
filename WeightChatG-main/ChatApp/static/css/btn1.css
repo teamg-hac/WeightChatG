@@ -1,0 +1,35 @@
+/* ログインボタンのスタイル */
+.login-button {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border: none; /* ボーダーをなしに */
+  border-radius: 10px; /* 角の丸み */
+  padding: 15px 30px; /* 上下左右の余白 */
+  font-size: 18px; /* フォントサイズ */
+  display: inline-block; /* インラインブロック要素に設定 */
+  margin-bottom: 30px; /* 下部に10ピクセルのマージンを追加 */
+}
+
+.login-button:hover {
+  background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+/* ログアウトボタン */
+.logout-button {
+  background-color: #dc3545; /* 背景色 */
+  color: #fff; /* 文字色 */
+  padding: 10px 20px; /* 上下左右の余白 */
+  border: none; /* ボーダーをなしに */
+  border-radius: 10px; /* 角の丸み */
+  cursor: pointer; /* マウスカーソルをポインターに */
+  position: absolute; /* 絶対的な位置指定 */
+  top: 120px; /* 下端からの距離 */
+  right: 120px; /* 右端からの距離 */
+}
+
+.logout-button:hover {
+  background-color: #c82333; /* ホバー時の背景色 */
+}
+

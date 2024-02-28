@@ -1,0 +1,97 @@
+.container {
+    max-width: 80%; /* 例として最大幅を指定 */
+    margin: 20px auto; /* 上下左右にマージンを設定して中央寄せ */
+    border: 2px solid #ccc; /* 枠の設定 */
+    border-radius: 10px; /* 枠の角を丸める */
+    padding: 20px; /* 内側の余白 */
+    overflow: hidden; /* 内容が枠外にはみ出さないように */
+}
+
+/* チャットルーム名*/
+.chat-title{
+    text-align: center;
+    
+}
+
+/* ユーザー情報バー */
+.user-info-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 水平方向に中央揃え */
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 50px; /* 上部マージンを設定 */
+}
+
+.user-info-bar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-info-bar h2 {
+    margin: 0;
+}
+
+/* ユーザー情報 */
+.user-info {
+    display: none;
+    padding: 10px;
+    background-color: #f2f2f2;
+}
+
+/* ユーザー情報を表示するときのスタイル */
+.user-info.show {
+    display: block;
+}
+
+/* チャット欄 */
+.chat-area {
+    margin-top: 20px;
+}
+
+.chat-bubble {
+    padding: 10px;
+    margin-bottom: 10px;
+    max-width: 70%;
+    border-radius: 15px;
+}
+
+.self {
+    background-color: #007bff;
+    color: #fff;
+    align-self: flex-end; /* Flexboxレイアウト内で要素を下端に配置 */
+    margin-left: auto; /* 左側の余白を自動計算して右端に配置 */
+}
+
+.other {
+    background-color: #f2f2f2;
+    color: #000;
+    align-self: flex-start;
+}
+
+/* チャット送信フォーム */
+#chat-form {
+    display: flex;
+    margin-top: 20px;
+}
+
+#message-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#chat-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}

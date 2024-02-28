@@ -1,0 +1,98 @@
+/* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    padding: 0; /* 上下左右の余白を0に */
+    margin: 0; /* マージンを0に */
+}
+
+/* コンテナのスタイル */
+.container {
+    border: 2px solid #ccc; /* 枠線のスタイル */
+    border-radius: 10px; /* 枠の角の丸み */
+    padding: 20px; /* 内側の余白 */
+    max-width: 400px; /* 最大幅 */
+    margin: auto; /* ページの中央に配置 */
+    position: relative; /* 相対的な位置指定 */
+}
+
+/* タイトルのスタイル */
+#title {
+    text-align: center;
+    margin-bottom: 20px; /* 下側のマージンを追加 */
+}
+
+/* メニュー項目のボタン */
+.menu-button{
+    display: inline-block; /* インラインブロック要素として表示 */
+    margin-bottom: 10px; /* 下側のマージン */
+    background-color: #007bff; /* 背景色 */
+    color: #fff; /* 文字色 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 10px; /* 角の丸み */
+    padding: 10px 20px; /* 上下左右の余白 */
+    font-size: 16px; /* フォントサイズ */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    text-align: center; /* 文字を中央に配置 */
+    width: 95%; /* 幅を95%に設定 */
+    margin-right: auto; /* 右側のマージンを自動調整 */
+    margin-left: auto; /* 左側のマージンを自動調整 */
+}
+
+
+.menu-button:hover,
+.chatroom-button:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+
+/* チャットルームボタン */
+.chatroom-button {
+    display: inline-block; /* インラインブロック要素として表示 */
+    margin-bottom: 10px; /* 下側のマージン */
+    background-color: #007bff; /* 背景色 */
+    color: #fff; /* 文字色 */
+    text-decoration: none; /* リンクの下線を削除 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 10px; /* 角の丸み */
+    padding: 10px 10px; /* 上下左右の余白 */
+    font-size: 16px; /* フォントサイズ */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    text-align: center; /* 文字を中央に配置 */
+    width: 320px; /* ボタンの幅を固定 */
+    height: 40px; /* ボタンの高さを固定 */
+    white-space: nowrap; /* テキストの折り返しを防ぐ */
+    overflow: hidden; /* テキストがはみ出した場合に隠す */
+    text-overflow: ellipsis; /* テキストがはみ出した場合に省略記号を表示 */
+}
+
+.chatroom-button {
+    margin-right: 20px; /* チャットルームボタンの右側マージン */
+}
+
+/* 削除ボタン */
+.delete-button {
+    background-color: #dc3545; /* 背景色 */
+    color: #fff; /* 文字色 */
+    padding: 5px 10px; /* 上下左右の余白 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 10px; /* 角の丸み */
+    cursor: pointer; /* マウスカーソルをポインターに */
+    position: relative; /* 相対的な位置指定 */
+    float: right; /* 右側に浮かせる */
+    top: 50%; /* 上から50%の位置に */
+    transform: translateY(-10%); /* 上から10%の位置に配置 */
+}
+
+/* チャットルームと削除ボタンの親要素 */
+.chatroom li {
+    display: flex; /* フレックスボックスを使用して横並びに配置 */
+    align-items: center; /* 中央に揃える */
+    width: max-content;
+}
+
+/* リストのスタイル */
+ul {
+    list-style-type: none; /* マーカー（・）を削除 */
+    padding: 0; /* パディングをなしに */
+    margin: 0; /* マージンをなしに */
+}

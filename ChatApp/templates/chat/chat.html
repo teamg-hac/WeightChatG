@@ -80,11 +80,13 @@
     {% endif %}
 
     <!-- チャット送信フォーム -->
+    {% if chat_user['user_name'] != 'deleted_instructor' %}
     <form id="chat-form" action="/add-message" method="POST">
         <input type="text" id="message-input" placeholder="メッセージを入力" name="message">
         <input type="hidden" name="room_id" value="{{ room['room_id'] }}">
         <button type="submit">送信</button>
     </form>
+    {% endif %}
 
     </div>
 </div>

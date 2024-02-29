@@ -13,7 +13,6 @@ import re
 from flask_paginate import Pagination, get_page_parameter
 import pandas as pd
 import calendar
-import math
 
 app = Flask(__name__)
 app.secret_key = uuid.uuid4().hex
@@ -58,6 +57,8 @@ def signup():
         flash('二つのパスワードの値が違っています')
     elif re.match(pattern, mail) is None:
         flash('正しいメールアドレスの形式ではありません')
+    elif is_instructor is None:
+        flash('ユーザーかインストラクターを選択してください')
     else:
         u_id = uuid.uuid4()
         password = hashlib.sha256(password1.encode('utf-8')).hexdigest()
@@ -70,6 +71,7 @@ def signup():
             flash('ユーザー名は既に登録されているようです')
         else:
             dbConnect.createUser(u_id, user_name, mail, password, is_instructor, latest_weight, height, goal, introduction, address, icon_path)
+            
             record_name= '体重'
             unit= 'kg'
             is_public = 0
@@ -84,7 +86,11 @@ def signup():
             #value = unicodedata.normalize('NFKC', value)
             created_at = datetime.now(timezone(timedelta(hours=9)))
             dbConnect.addRecord(record_room_id, value, created_at)
-            return redirect('/login')
+            
+            # 入力されたユーザー名よりユーザー情報を取得
+            user = dbConnect.getUserByName(user_name)
+            session['uid'] = user['u_id']
+            return redirect('/')
     return redirect('/signup')
 
 #マイページ画面の表示

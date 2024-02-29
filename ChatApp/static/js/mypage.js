@@ -1,41 +1,36 @@
 //体重が入力されたとき
-function submitWeight() {
-//    event.preventDefault(); // デフォルトのフォーム送信をキャンセル
+function submitWeight(event) {
+    event.preventDefault(); // デフォルトのフォーム送信をキャンセル
+    
     const weightInput = document.getElementById("weight-input");
     const newWeight = weightInput.value.trim();
 
-    if (newWeight === "") {
-        alert("体重を入力してください。");
-        return;
-    }
 
     const confirmMessage = `本日の体重を ${newWeight} kg に更新します。よろしいですか？`;
     if (confirm(confirmMessage)) {
         alert("体重を更新しました。");
-        document.getElementById("weight-form").reset(); // フォームをリセット
-    }
-    else{
-        preventDefault(); // デフォルトのフォーム送信をキャンセル
+        // フォームを送信
+        event.target.closest('form').submit();
     }
 }
 
 
+
 // 退会ボタンがクリックされたときの処理
 
-document.getElementById("delete-button").addEventListener("submit", function() {
- //   event.preventDefault(); // デフォルトのフォーム送信をキャンセル
+document.getElementById("delete-button").addEventListener("click", function(event) {
+    // デフォルトのイベントをキャンセル
+    event.preventDefault();
 
     // 本当に退会しますか？の確認メッセージを表示
     if (confirm("本当に退会しますか？")) {
         // ここで退会処理を行う
         console.log("ユーザーが退会しました。");
+        // フォームを送信
+        this.closest('form').submit();
     }
-    else{
-        preventDefault(); // デフォルトのフォーム送信をキャンセル
-    }
-
-
 });
+
 
 /*
 // HTMLからhidden要素を取得し、その値をJavaScriptの変数に代入する

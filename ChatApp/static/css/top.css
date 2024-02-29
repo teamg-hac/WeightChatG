@@ -1,3 +1,26 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-size: 150% auto; /* 背景画像を横方向に200%拡大し、縦方向は自動で調整 */
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    animation: slideshow 20s linear infinite, moveBackground 20s linear infinite; /* アニメーションを適用 */
+}
+
+@keyframes slideshow {
+    0% { background-image: url('../top/image1.jpg'); }
+    25% { background-image: url('../top/image2.jpg'); }
+    50% { background-image: url('../top/image3.jpg'); }
+    75% { background-image: url('../top/image4.webp'); }
+    90% { background-image: url('../top/image5.jpeg'); }
+}
+
+@keyframes moveBackground {
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 0; }
+}
+
+
 /* コンテナのスタイル */
 .container {
     display: flex;
@@ -5,7 +28,6 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: #93b69c; 
 }
 
 /* タイトルのスタイル */

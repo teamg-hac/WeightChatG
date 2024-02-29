@@ -5,11 +5,3 @@ const userInfo = document.getElementById('user-info');
 userInfoBar.addEventListener('click', () => {
     userInfo.classList.toggle('show');
 });
-
-document.getElementById("chatroom-form").addEventListener("submit", function(event) {
-    // ダイアログメッセージを表示
-    alert("チャットルームが作成されました！");
-
-    // フォームをサブミットする（実際のアプリケーションでは、サーバーにフォームデータを送信するために必要）
-    this.submit();
-});

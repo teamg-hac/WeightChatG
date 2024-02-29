@@ -26,8 +26,6 @@
                 <p>目標: <strong>{{ user['goal'] }}</strong></p>
                 <p>自己紹介: <strong>{{ user['introduction'] }}</strong></p>
                 <p>所在地: <strong>{{ user['address'] }}</strong></p>
-                 <!-- パスワードをhiddenで保持 -->
-                 <input type="hidden" id="userPassword" value="{{ user['password'] }}">
             </div>
         </div>
 
@@ -48,8 +46,8 @@
 -->      
         <!-- 体重入力(2回目以降) -->
         <form id="weight-form" class="weight-input 2nd-records" action="/add-record" method="POST">
-            <input type="text" id="weight-input" name="weight" placeholder="体重入力">
-            <button type="submit" onclick="submitWeight()">送信</button>
+            <input type="number" id="weight-input" name="weight" placeholder="体重入力">
+            <button type="submit" onclick="submitWeight(event)">送信</button>
         </form>
 
         <!-- ボタン -->

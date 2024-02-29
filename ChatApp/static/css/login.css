@@ -2,12 +2,25 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #333333, #666666); /* 背景色をグレーのグラデーションに設定 */
+    background-size: 120% auto; /* 背景画像を横方向に200%拡大し、縦方向は自動で調整 */
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    animation: slideshow 20s linear infinite, moveBackground 20s linear infinite; /* アニメーションを適用 */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh; /* 画面の高さいっぱいに表示 */
+}
+
+@keyframes slideshow {
+    0% { background-image: url('../top/image6.jpg'); }
+    50% { background-image: url('../top/image7.jpeg'); }
+    100% { background-image: url('../top/image8.jpg'); }
+}
+
+@keyframes moveBackground {
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 0; }
 }
 
 .container {

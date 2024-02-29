@@ -134,13 +134,15 @@ def add_record():
         
         created_at = datetime.now(timezone(timedelta(hours=9)))
         
-        # 最新の記録の日にちを確認し、同じであれば上書きをするか確認
-        # latest_record = dbConnect.getLatestRecordById(record_room_id)
-        # if str(latest_record['created_at'])[:11] == str(created_at)[:11]:
-        #     flash('今日は記録済みです。上書きしますか？')
-        #     return redirect()
-        
-        dbConnect.addRecord(record_room_id, value, created_at)
+        # 最新の記録の日にちを確認し、同じであれば更新
+        # 新しい日付であれば追加
+        latest_record = dbConnect.getLatestRecordById(record_room_id)
+        record_id = latest_record['record_id']
+        (record_room_id)
+        if str(latest_record['created_at'])[:11] == str(created_at)[:11]:
+            dbConnect.updateRecord(record_id, value, created_at)
+        else:
+            dbConnect.addRecord(record_room_id, value, created_at)
         # value = dbConnect.getlatestrecordById(record_room_id)
         # weight = value['value']
         # weight = float(weight)

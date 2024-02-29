@@ -306,6 +306,21 @@ class dbConnect:
             cur.close()
             conn.close() 
 
+    # 記録IDを指定して記録情報を更新
+    def updateRecord(record_id, value, created_at):
+        try:
+            conn = DB.getConnection()
+            cur = conn.cursor()
+            sql = "UPDATE records SET value=%s, created_at=%s WHERE record_id=%s;"
+            cur.execute(sql,(value, created_at, record_id))
+            conn.commit()
+        except Exception as e:
+            print(str(e) + 'が発生しています')
+            abort(500)
+        finally:
+            cur.close()
+            conn.close()
+
     #追加　体重記録の削除
     #レコードIDを指定して、記録を削除
     def deleteValueById(record_id):

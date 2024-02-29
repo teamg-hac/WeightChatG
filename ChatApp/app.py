@@ -134,13 +134,15 @@ def add_record():
         
         created_at = datetime.now(timezone(timedelta(hours=9)))
         
-        # 最新の記録の日にちを確認し、同じであれば上書きをするか確認
-        # latest_record = dbConnect.getLatestRecordById(record_room_id)
-        # if str(latest_record['created_at'])[:11] == str(created_at)[:11]:
-        #     flash('今日は記録済みです。上書きしますか？')
-        #     return redirect()
-        
-        dbConnect.addRecord(record_room_id, value, created_at)
+        # 最新の記録の日にちを確認し、同じであれば更新
+        # 新しい日付であれば追加
+        latest_record = dbConnect.getLatestRecordById(record_room_id)
+        record_id = latest_record['record_id']
+        (record_room_id)
+        if str(latest_record['created_at'])[:11] == str(created_at)[:11]:
+            dbConnect.updateRecord(record_id, value, created_at)
+        else:
+            dbConnect.addRecord(record_room_id, value, created_at)
         # value = dbConnect.getlatestrecordById(record_room_id)
         # weight = value['value']
         # weight = float(weight)
@@ -333,9 +335,35 @@ def edit_user():
             # is_publicの変更があれば、record_settingテーブルを更新
             dbConnect.updateRecordRoom(weight_record['record_room_id'], weight_record['record_name'], weight_record['unit'], is_public, weight_record['remind'], weight_record['remind_time'])
         
-        dbConnect.updateUser(u_id, user_name, mail, height, goal, introduction, address, icon_path)
-        return redirect('/mypage')
+         #ユーザー・メールアドレスがすでに登録されてるものではないか確認
+        DBuser_mail = dbConnect.getUserByMail(mail)
+        DBuser_name = dbConnect.getUserByName(user_name)
 
+        if DBuser_mail == None  and  DBuser_name == None:
+            dbConnect.updateUser(u_id, user_name, mail, height, goal, introduction, address, icon_path)
+            return redirect('/mypage')
+        elif DBuser_mail == None:
+            if DBuser_name['u_id'] == u_id:
+                dbConnect.updateUser(u_id, user_name, mail, height, goal, introduction, address, icon_path)
+                return redirect('/mypage')
+            else:
+                flash('ユーザー名は既に使われています')
+        elif DBuser_name == None:
+            if DBuser_mail['u_id']  == u_id:
+                dbConnect.updateUser(u_id, user_name, mail, height, goal, introduction, address, icon_path)
+                return redirect('/mypage')
+            else:
+                flash('メールアドレスは既に使われています')
+        else:
+            if DBuser_name['u_id'] == u_id and DBuser_mail['u_id'] == u_id:
+                dbConnect.updateUser(u_id, user_name, mail, height, goal, introduction, address, icon_path)
+                return redirect('/mypage')
+            elif DBuser_mail['u_id'] == u_id:
+                flash('ユーザー名は既に使われています') 
+            else:
+                flash('メールアドレスは既に使われています')                     
+        return redirect('/edit-user')
+       
 # インストラクター一覧画面
 @app.route('/instructors')
 def instructors():

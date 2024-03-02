@@ -137,10 +137,12 @@ def add_record():
         # 最新の記録の日にちを確認し、同じであれば更新
         # 新しい日付であれば追加
         latest_record = dbConnect.getLatestRecordById(record_room_id)
-        record_id = latest_record['record_id']
-        (record_room_id)
-        if str(latest_record['created_at'])[:11] == str(created_at)[:11]:
-            dbConnect.updateRecord(record_id, value, created_at)
+        if latest_record:
+            record_id = latest_record['record_id']
+            if str(latest_record['created_at'])[:11] == str(created_at)[:11]:
+                dbConnect.updateRecord(record_id, value, created_at)
+            else:
+                dbConnect.addRecord(record_room_id, value, created_at)
         else:
             dbConnect.addRecord(record_room_id, value, created_at)
         # value = dbConnect.getlatestrecordById(record_room_id)
@@ -586,11 +588,16 @@ def delete_value(record_id):
     if record_id:
         dbConnect.deleteValueById(record_id)
     
-    # 削除した記録が最新だった場合、usersのlatest_weightを更新
-    if int(record_id) == latest_record['record_id']:
-        new_latest_record = dbConnect.getLatestRecordById(record_room_id)
-        new_value = new_latest_record['value']
-        dbConnect.updateweightById(new_value, u_id)
+    records = dbConnect.getRecordAll(record_room_id)
+    # recordsテーブルに該当ルームの記録があるか確認
+    if records:
+        # 削除した記録が最新だった場合、usersのlatest_weightを更新
+        if int(record_id) == latest_record['record_id']:
+            new_latest_record = dbConnect.getLatestRecordById(record_room_id)
+            new_value = new_latest_record['value']
+            dbConnect.updateweightById(new_value, u_id)
+    else:
+        dbConnect.updateweightById(None, u_id)
 
     return redirect('/weight-page')
 

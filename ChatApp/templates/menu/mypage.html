@@ -22,7 +22,11 @@
                 <h2>ユーザー名: <strong>{{ user['user_name'] }}</strong></h2>
                 <p>メールアドレス: <strong>{{ user['mail'] }}</strong></p>
                 <p>現在の身長: <strong>{{ user['height'] }}</strong>cm</p>
+                {% if user['latest_weight'] %}
                 <p>現在の体重: <strong>{{ user['latest_weight'] }}</strong>kg</p>
+                {% else %}
+                <p>現在の体重: <strong>未記入</strong></p>
+                {% endif %}
                 <p>目標: <strong>{{ user['goal'] }}</strong></p>
                 <p>自己紹介: <strong>{{ user['introduction'] }}</strong></p>
                 <p>所在地: <strong>{{ user['address'] }}</strong></p>

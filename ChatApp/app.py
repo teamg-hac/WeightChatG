@@ -375,6 +375,7 @@ def instructors():
         rooms = dbConnect.getRoomAll(u_id)
         user = dbConnect.getUserById(u_id)
         invited_u_ids = [x['invited_u_id'] for x in rooms]
+        
         return render_template('menu/supporter.html', instructors=instructors, user=user, invited_u_ids=invited_u_ids)
 
 # チャットルーム作成画面の表示
@@ -481,19 +482,24 @@ def weight_page():
         count += 5
     year = latest_year - count
     month = latest_month + 1 - page_list + (12 * count)
-    per_page_list = calendar.monthrange(year, month)[1]
+    end_day = calendar.monthrange(year, month)[1]
     
     if len(str(month)) == 1:
         month = '0' + str(month)
     
     # 日付だけのリストを作成
     no_times = [c[:10] for c in dates]
+    # 日時だけのリストを作成
+    year_month = [d[:7] for d in no_times]
+    
+    per_page_list = year_month.count(str(year) + '/' + month)
+    
     if str(year) + '/' + month + '/01' in no_times:
         start_list = no_times.index(str(year) + '/' + month + '/01')
     else:
         start_list = 0
-    if str(year) + '/' + month + '/' + str(per_page_list) in no_times:
-        end_list = no_times.index(str(year) + '/' + month + '/' + str(per_page_list))
+    if str(year) + '/' + month + '/' + str(end_day) in no_times:
+        end_list = no_times.index(str(year) + '/' + month + '/' + str(end_day))
     else:
         end_list = None
     
@@ -562,17 +568,15 @@ def weight_page():
     graph = base64.b64encode(buffer.read()).decode('utf-8')
     plt.close()
             
-    return render_template('menu/weight_page.html', graph=graph, list_values=list_values, list_dates=list_dates, list_ids=list_ids, unit=unit, user=user, pagination_list=pagination_list, pagination_graph=pagination_graph)
+    return render_template('menu/weight_page.html', graph=graph, list_values=list_values, list_dates=list_dates, list_ids=list_ids, unit=unit, user=user, pagination_list=pagination_list, pagination_graph=pagination_graph, span=span)
 
     
 # 記録した体重の削除
-@app.route('/delete-value', methods=['POST'])
-def delete_value():
+@app.route('/delete-value<int:record_id>', methods=['POST'])
+def delete_value(record_id):
     u_id = session.get('uid')
     if u_id is None:
         return redirect('/login')
-    
-    record_id = request.form.get('record_id')
     
     record = dbConnect.getRecordById(record_id)
     record_room_id = record['record_room_id']

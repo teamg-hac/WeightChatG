@@ -20,8 +20,8 @@
     <!-- インストラクター一覧のコンテナ -->
     <div class="container">
  
-        <!-- インストラクター1 -->
-        {% if instructors %}
+        {% if instructors|length != 1 %}
+        <!-- インストラクターが登録済みの場合 -->
             {% for instructor in instructors %}
                 {% if instructor['user_name'] == 'deleted_instructor' %}
                 {% else %}
@@ -52,6 +52,9 @@
                 </div>
                 {% endif %}
             {% endfor %}
+        {% else %}
+        <!-- インストラクターが未登録の場合 -->
+        <p>まだインストラクターは登録されていません</p>
         {% endif %}
     </div>
 </div>

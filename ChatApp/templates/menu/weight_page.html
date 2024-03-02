@@ -25,7 +25,7 @@
                     {% if list_values[i] is none %}
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
-                    <form action="/delete-value" method="POST">
+                    <form action="/delete-value{{ list_ids[i] }}" method="POST">
                         <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
@@ -40,7 +40,7 @@
                     {% if list_values[i] is none %}
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
-                    <form action="/delete-value" method="POST">
+                    <form action="/delete-value{{ list_ids[i] }}" method="POST">
                         <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
@@ -54,7 +54,7 @@
                     {% if list_values[i] is none %}
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
-                    <form action="/delete-value" method="POST">
+                    <form action="/delete-value{{ list_ids[i] }}" method="POST">
                         <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
@@ -69,7 +69,7 @@
                     {% if list_values[i] is none %}
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
-                    <form action="/delete-value" method="POST">
+                    <form action="/delete-value{{ list_ids[i] }}" method="POST">
                         <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
@@ -83,7 +83,7 @@
                     {% if list_values[i] is none %}
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
-                    <form action="/delete-value" method="POST">
+                    <form action="/delete-value{{ list_ids[i] }}" method="POST">
                         <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
@@ -97,7 +97,7 @@
                     {% if list_values[i] is none %}
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
-                    <form action="/delete-value" method="POST">
+                    <form action="/delete-value{{ list_ids[i] }}" method="POST">
                         <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
@@ -119,9 +119,19 @@
         </div>
         <div class="dropdown">
             <select id="spanSelect">
-            <option name="span" value="week">週</option>
-            <option name="span" value="month">月</option>
-            <option name="span" value="year">年</option>
+            {% if span == "week" %}
+                <option name="span" value="week" selected>週</option>
+                <option name="span" value="month">月</option>
+                <option name="span" value="year">年</option>
+            {% elif span == "month" %}
+                <option name="span" value="week">週</option>
+                <option name="span" value="month" selected>月</option>
+                <option name="span" value="year">年</option>
+            {% else %}
+                <option name="span" value="week">週</option>
+                <option name="span" value="month">月</option>
+                <option name="span" value="year" selected>年</option>
+            {% endif %}
             </select>
         </div>
     </div>

@@ -5,3 +5,17 @@ const userInfo = document.getElementById('user-info');
 userInfoBar.addEventListener('click', () => {
     userInfo.classList.toggle('show');
 });
+
+
+function validateMessage() {
+    const messageInput = document.getElementById("message-input");
+    const message = messageInput.value.trim();
+
+    // メッセージが空白であるかどうかをチェック
+    if (message === "") {
+        alert("メッセージが空白です。");
+        return false; // フォームの送信をキャンセル
+    }
+
+    return true; // フォームを送信
+}

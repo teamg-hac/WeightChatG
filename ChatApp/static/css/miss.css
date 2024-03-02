@@ -1,0 +1,5 @@
+.miss_cop {
+    color: red; /* 赤色 */
+    font-weight: bold; /* 太字 */
+    font-size: 1.1em; /* 基本のフォントサイズよりも若干大きくする */
+}

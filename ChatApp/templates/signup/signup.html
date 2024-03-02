@@ -8,9 +8,10 @@
         <link rel="stylesheet" href="../../static/css/btn1.css">
         <link rel="stylesheet" href="../../static/css/btn2.css">
         <link rel="stylesheet" href="../../static/css/btn3.css">
-        <link rel="stylesheet" href="../../static/css/top.css">
+     <!-- <link rel="stylesheet" href="../../static/css/top.css"> -->   
         <link rel="stylesheet" href="../../static/css/register.css">
         <link rel="stylesheet" href="../../static/css/base.css">
+        <link rel="stylesheet" href="../../static/css/miss.css">
     </head>
     <body>
           <!-- Header -->
@@ -25,17 +26,18 @@
             </form>
 
         <div class="main-container"> <!-- メインコンテナ -->
-            <div class="container">
 
-                <h1>新規登録</h1>
-                <!-- ユーザー情報入力フォーム -->
-                {% with messages = get_flashed_messages() %}
+            <h1>新規登録</h1>
+            <!-- ユーザー情報入力フォーム -->
+            {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
+                    {% for message in messages %}
+                        <p class="miss_cop">{{ message }}</p>
+                    {% endfor %}
                 {% endif %}
-                {% endwith %}
+            {% endwith %}
+
+            <div class="container">
                 <form id="register-form" action="/signup" method="POST">
                     <div class="form-group">
                         <label for="user_name">ユーザー名:</label>
@@ -74,13 +76,7 @@
                         <label for="goal">目標:</label>
                         <input type="text" id="goal" name="goal" placeholder="目標を入力">
                     </div>
-                    {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                    {% for message in messages %}
-                    <p>{{ message }}</p>
-                    {% endfor %}
-                    {% endif %}
-                    {% endwith %}
+
                     <!-- ラジオボタン（ユーザー・インストラクター）の追加 -->
                     <div class="form-group">
                         <label>登録するユーザーを選択してください:</label><br>
@@ -92,6 +88,13 @@
                     <button type="submit">登録</button>
                 </form>
             </div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <p class="miss_cop">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
         </div>
         <footer>
             <!-- コピーライト -->

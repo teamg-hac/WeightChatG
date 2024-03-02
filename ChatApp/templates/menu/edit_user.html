@@ -69,31 +69,22 @@
                 <span class="miss_cop">※ 「公開」を選択すると、チャットルームでインストラクターに体重が公開されます</span>
                 <div class="checkbox">
                     {% if is_public == 0 %}
-                    <input type="checkbox" id="public" name="is_public" value="1">
-                    <label for="public">公開</label>
-                    <input type="checkbox" id="no_public" name="is_public" value="0" checked><label for="no_public">非公開</label>
+                    <div class="radio">
+                        <input type="radio" id="public" name="is_public" value="1">
+                        <label for="public">公開</label>
+                        <input type="radio" id="no_public" name="is_public" value="0" checked>
+                        <label for="no_public">非公開</label>
+                    </div><br><br>
                     {% else %}
-                    <input type="radio" id="public" name="is_public" value="1" checked>
-                    <label for="public">公開</label>
-                    <input type="radio" id="no_public" name="is_public" value="0">
-                    <label for="no_public">非公開</label>
+                    <div class="radio">
+                        <input type="radio" id="public" name="is_public" value="1" checked>
+                        <label for="public">公開</label>
+                        <input type="radio" id="no_public" name="is_public" value="0">
+                        <label for="no_public">非公開</label>
+                    </div><br><br>
                     {% endif %}
                 </div>
             </div>
-       
-
-            <!-- こっちを使ってください -->
-<!-- 
-            <div class="radio">
-                <input type="radio" id="public" name="is_public" value="1" checked>
-                <label for="public">公開</label>
-    
-                <input type="radio" id="no_public" name="is_public" value="0">
-                <label for="no_public">非公開</label>
-
-
-            </div><br><br>
--->
 
             {% with messages = get_flashed_messages() %}
             {% if messages %}

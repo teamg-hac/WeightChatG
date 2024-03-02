@@ -81,7 +81,7 @@
 
     <!-- チャット送信フォーム -->
     {% if chat_user['user_name'] != 'deleted_instructor' %}
-    <form id="chat-form" action="/add-message" method="POST">
+    <form id="chat-form" action="/add-message" method="POST" onsubmit="return validateMessage()">
         <input type="text" id="message-input" placeholder="メッセージを入力" name="message">
         <input type="hidden" name="room_id" value="{{ room['room_id'] }}">
         <button type="submit">送信</button>

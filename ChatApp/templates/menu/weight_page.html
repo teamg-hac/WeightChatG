@@ -26,7 +26,7 @@
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
-                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                        <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
                 </div>
@@ -41,7 +41,7 @@
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
-                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                        <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
                 </div>
@@ -55,7 +55,7 @@
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
-                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                        <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
                 </div>
@@ -70,7 +70,7 @@
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
-                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                        <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
                 </div>
@@ -84,7 +84,7 @@
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
-                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                        <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
                 </div>
@@ -98,7 +98,7 @@
                     {% else %}
                     <span>{{ list_values[i] }}{{ unit }}</span>
                     <form action="/delete-value" method="POST">
-                        <button id="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
+                        <button id="delete-button" class="delete-button" name="record_id" value="{{ list_ids[i] }}">削除</button>
                     </form>
                     {% endif %}
                 </div>
@@ -118,7 +118,7 @@
             {{ pagination_graph.links }}
         </div>
         <div class="dropdown">
-            <select>
+            <select id="spanSelect">
             <option name="span" value="week">週</option>
             <option name="span" value="month">月</option>
             <option name="span" value="year">年</option>
@@ -130,6 +130,7 @@
 
 {% block script %}
 <!-- JS追加 -->
-<script src="../../static/js/delete.js"></script>
+<script src="../../static/js/delete2.js"></script>
+<script src="../../static/js/pulldown.js"></script>
 <!--  -->
 {% endblock %}

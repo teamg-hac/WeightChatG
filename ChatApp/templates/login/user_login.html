@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../../static/css/btn3.css">
         <link rel="stylesheet" href="../../static/css/login.css">
+        <link rel="stylesheet" href="../../static/css/miss.css">
         <title>人の腹見て我が腹直せ。ログイン</title>
     </head>
     <body>
@@ -22,7 +23,7 @@
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
                 {% for message in messages %}
-                <p>{{ message }}</p>
+                <p class="miss_cop">{{ message }}</p>
                 {% endfor %}
                 {% endif %}
                 {% endwith %}
